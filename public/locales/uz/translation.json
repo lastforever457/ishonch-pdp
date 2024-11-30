@@ -1,10 +1,17 @@
 {
-  "dashboard": "Dashboard",
+  "dashboard": "Boshqaruv paneli",
   "groups": "Guruhlar",
   "employees": "Xodimlar",
   "rooms": "Xonalar",
   "students": "Talabalar",
   "finance": "Moliya",
   "settings": "Sozlamalar",
-  "exit": "Chiqish"
+  "exit": "Chiqish",
+  "search": "Qidirish",
+  "employee": "Hodimlar",
+  "group": "Guruhlar",
+  "debtors": "Qarzdorlar",
+  "active-students": "Faol talabalar",
+  "left-students": "Faol guruhni tark etganlar",
+  "pay-month": "Joriy oyda to'laganlar"
 }

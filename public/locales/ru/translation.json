@@ -1,10 +1,17 @@
 {
-  "dashboard": "Dashboard",
+  "dashboard": "Панель инструментов",
   "groups": "Группы",
   "employees": "Сотрудники",
   "rooms": "Комнаты",
   "students": "Студенты",
   "finance": "Финансы",
   "settings": "Настройки",
-  "exit": "Выйти"
+  "exit": "Выйти",
+  "search": "Поиск",
+  "employee": "Сотрудники",
+  "group": "Группы",
+  "debtors": "Должники",
+  "active-students": "Активные студенты",
+  "left-students": "Выбывшие студенты",
+  "pay-month": "Оплаченные в текущем месяце"
 }
