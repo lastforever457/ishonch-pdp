@@ -8,9 +8,13 @@ const AppLayout: React.FC = () => {
     <div className="bg-primary-bg w-full">
       <div className="flex">
         <Sidebar />
-        <div className="">
+        <div className="w-full">
           <Header />
-          <Outlet />
+          <div className="custom-container overflow-y-scroll">
+            <div className="p-10 w-full">
+              <Outlet />
+            </div>
+          </div>
         </div>
       </div>
     </div>

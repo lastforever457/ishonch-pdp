@@ -1,4 +1,5 @@
-export type Role = "ADMIN" | "EMPLOYEE" | "STUDENT";
+export type Role = "ADMIN" | "TEACHER" | "STUDENT";
+export type Status = "ACTIVE" | "ARCHIVED" | "BLOCKED";
 
 export interface IUser {
   id: number | string;
@@ -10,4 +11,5 @@ export interface IUser {
   birthDate: string;
   male: "MALE" | "FEMALE";
   photo: string;
+  status: Status;
 }

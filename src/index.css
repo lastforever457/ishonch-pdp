@@ -7,3 +7,11 @@
   margin: 0;
   box-sizing: border-box;
 }
+
+body {
+  width: 100%;
+}
+
+.custom-container {
+  height: calc(100vh - 100px);
+}

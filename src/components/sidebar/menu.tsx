@@ -18,7 +18,7 @@ const Menu = () => {
           }`}
         >
           <span className="text-xl">{menu.icon}</span>
-          <p className="capitalize">{menu.title}</p>
+          <p>{menu.title}</p>
         </Link>
       ))}
     </div>

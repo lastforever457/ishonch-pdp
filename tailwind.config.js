@@ -13,6 +13,9 @@ export default {
           red: "#ED4337",
           bg: "#f9f9f9",
         },
+        secondary: {
+          text: "#8f8f8f",
+        },
       },
     },
   },

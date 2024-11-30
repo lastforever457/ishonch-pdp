@@ -11,7 +11,11 @@ export const getAllUsers = async () => {
   }
 };
 
-export const getOneUser = async (id?: string | number, role?: Role) => {
+export const getOneUser = async (
+  id?: string | number,
+  role?: Role,
+  custom?: string
+) => {
   try {
     if (id && id.toString().length > 0 && role) {
       const res = await axios.get<IUser>(
@@ -21,8 +25,11 @@ export const getOneUser = async (id?: string | number, role?: Role) => {
     } else if (id && id.toString().length > 0 && !role) {
       const res = await axios.get<IUser>(`${api}/employees?id=${id}`);
       return res.data;
-    } else {
+    } else if (!id && role) {
       const res = await axios.get<IUser>(`${api}/employees?role=${role}`);
+      return res.data;
+    } else {
+      const res = await axios.get<IUser>(`${api}/employees${custom}`);
       return res.data;
     }
   } catch (e) {
