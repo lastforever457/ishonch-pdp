@@ -15,6 +15,7 @@ export default {
         },
         secondary: {
           text: "#8f8f8f",
+          bg: "#f0f3f4",
         },
       },
     },
