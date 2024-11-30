@@ -5,7 +5,7 @@ import Sidebar from "../components/sidebar";
 
 const AppLayout: React.FC = () => {
   return (
-    <div className="w-full">
+    <div className="bg-primary-bg w-full">
       <div className="flex">
         <Sidebar />
         <div className="">

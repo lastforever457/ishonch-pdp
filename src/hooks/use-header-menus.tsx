@@ -1,10 +1,12 @@
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import { FaStarOfLife } from "react-icons/fa";
-import { GoHomeFill } from "react-icons/go";
-import { GrTechnology } from "react-icons/gr";
-import { LuContact2 } from "react-icons/lu";
-import { MdOutlineCastForEducation } from "react-icons/md";
+import { FaUserTie } from "react-icons/fa";
+import { FaGear } from "react-icons/fa6";
+import { GiTeacher } from "react-icons/gi";
+import { IoMdWallet } from "react-icons/io";
+import { LuLayoutDashboard } from "react-icons/lu";
+import { MdGroups } from "react-icons/md";
+import { PiStudent } from "react-icons/pi";
 
 const useHeaderMenus = () => {
   const { t } = useTranslation();
@@ -13,33 +15,45 @@ const useHeaderMenus = () => {
     () => [
       {
         id: 1,
-        title: t("home"),
+        title: t("dashboard"),
         link: "/",
-        icon: <GoHomeFill />,
+        icon: <LuLayoutDashboard />,
       },
       {
         id: 2,
-        title: t("skills"),
-        link: "/skills",
-        icon: <FaStarOfLife />,
+        title: t("groups"),
+        link: "/groups",
+        icon: <MdGroups />,
       },
       {
         id: 3,
-        title: t("technologies"),
-        link: "/technologies",
-        icon: <GrTechnology />,
+        title: t("employees"),
+        link: "/employees",
+        icon: <FaUserTie />,
       },
       {
         id: 4,
-        title: t("education"),
-        link: "/education",
-        icon: <MdOutlineCastForEducation />,
+        title: t("rooms"),
+        link: "/rooms",
+        icon: <GiTeacher />,
       },
       {
         id: 5,
-        title: t("contacts"),
-        link: "/contacts",
-        icon: <LuContact2 />,
+        title: t("students"),
+        link: "/students",
+        icon: <PiStudent />,
+      },
+      {
+        id: 6,
+        title: t("finance"),
+        link: "/finance",
+        icon: <IoMdWallet />,
+      },
+      {
+        id: 7,
+        title: t("settings"),
+        link: "/settings",
+        icon: <FaGear />,
       },
     ],
     [t]

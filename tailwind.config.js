@@ -11,6 +11,7 @@ export default {
           orange: "#FFA800",
           purple: "#7338AC",
           red: "#ED4337",
+          bg: "#f9f9f9",
         },
       },
     },

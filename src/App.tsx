@@ -1,4 +1,5 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import { loader as currentUserLoader } from "./components/sidebar/current-user";
 import AppLayout from "./layouts/app-layout";
 import Employees from "./pages/employees";
 import Finance from "./pages/finance";
@@ -12,6 +13,7 @@ const App = () => {
     {
       path: "/",
       element: <AppLayout />,
+      loader: currentUserLoader,
       children: [
         {
           index: true,
