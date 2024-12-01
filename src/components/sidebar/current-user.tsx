@@ -1,15 +1,13 @@
-import { useLoaderData } from "react-router-dom";
-import { IUser } from "../../interfaces";
 import { getOneUser } from "../queries/user-queries";
 
 const CurrentUser = () => {
-  const data = useLoaderData<IUser[]>();
-  const currentUser = data[0];
+  const data = localStorage.getItem("currentUser");
+  const currentUser = JSON.parse(data || "{}");
 
   return (
-    <div className="flex items-center">
+    <div className="flex justify-center lg:justify-start items-center">
       <img src={currentUser.photo} className="rounded-full size-16" alt="" />
-      <div className="flex flex-col p-2">
+      <div className="lg:flex flex-col hidden p-2">
         <h1 className="font-bold">
           {currentUser.firstName || ""} {currentUser.lastName || ""}
         </h1>
@@ -22,8 +20,11 @@ const CurrentUser = () => {
 };
 
 export const loader = async () => {
-  const data = getOneUser("", "ADMIN");
-  return data;
+  const data = await getOneUser(undefined, "ADMIN");
+  localStorage.setItem(
+    "currentUser",
+    JSON.stringify(Array.isArray(data) ? data[0] : data)
+  );
 };
 
 export default CurrentUser;

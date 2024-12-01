@@ -27,11 +27,11 @@ const MyTable = ({
       items: [
         {
           key: "change",
-          label: "Change",
+          label: t("change"),
         },
         {
           key: "delete",
-          label: "Delete",
+          label: t("delete"),
         },
       ],
     }),

@@ -25,9 +25,13 @@
   "first name": "Ism",
   "password": "Parol",
   "date of birth": "Tug'ilgan sana",
-  "sex": "Jins",
+  "gender": "Jins",
   "male": "Erkak",
   "female": "Ayol",
   "cancel": "Bekor qilish",
-  "send": "Yuborish"
+  "send": "Yuborish",
+  "cleaner": "Farrosh",
+  "teacher": "O'qituvchi",
+  "change": "O'zgartirish",
+  "delete": "O'chirish"
 }

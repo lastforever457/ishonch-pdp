@@ -36,3 +36,12 @@ export const getOneUser = async (
     console.log(e);
   }
 };
+
+export const postUser = async (data: IUser) => {
+  try {
+    const res = await axios.post(`${api}/employees`, data);
+    return res.data;
+  } catch (e) {
+    console.log(e);
+  }
+};

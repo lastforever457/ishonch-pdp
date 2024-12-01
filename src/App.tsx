@@ -13,31 +13,36 @@ const App = () => {
     {
       path: "/",
       element: <AppLayout />,
-      loader: currentUserLoader,
       children: [
         {
           index: true,
           element: <Home />,
+          loader: currentUserLoader,
         },
         {
           path: "groups",
+          loader: currentUserLoader,
           element: <Groups />,
         },
         {
           path: "employees",
+          loader: currentUserLoader,
           element: <Employees />,
         },
         {
           path: "rooms",
           element: <Rooms />,
+          loader: currentUserLoader,
         },
         {
           path: "students",
           element: <Students />,
+          loader: currentUserLoader,
         },
         {
           path: "finance",
           element: <Finance />,
+          loader: currentUserLoader,
         },
       ],
     },

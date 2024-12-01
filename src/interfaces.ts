@@ -1,4 +1,4 @@
-export type Role = "ADMIN" | "TEACHER" | "STUDENT";
+export type Role = "ADMIN" | "TEACHER" | "STUDENT" | "CLEANER";
 export type Status = "ACTIVE" | "ARCHIVED" | "BLOCKED";
 
 export interface IUser {

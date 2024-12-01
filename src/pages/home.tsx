@@ -1,3 +1,4 @@
+import { Col, Row } from "antd";
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 
@@ -47,24 +48,25 @@ const Home = () => {
   );
   return (
     <div>
-      <div className="justify-center items-center gap-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-6 px-10 py-4 text-sm">
+      <Row gutter={[16, 16]} className="px-10 py-4 text-sm">
         {users.map((user) => (
-          <div
-            key={user.id}
-            className="flex flex-col bg-[#635AD9] shadow-md p-4 rounded-lg h-full text-center text-sm"
-          >
-            <img
-              src={user.img}
-              alt={user.title}
-              className="flex justify-center items-center mx-auto mb-2 w-12 h-12"
-            />
-            <div>
-              <p className="font-bold text-white">{user.title}</p>
-              <p className="font-semibold text-lg text-white">{user.percent}</p>
+          <Col key={user.id} xs={24} sm={12} md={8} lg={6} xl={4}>
+            <div className="flex flex-col bg-[#635AD9] shadow-md p-4 rounded-lg h-full text-center text-sm">
+              <img
+                src={user.img}
+                alt={user.title}
+                className="flex justify-center items-center mx-auto mb-2 w-12 h-12"
+              />
+              <div>
+                <p className="font-bold text-white">{user.title}</p>
+                <p className="font-semibold text-lg text-white">
+                  {user.percent}
+                </p>
+              </div>
             </div>
-          </div>
+          </Col>
         ))}
-      </div>
+      </Row>{" "}
     </div>
   );
 };
