@@ -10,37 +10,37 @@ const Home = () => {
         id: 1,
         img: "/public/images/user-1.svg",
         percent: "56",
-        title: t("Hodimlar"),
+        title: t("employees"),
       },
       {
         id: 2,
         img: "/public/images/user-2.svg",
         percent: "258",
-        title: t("Faol talabalar"),
+        title: t("active-students"),
       },
       {
         id: 3,
         img: "/public/images/user-3.svg",
         percent: "135",
-        title: t("Guruhlar"),
+        title: t("groups"),
       },
       {
         id: 4,
         img: "/public/images/user-4.svg",
         percent: "56",
-        title: t("Qarzdorlar"),
+        title: t("debtors"),
       },
       {
         id: 5,
         img: "/public/images/user-5.svg",
         percent: "246",
-        title: t("Joriy oyda to'laganlar"),
+        title: t("pay-month"),
       },
       {
         id: 6,
         img: "/public/images/user-6.svg",
         percent: "24",
-        title: t("Faol guruhni tark etganlar"),
+        title: t("left-students"),
       },
     ],
     [t]
@@ -51,7 +51,7 @@ const Home = () => {
         {users.map((user) => (
           <div
             key={user.id}
-            className="flex flex-col bg-[#635AD9] shadow-md p-4 rounded-lg text-center text-sm"
+            className="flex flex-col bg-[#635AD9] shadow-md p-4 rounded-lg h-full text-center text-sm"
           >
             <img
               src={user.img}
