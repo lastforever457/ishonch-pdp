@@ -1,6 +1,8 @@
 import { useTranslation } from "react-i18next";
 import AddButton from "../components/add-button";
+import Drawer from "../components/employees/drawer";
 import Segmented from "../components/employees/segmented";
+import EmployeeTable from "../components/employees/table";
 import { getAllUsers } from "../components/queries/user-queries";
 
 const Employees = () => {
@@ -14,6 +16,8 @@ const Employees = () => {
           <AddButton>{t("add")}</AddButton>
         </div>
       </div>
+      <EmployeeTable />
+      <Drawer />
     </div>
   );
 };

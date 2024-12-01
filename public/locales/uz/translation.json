@@ -17,5 +17,19 @@
   "archive": "Arxiv",
   "teachers": "O'qituvchilar",
   "other employees": "Boshqa xodimlar",
-  "add": "Qo'shish"
+  "add": "Qo'shish",
+  "fio": "F.I.Sh.",
+  "phone": "Telefon",
+  "role": "Lavozim",
+  "actions": "Amallar",
+  "add new staff": "Yangi xodim qo'shish",
+  "last name": "Familiya",
+  "first name": "Ism",
+  "password": "Parol",
+  "date of birth": "Tug'ilgan sana",
+  "sex": "Jins",
+  "male": "Erkak",
+  "female": "Ayol",
+  "cancel": "Bekor qilish",
+  "send": "Yuborish"
 }

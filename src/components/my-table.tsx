@@ -1,5 +1,7 @@
-import { EllipsisOutlined } from "@ant-design/icons";
-import { Button, Dropdown, Menu, Table } from "antd";
+import { Button, Dropdown, Skeleton } from "antd";
+import { t } from "i18next";
+import { useMemo } from "react";
+import { BsThreeDotsVertical } from "react-icons/bs";
 
 interface Column {
   key: string;
@@ -11,46 +13,97 @@ interface Row {
   [key: string]: any;
 }
 
-const MyTable = ({ columns, data }: { columns: Column[]; data: Row[] }) => {
-  const handleMenuClick = (action: string, record: Row) => {
-    console.log(`${action} clicked for`, record);
-  };
-
-  const getMenu = (record: Row) => (
-    <Menu>
-      <Menu.Item key="change" onClick={() => handleMenuClick("Change", record)}>
-        Change
-      </Menu.Item>
-      <Menu.Item key="delete" onClick={() => handleMenuClick("Delete", record)}>
-        Delete
-      </Menu.Item>
-    </Menu>
+const MyTable = ({
+  columns,
+  data,
+  hasActions = true,
+}: {
+  columns: Column[];
+  data: Row[];
+  hasActions?: boolean;
+}) => {
+  const dropdownMenu = useMemo(
+    () => ({
+      items: [
+        {
+          key: "change",
+          label: "Change",
+        },
+        {
+          key: "delete",
+          label: "Delete",
+        },
+      ],
+    }),
+    []
   );
 
   const extendedColumns = [
     ...columns,
-    {
+    hasActions && {
       key: "actions",
-      title: "",
-      render: (_: any, record: Row) => (
-        <Dropdown overlay={getMenu(record)} trigger={["click"]}>
-          <Button
-            type="text"
-            icon={<EllipsisOutlined />}
-            onClick={(e) => e.stopPropagation()}
-          />
-        </Dropdown>
-      ),
+      title: t("actions"),
+      dataIndex: "actions",
     },
   ];
 
   return (
-    <Table
-      columns={extendedColumns}
-      dataSource={data}
-      rowKey={(record) => record.id}
-      pagination={false}
-    />
+    <div className="custom-table mt-10">
+      <table className="w-full">
+        <thead className="bg-white text-left text-xl">
+          <tr>
+            {extendedColumns.map((column: any) => (
+              <th key={column.key} className="py-4 pl-2">
+                {column.title}
+              </th>
+            ))}
+          </tr>
+        </thead>
+        <tbody>
+          {data.length === 0
+            ? Array(10)
+                .fill("")
+                .map((_, i) => (
+                  <tr
+                    key={i}
+                    className="hover:bg-white rounded-3xl transition-all overflow-hidden"
+                  >
+                    {extendedColumns.map((_: any, index: number) => (
+                      <td className="py-4 pl-2 text-left text-lg" key={index}>
+                        <Skeleton
+                          active
+                          title={{ width: 100 }}
+                          paragraph={false}
+                        />
+                      </td>
+                    ))}
+                  </tr>
+                ))
+            : data.map((record) => (
+                <tr
+                  key={record.id}
+                  className="hover:bg-white rounded-3xl transition-all overflow-hidden"
+                >
+                  {extendedColumns.map((column: any, index: number) => (
+                    <td className="py-4 pl-2 text-left text-lg" key={index}>
+                      {column.key === "actions" ? (
+                        <Dropdown menu={dropdownMenu} trigger={["click"]}>
+                          <Button
+                            type="text"
+                            icon={<BsThreeDotsVertical />}
+                            onClick={(e) => e.stopPropagation()}
+                          />
+                        </Dropdown>
+                      ) : (
+                        record[column.dataIndex]
+                      )}
+                    </td>
+                  ))}
+                </tr>
+              ))}
+        </tbody>{" "}
+      </table>
+    </div>
   );
 };
 

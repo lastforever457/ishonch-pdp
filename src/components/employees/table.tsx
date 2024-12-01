@@ -1,41 +1,45 @@
-import axios from "axios";
+import { isArray } from "lodash-es";
 import { useEffect, useMemo, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { useLocationParams } from "../../hooks/use-location-params";
 import { IUser } from "../../interfaces";
-import { api } from "../utils";
+import MyTable from "../my-table";
+import { getAllUsers } from "../queries/user-queries";
 
 const EmployeeTable = () => {
   const [data, setData] = useState<IUser[]>([]);
   const { query } = useLocationParams();
+  const { t } = useTranslation();
   useEffect(() => {
     const fetchData = async () => {
-      const res = await axios.get(
-        `${api}/employees${
-          query.employeeTab === "teachers"
-            ? "?role=TEACHER"
-            : query.employeeTab === "archive"
-            ? "?status=ARCHIVED"
-            : query.employeeTab === "other"
-            ? "?status=BLOCKED"
-            : ""
-        }`
-      );
-
-      setData(Array.isArray(res) ? res : []);
+      const res = await getAllUsers();
+      setData(isArray(res) ? res : []);
+      console.log(res);
     };
     fetchData();
   }, [query.employeeTab]);
   const columns = useMemo(
     () => [
       { key: "id", title: "Id", dataIndex: "id" },
-      { key: "fio", title: "FIO", dataIndex: "fio" },
-      { key: "phone", title: "Phone", dataIndex: "phone" },
-      { key: "role", title: "Role", dataIndex: "role" },
+      { key: "fio", title: t("fio"), dataIndex: "fio" },
+      { key: "phone", title: t("phone"), dataIndex: "phone" },
+      { key: "role", title: t("role"), dataIndex: "role" },
     ],
-    []
+    [t]
   );
 
-  return <div></div>;
+  return (
+    <div>
+      <MyTable
+        columns={columns}
+        data={data.map((item: Record<string, any>) => ({
+          ...item,
+          key: item.id,
+          fio: `${item.firstName || ""} ${item.lastName || ""}`,
+        }))}
+      />
+    </div>
+  );
 };
 
 export default EmployeeTable;
