@@ -7,6 +7,7 @@ import { useRouterPush } from "../hooks/use-router-push";
 const AddButton = ({ children }: { children: React.ReactNode }) => {
   const { push } = useRouterPush();
   const { query } = useLocationParams();
+
   return (
     <Button
       icon={<FaPlus />}
