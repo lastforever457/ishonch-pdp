@@ -1,9 +1,23 @@
 import { PlusOutlined } from "@ant-design/icons";
-import { Dropdown, Space } from "antd";
+import { Button, Drawer, Dropdown, Space } from "antd";
 import { useTranslation } from "react-i18next";
 import { RiArrowDropDownLine } from "react-icons/ri";
+import { useState } from "react";
 
 const Icon = () => {
+  const [open, setOpen] = useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean>(true);
+
+  const showLoading = () => {
+    setOpen(true);
+    setLoading(true);
+
+    // Simple loading mock. You should add cleanup logic in real world.
+    setTimeout(() => {
+      setLoading(false);
+    }, 2000);
+  };
+
   const { t } = useTranslation();
   return (
     <div className="flex justify-center items-center gap-5">
@@ -29,7 +43,30 @@ const Icon = () => {
             </Space>
           </a>
         </Dropdown>
-        <PlusOutlined className="border-2 p-2 border-black rounded-full text-lg cursor-pointe1" />
+        <PlusOutlined
+          onClick={showLoading}
+          className="border-2 p-2 border-black rounded-full text-lg cursor-pointe1"
+        />
+        <Drawer
+          closable
+          destroyOnClose
+          title={<p>Loading Drawer</p>}
+          placement="right"
+          open={open}
+          loading={loading}
+          onClose={() => setOpen(false)}
+        >
+          <Button
+            type="primary"
+            style={{ marginBottom: 16 }}
+            onClick={showLoading}
+          >
+            Reload
+          </Button>
+          <p>Some contents...</p>
+          <p>Some contents...</p>
+          <p>Some contents...</p>
+        </Drawer>
       </div>
     </div>
   );

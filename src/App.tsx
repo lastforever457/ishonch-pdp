@@ -7,6 +7,7 @@ import Groups from "./pages/groups";
 import Home from "./pages/home";
 import Rooms from "./pages/rooms";
 import Students from "./pages/students";
+import Settings from "./pages/settings.tsx";
 
 const App = () => {
   const routes = createBrowserRouter([
@@ -43,6 +44,10 @@ const App = () => {
           path: "finance",
           element: <Finance />,
           loader: currentUserLoader,
+        },
+        {
+          path: "settings",
+          element: <Settings />,
         },
       ],
     },
