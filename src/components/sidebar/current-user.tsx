@@ -1,8 +1,6 @@
-import { getOneUser } from "../queries/user-queries";
-
 const CurrentUser = () => {
   const data = localStorage.getItem("currentUser");
-  const currentUser = JSON.parse(data || "{}");
+  const currentUser = {};
 
   return (
     <div className="flex justify-center lg:justify-start items-center">
@@ -16,14 +14,6 @@ const CurrentUser = () => {
         </p>
       </div>
     </div>
-  );
-};
-
-export const loader = async () => {
-  const data = await getOneUser(undefined, "ADMIN");
-  localStorage.setItem(
-    "currentUser",
-    JSON.stringify(Array.isArray(data) ? data[0] : data)
   );
 };
 

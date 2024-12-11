@@ -15,7 +15,7 @@ const Segmented = () => {
         key: "archive",
       },
       {
-        value: t("teachers"),
+        value: t("employeesPage.teachers"),
         key: "teachers",
       },
       {

@@ -1,7 +1,7 @@
-import { Button, Dropdown, Skeleton } from "antd";
+import { Button, Dropdown, Popconfirm, Skeleton } from "antd";
 import { t } from "i18next";
-import { useMemo } from "react";
 import { BsThreeDotsVertical } from "react-icons/bs";
+import { useRouterPush } from "../hooks/use-router-push";
 
 interface Column {
   key: string;
@@ -17,27 +17,14 @@ const MyTable = ({
   columns,
   data,
   hasActions = true,
+  isLoading,
 }: {
   columns: Column[];
   data: Row[];
   hasActions?: boolean;
+  isLoading?: boolean;
 }) => {
-  const dropdownMenu = useMemo(
-    () => ({
-      items: [
-        {
-          key: "change",
-          label: t("change"),
-        },
-        {
-          key: "delete",
-          label: t("delete"),
-        },
-      ],
-    }),
-    []
-  );
-
+  const { push } = useRouterPush();
   const extendedColumns = [
     ...columns,
     hasActions && {
@@ -60,7 +47,7 @@ const MyTable = ({
           </tr>
         </thead>
         <tbody>
-          {data.length === 0
+          {isLoading
             ? Array(10)
                 .fill("")
                 .map((_, i) => (
@@ -79,15 +66,51 @@ const MyTable = ({
                     ))}
                   </tr>
                 ))
-            : data.map((record) => (
+            : data.map((item: Record<string, any>) => (
                 <tr
-                  key={record.id}
+                  key={item.id}
                   className="hover:bg-white rounded-3xl transition-all overflow-hidden"
                 >
                   {extendedColumns.map((column: any, index: number) => (
                     <td className="py-4 pl-2 text-left text-lg" key={index}>
                       {column.key === "actions" ? (
-                        <Dropdown menu={dropdownMenu} trigger={["click"]}>
+                        <Dropdown
+                          menu={{
+                            items: [
+                              {
+                                key: "change",
+                                label: t("crud.edit"),
+                                onClick: () =>
+                                  push({ query: { edit: true, id: item.id } }),
+                              },
+                              {
+                                key: "delete",
+                                label: (
+                                  <Popconfirm
+                                    title={t("confirmation.delete")}
+                                    onConfirm={async () => {
+                                      await fetch(
+                                        `http://localhost:3000/${column.dataIndex}/delete`,
+                                        {
+                                          method: "POST",
+                                          headers: {
+                                            "Content-Type": "application/json",
+                                          },
+                                          body: JSON.stringify({ id: item.id }),
+                                        }
+                                      );
+                                    }}
+                                    okText={t("crud.delete")}
+                                    cancelText={t("cancel")}
+                                  >
+                                    {t("crud.delete")}
+                                  </Popconfirm>
+                                ),
+                              },
+                            ],
+                          }}
+                          trigger={["click"]}
+                        >
                           <Button
                             type="text"
                             icon={<BsThreeDotsVertical />}
@@ -95,7 +118,7 @@ const MyTable = ({
                           />
                         </Dropdown>
                       ) : (
-                        record[column.dataIndex]
+                        item[column.dataIndex]
                       )}
                     </td>
                   ))}

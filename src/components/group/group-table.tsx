@@ -1,21 +1,9 @@
 import MyTable from "../my-table.tsx";
 import { useEffect, useMemo, useState } from "react";
 import { IUser } from "../../interfaces.ts";
-import { getAllUsers } from "../queries/user-queries.ts";
 
 function GroupTable() {
   const [data, setData] = useState<IUser[]>([]);
-
-  useEffect(() => {
-    const fetchData = async () => {
-      const data = await getAllUsers();
-      if (data) {
-        setData(data.filter((item) => item.role === "STUDENT"));
-        console.log(data);
-      }
-    };
-    fetchData();
-  });
 
   const columns = useMemo(
     () => [
@@ -26,7 +14,7 @@ function GroupTable() {
       { key: "time", title: "Time", dataIndex: "time" },
       { key: "days", title: "Days", dataIndex: "days" },
     ],
-    [],
+    []
   );
 
   return (

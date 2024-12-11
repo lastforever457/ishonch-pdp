@@ -3,24 +3,47 @@ import { useTranslation } from "react-i18next";
 import { useLocationParams } from "../../hooks/use-location-params";
 import { useRouterPush } from "../../hooks/use-router-push";
 import MyDrawer from "../my-drawer";
+import { useEffect, useRef } from "react";
 
-const Drawer = () => {
+const Drawer = ({ refetch }: { refetch: any }) => {
   const { t } = useTranslation();
   const [form] = Form.useForm();
   const { push } = useRouterPush();
   const { query } = useLocationParams();
+  const sendBtnRef = useRef<HTMLButtonElement>(null);
+
+  useEffect(() => {
+    if (query.add) form.resetFields();
+  }, [query.add]);
+
+  useEffect(() => {
+    const fetchRoom = async () => {
+      const res = await fetch(`http://localhost:3000/rooms/findUnique`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ where: { id: query.id } }),
+      });
+      const room = await res.json();
+      form.setFieldsValue(room);
+    };
+    if (query.id && query.edit) fetchRoom();
+  }, [query.id]);
 
   const onFinish = async (values: any) => {
+    sendBtnRef.current?.setAttribute("disabled", "true");
     try {
-      await fetch(`http://localhost:3000/users/create`, {
+      await fetch(`http://localhost:3000/rooms/create`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify(values),
       });
-      console.log(values);
+      refetch();
       push({ query: { ...query, add: false } });
+      form.resetFields();
     } catch (error) {
       console.log(error);
       message.error(t("something went wrong"));
@@ -30,62 +53,36 @@ const Drawer = () => {
   return (
     <MyDrawer
       entryPoint={query.add ? "add" : "edit"}
-      title={
-        query.add
-          ? t("employeesPage.add new staff")
-          : t("employeesPage.edit staff")
-      }
+      title={query.add ? t("roomsPage.add new room") : t("roomsPage.edit room")}
     >
       <Form onFinish={onFinish} layout="vertical" form={form}>
         <Form.Item
-          label={<p className="text-base">{t("form.last name")}</p>}
-          name="lastName"
+          label={<p className="text-base">{t("roomsPage.name")}</p>}
+          name="name"
+          rules={[{ required: true, message: t("form.requiredMessage") }]}
         >
           <Input />
         </Form.Item>
         <Form.Item
-          label={<p className="text-base">{t("form.first name")}</p>}
-          name="firstName"
+          label={<p className="text-base">{t("roomsPage.capacity")}</p>}
+          name="capacity"
+          rules={[{ required: true, message: t("form.requiredMessage") }]}
         >
           <Input />
         </Form.Item>
         <Form.Item
-          label={<p className="text-base">{t("form.phone")}</p>}
-          name="phone"
+          label={<p className="text-base">{t("roomsPage.tables count")}</p>}
+          name="tables"
+          rules={[{ required: true, message: t("form.requiredMessage") }]}
         >
           <Input />
         </Form.Item>
         <Form.Item
-          label={<p className="text-base">{t("form.password")}</p>}
-          name="password"
+          label={<p className="text-base">{t("roomsPage.chairs count")}</p>}
+          name="chairs"
+          rules={[{ required: true, message: t("form.requiredMessage") }]}
         >
           <Input />
-        </Form.Item>
-        <Form.Item label={<p className="text-base">{t("role")}</p>} name="role">
-          <Select
-            options={[
-              { label: t("teacher"), value: "TEACHER" },
-              { label: t("cleaner"), value: "CLEANER" },
-            ]}
-          />
-        </Form.Item>
-        <Form.Item
-          label={<p className="text-base">{t("form.date of birth")}</p>}
-          name="birthday"
-        >
-          <input
-            type="date"
-            className="border-gray-300 px-4 py-2 border rounded-md w-full"
-          />
-        </Form.Item>
-        <Form.Item
-          label={<p className="text-base">{t("gender")}</p>}
-          name="gender"
-        >
-          <Radio.Group>
-            <Radio value="MALE">{t("male")}</Radio>
-            <Radio value="FEMALE">{t("female")}</Radio>
-          </Radio.Group>
         </Form.Item>
       </Form>
       <div className="flex justify-end items-center">
@@ -97,6 +94,7 @@ const Drawer = () => {
             {t("cancel")}
           </Button>
           <Button
+            ref={sendBtnRef}
             onClick={() => form.submit()}
             className="bg-primary-green hover:!bg-lime-600 border-none !text-white"
           >

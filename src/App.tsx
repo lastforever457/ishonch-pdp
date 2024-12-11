@@ -1,5 +1,4 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import { loader as currentUserLoader } from "./components/sidebar/current-user";
 import AppLayout from "./layouts/app-layout";
 import Employees from "./pages/employees";
 import Finance from "./pages/finance";
@@ -8,6 +7,7 @@ import Home from "./pages/home";
 import Rooms from "./pages/rooms";
 import Students from "./pages/students";
 import Settings from "./pages/settings.tsx";
+import ReactQueryProvider from "./providers/react-query-client.tsx";
 
 const App = () => {
   const routes = createBrowserRouter([
@@ -18,32 +18,26 @@ const App = () => {
         {
           index: true,
           element: <Home />,
-          loader: currentUserLoader,
         },
         {
           path: "groups",
-          loader: currentUserLoader,
           element: <Groups />,
         },
         {
           path: "employees",
-          loader: currentUserLoader,
           element: <Employees />,
         },
         {
           path: "rooms",
           element: <Rooms />,
-          loader: currentUserLoader,
         },
         {
           path: "students",
           element: <Students />,
-          loader: currentUserLoader,
         },
         {
           path: "finance",
           element: <Finance />,
-          loader: currentUserLoader,
         },
         {
           path: "settings",
@@ -52,7 +46,11 @@ const App = () => {
       ],
     },
   ]);
-  return <RouterProvider router={routes} />;
+  return (
+    <ReactQueryProvider>
+      <RouterProvider router={routes} />
+    </ReactQueryProvider>
+  );
 };
 
 export default App;

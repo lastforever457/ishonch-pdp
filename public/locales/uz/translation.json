@@ -13,26 +13,50 @@
   "left-students": "Faol guruhni tark etganlar",
   "pay-month": "Joriy oyda to'laganlar",
   "archive": "Arxiv",
-  "teachers": "O'qituvchilar",
   "other employees": "Boshqa xodimlar",
-  "add": "Qo'shish",
-  "fio": "F.I.Sh.",
-  "phone": "Telefon",
   "role": "Lavozim",
   "actions": "Amallar",
-  "add new staff": "Yangi xodim qo'shish",
-  "last name": "Familiya",
-  "first name": "Ism",
-  "password": "Parol",
-  "date of birth": "Tug'ilgan sana",
   "gender": "Jins",
   "male": "Erkak",
   "female": "Ayol",
   "cancel": "Bekor qilish",
-  "send": "Yuborish",
-  "cleaner": "Farrosh",
-  "teacher": "O'qituvchi",
-  "change": "O'zgartirish",
-  "delete": "O'chirish",
-  "active": "Faol"
+  "form": {
+    "last name": "Familiya",
+    "first name": "Ism",
+    "password": "Parol",
+    "date of birth": "Tug'ilgan sana",
+    "send": "Yuborish",
+    "fio": "F.I.Sh.",
+    "phone": "Telefon",
+    "requiredMessage": "Ma'lumotni kiriting"
+  },
+  "confirmation": {
+    "delete": "O'chirishni tasdiqlaysizmi?"
+  },
+  "crud": {
+    "add": "Qo'shish",
+    "edit": "O'zgartirish",
+    "delete": "O'chirish"
+  },
+  "roles": {
+    "teacher": "O'qituvchi",
+    "cleaner": "Farrosh"
+  },
+  "employeesPage": {
+    "teachers": "O'qituvchilar",
+    "active": "Faol",
+    "edit staff": "Xodimni tahrirlash",
+    "archive staff": "Xodimni arxivdan o'chirish",
+    "unarchive staff": "Xodimni arxivdan o'chirish",
+    "add new staff": "Yangi xodim qo'shish",
+    "block staff": "Xodimni blokga qo'yish"
+  },
+  "roomsPage": {
+    "add new room": "Yangi xona qo'shish",
+    "edit room": "Xonani tahrirlash",
+    "name": "Xona nomi",
+    "capacity": "Xona sig'imi",
+    "tables count": "Partalar soni",
+    "chairs count": "Stullar soni"
+  }
 }
