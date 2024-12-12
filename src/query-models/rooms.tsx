@@ -1,10 +1,11 @@
 import { useQuery } from "@tanstack/react-query";
+import { apiLink } from "../utils/api-link";
 
 const useRooms = (options: Record<string, any>) => {
   const { data, isLoading, isError, ...params } = useQuery({
     queryKey: ["rooms"],
     queryFn: async () => {
-      const res = await fetch(`http://localhost:3000/rooms/findMany`, {
+      const res = await fetch(apiLink(`/rooms/findMany`), {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
