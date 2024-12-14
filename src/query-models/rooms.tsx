@@ -1,20 +1,15 @@
 import { useQuery } from "@tanstack/react-query";
-import { apiLink } from "../utils/api-link";
+import api from "../utils/axios";
 
 const useRooms = (options: Record<string, any>) => {
   const { data, isLoading, isError, ...params } = useQuery({
     queryKey: ["rooms"],
     queryFn: async () => {
-      const res = await fetch(apiLink(`/rooms/findMany`), {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(options),
-      });
-      return await res.json();
+      const res = await api.post(`/rooms/findMany`, options);
+      return await res.data();
     },
   });
+
   return { data, isLoading, isError, ...params };
 };
 
