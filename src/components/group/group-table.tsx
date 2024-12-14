@@ -5,6 +5,10 @@ import { IUser } from "../../interfaces.ts";
 function GroupTable() {
   const [data, setData] = useState<IUser[]>([]);
 
+  useEffect(() => {
+    setData([]);
+  }, []);
+
   const columns = useMemo(
     () => [
       { key: "id", title: "Id", dataIndex: "id" },

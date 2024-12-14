@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { useLocationParams } from "../../hooks/use-location-params";
 import MyTable from "../my-table";
@@ -7,37 +7,6 @@ import useUsers from "../../query-models/users";
 const EmployeeTable = () => {
   const { query } = useLocationParams();
   const { t } = useTranslation();
-  // const [tab, setTab] = useState<"teachers" | "archive" | "other">(
-  //   query.employeeTab as "teachers" | "archive" | "other"
-  // );
-  // const queryOptions = useMemo(() => {
-  //   switch (tab) {
-  //     case "teachers":
-  //       return {
-  //         where: {
-  //           role: "TEACHER",
-  //         },
-  //       };
-  //     case "archive":
-  //       return {
-  //         where: {
-  //           status: "ARCHIVED",
-  //         },
-  //       };
-  //     case "other":
-  //       return {
-  //         where: {
-  //           status: "BLOCKED",
-  //         },
-  //       };
-  //     default:
-  //       return {
-  //         where: {
-  //           role: "TEACHER",
-  //         },
-  //       };
-  //   }
-  // }, [query.employeeTab]);
 
   const {
     data: users,
