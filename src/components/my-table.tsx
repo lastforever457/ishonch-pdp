@@ -2,15 +2,8 @@ import { Button, Dropdown, Popconfirm, Skeleton } from "antd";
 import { t } from "i18next";
 import { BsThreeDotsVertical } from "react-icons/bs";
 import { useRouterPush } from "../hooks/use-router-push";
-import { apiLink } from "@/utils/api-link";
 import api from "@/utils/axios";
 import { useMemo } from "react";
-
-interface Column {
-  key: string;
-  title: string;
-  dataIndex: string;
-}
 
 interface Row {
   [key: string]: any;
@@ -24,7 +17,7 @@ const MyTable = ({
   isError,
   error,
 }: {
-  columns: Column[];
+  columns: any;
   data: Row[];
   hasActions?: boolean;
   isLoading?: boolean;
