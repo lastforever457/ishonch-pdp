@@ -6,7 +6,7 @@ const useRooms = (options: Record<string, any>) => {
     queryKey: ["rooms"],
     queryFn: async () => {
       const res = await api.post(`/rooms/findMany`, options);
-      return await res.data();
+      return await res.data;
     },
   });
 

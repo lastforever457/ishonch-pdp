@@ -8,12 +8,4 @@ const api = axios.create({
   },
 });
 
-api.interceptors.request.use((config) => {
-  const accessToken = localStorage.getItem("ishonch-token");
-  if (accessToken) {
-    config.headers.Authorization = `Bearer ${accessToken}`;
-  }
-  return config;
-});
-
 export default api;

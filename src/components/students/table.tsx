@@ -4,7 +4,7 @@ import { useLocationParams } from "../../hooks/use-location-params";
 import MyTable from "../my-table";
 import useUsers from "../../query-models/users";
 
-const EmployeeTable = () => {
+const StudentTable = () => {
   const { query } = useLocationParams();
   const { t } = useTranslation();
 
@@ -18,18 +18,18 @@ const EmployeeTable = () => {
     where: {
       OR: [
         {
-          role:
-            query.employeeTab === "teachers"
-              ? "TEACHER"
-              : !query.employeeTab
-              ? "TEACHER"
-              : undefined,
+          role: "STUDENT",
         },
-        {
-          status: query.employeeTab === "archive" ? "ARCHIVED" : "BLOCKED",
-        },
+        ...(query.studentTab === "archive"
+          ? [
+              {
+                status: "ARCHIVED",
+              },
+            ]
+          : []),
       ],
     },
+    include: { group: true },
   });
 
   useEffect(() => {
@@ -41,7 +41,20 @@ const EmployeeTable = () => {
       { key: "firstName", title: t("form.first name"), dataIndex: "firstName" },
       { key: "lastName", title: t("form.last name"), dataIndex: "lastName" },
       { key: "phone", title: t("form.phone"), dataIndex: "phone" },
-      { key: "role", title: t("role"), dataIndex: "role" },
+      {
+        key: "group",
+        title: t("groups"),
+        dataIndex: ["group", "name"],
+        render: (group: Record<string, any>) => {
+          return group ? <span className="capitalize">{group.name}</span> : "-";
+        },
+      },
+      {
+        key: "role",
+        title: t("role"),
+        dataIndex: "role",
+        render: (text: string) => <span className="capitalize">{text}</span>,
+      },
     ],
     [t]
   );
@@ -59,4 +72,4 @@ const EmployeeTable = () => {
   );
 };
 
-export default EmployeeTable;
+export default StudentTable;

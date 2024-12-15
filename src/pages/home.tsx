@@ -1,16 +1,31 @@
+import useUsers from "@/query-models/users";
 import { Col, Row } from "antd";
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 
 const Home = () => {
   const { t } = useTranslation();
+  const { data: employees } = useUsers({
+    where: {
+      AND: [
+        {
+          status: "ACTIVE",
+        },
+        {
+          role: {
+            notIn: ["ADMIN", "STUDENT"],
+          },
+        },
+      ],
+    },
+  });
 
   const users = useMemo(
     () => [
       {
         id: 1,
         img: "/public/images/user-1.svg",
-        percent: "56",
+        percent: employees?.length || 0,
         title: t("employees"),
       },
       {
@@ -44,7 +59,7 @@ const Home = () => {
         title: t("left-students"),
       },
     ],
-    [t]
+    [t, employees?.length]
   );
   return (
     <div>

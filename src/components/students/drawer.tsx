@@ -28,8 +28,8 @@ const Drawer = () => {
       entryPoint={query.add ? "add" : "edit"}
       title={
         query.add
-          ? t("employeesPage.add new staff")
-          : t("employeesPage.edit staff")
+          ? t("studentsPage.add new student")
+          : t("studentsPage.edit student")
       }
     >
       <Form onFinish={onFinish} layout="vertical" form={form}>
@@ -44,26 +44,6 @@ const Drawer = () => {
           name="firstName"
         >
           <Input />
-        </Form.Item>
-        <Form.Item
-          label={<p className="text-base">{t("form.phone")}</p>}
-          name="phone"
-        >
-          <Input />
-        </Form.Item>
-        <Form.Item
-          label={<p className="text-base">{t("form.password")}</p>}
-          name="password"
-        >
-          <Input />
-        </Form.Item>
-        <Form.Item label={<p className="text-base">{t("role")}</p>} name="role">
-          <Select
-            options={[
-              { label: t("teacher"), value: "TEACHER" },
-              { label: t("cleaner"), value: "CLEANER" },
-            ]}
-          />
         </Form.Item>
         <Form.Item
           label={<p className="text-base">{t("form.date of birth")}</p>}

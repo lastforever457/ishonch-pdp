@@ -58,5 +58,9 @@
     "capacity": "Xona sig'imi",
     "tables count": "Partalar soni",
     "chairs count": "Stullar soni"
+  },
+  "studentsPage": {
+    "title": "Talabalar",
+    "groups": "Guruhlar"
   }
 }

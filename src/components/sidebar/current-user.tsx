@@ -1,10 +1,15 @@
+import { useAuth } from "../../providers/auth-context-provider";
+
 const CurrentUser = () => {
-  const data = localStorage.getItem("currentUser");
-  const currentUser = JSON.parse(data || "{}");
+  const { user: currentUser } = useAuth();
 
   return (
     <div className="flex justify-center lg:justify-start items-center">
-      <img src={currentUser?.photo} className="rounded-full size-16" alt="" />
+      <img
+        src={currentUser?.image}
+        className="bg-cover bg-center rounded-full object-cover size-16"
+        alt=""
+      />
       <div className="lg:flex flex-col hidden p-2">
         <h1 className="font-bold">
           {currentUser?.firstName || ""} {currentUser?.lastName || ""}

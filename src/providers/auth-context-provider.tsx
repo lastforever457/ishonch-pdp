@@ -1,11 +1,7 @@
-import React, { createContext, useContext, useState } from "react";
-import api from "../utils/axios";
+import React, { createContext, useContext, useMemo } from "react";
 
 interface AuthContextType {
-  accessToken: string | null;
   user: Record<string, any> | null;
-  login: (email: string, password: string) => Promise<void>;
-  logout: () => void;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -13,28 +9,24 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
-  const [accessToken, setAccessToken] = useState<string | null>(null);
-  const [currentUser, setCurrentUser] = useState<Record<string, any> | null>(
-    null
-  );
-
-  const login = async (email: string, password: string) => {
-    const response = await api.post("/auth/login", { email, password });
-    const user = await api.post("/users/findUnique", {
-      where: { email },
-    });
-    setAccessToken(response.data.accessToken);
-    setCurrentUser(user.data);
-  };
-
-  const logout = () => {
-    setAccessToken(null);
-  };
+  const currentUser = useMemo(() => {
+    return {
+      firstName: "Steve",
+      lastName: "Jobs",
+      email: "WlA9I@example.com",
+      role: "ADMIN",
+      status: "ACTIVE",
+      image:
+        "https://www.anonimacinefili.it/wp-content/uploads/2024/03/Oppenheimer-film-Nolan-spiegazione-significato-finale-recensione-4.jpg",
+      phone: "+998 99 999 99 99",
+      birthDate: "2000-01-01",
+      male: "MALE",
+      id: 1,
+    };
+  }, []);
 
   return (
-    <AuthContext.Provider
-      value={{ accessToken, user: currentUser, login, logout }}
-    >
+    <AuthContext.Provider value={{ user: currentUser }}>
       {children}
     </AuthContext.Provider>
   );

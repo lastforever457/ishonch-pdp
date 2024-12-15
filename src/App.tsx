@@ -8,27 +8,10 @@ import Rooms from "./pages/rooms";
 import Students from "./pages/students";
 import Settings from "./pages/settings.tsx";
 import ReactQueryProvider from "./providers/react-query-client.tsx";
-import Login from "./pages/login.tsx";
-import Signup from "./pages/signup.tsx";
 import { AuthProvider } from "./providers/auth-context-provider.tsx";
-import { PermissionsProvider } from "./providers/permission-provider.tsx";
-import { useEffect, useState } from "react";
-import api from "./utils/axios.ts";
-import { apiLink } from "./utils/api-link.ts";
+import { SidebarProvider } from "./providers/sidebar-context-provider.tsx";
 
 const App = () => {
-  const [permissions, setPermissions] = useState<string[]>([]);
-
-  useEffect(() => {
-    const fetch = async () => {
-      const res = await api.get(apiLink("/permissions/findMany"));
-
-      setPermissions(res.data);
-    };
-
-    fetch();
-  }, []);
-
   const routes = createBrowserRouter([
     {
       path: "/",
@@ -65,14 +48,6 @@ const App = () => {
       ],
     },
     {
-      path: "login",
-      element: <Login />,
-    },
-    {
-      path: "signup",
-      element: <Signup />,
-    },
-    {
       path: "*",
       element: <div>404</div>,
     },
@@ -80,9 +55,9 @@ const App = () => {
   return (
     <ReactQueryProvider>
       <AuthProvider>
-        <PermissionsProvider permissions={permissions}>
+        <SidebarProvider>
           <RouterProvider router={routes} />
-        </PermissionsProvider>
+        </SidebarProvider>
       </AuthProvider>
     </ReactQueryProvider>
   );

@@ -13,7 +13,6 @@ const RoomsTable = ({
 
   const columns = useMemo(
     () => [
-      { key: "index", title: "#", dataIndex: "index" },
       { key: "name", title: t("roomsPage.name"), dataIndex: "name" },
       {
         key: "capacity",
@@ -33,14 +32,6 @@ const RoomsTable = ({
     ],
     [t]
   );
-
-  if (isLoading) {
-    return <div>Loading...</div>;
-  }
-
-  if (!Array.isArray(rooms)) {
-    return <div>No rooms found.</div>;
-  }
 
   return (
     <div>
