@@ -1,6 +1,6 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import AppLayout from "./layouts/app-layout";
-import Employees from "./pages/employees";
+import Employees from "./pages/employees/employees.tsx";
 import Finance from "./pages/finance";
 import Groups from "./pages/groups";
 import Home from "./pages/home";
@@ -10,6 +10,7 @@ import Settings from "./pages/settings.tsx";
 import ReactQueryProvider from "./providers/react-query-client.tsx";
 import { AuthProvider } from "./providers/auth-context-provider.tsx";
 import { SidebarProvider } from "./providers/sidebar-context-provider.tsx";
+import EmployeeProfile from "./pages/employees/profile.tsx";
 
 const App = () => {
   const routes = createBrowserRouter([
@@ -28,6 +29,10 @@ const App = () => {
         {
           path: "employees",
           element: <Employees />,
+        },
+        {
+          path: "employees/profile",
+          element: <EmployeeProfile />,
         },
         {
           path: "rooms",

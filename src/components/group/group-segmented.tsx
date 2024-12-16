@@ -3,7 +3,7 @@ import { useTranslation } from "react-i18next";
 import { useLocationParams } from "../../hooks/use-location-params";
 import { useRouterPush } from "../../hooks/use-router-push";
 
-const GroupComponent = () => {
+const GroupSegmented = () => {
   const { t } = useTranslation();
   const { push } = useRouterPush();
   const { query } = useLocationParams();
@@ -11,7 +11,7 @@ const GroupComponent = () => {
   const segmentedValues = useMemo(
     () => [
       {
-        value: t("active"),
+        value: t("employeesPage.active"),
         key: "active",
       },
       {
@@ -19,7 +19,7 @@ const GroupComponent = () => {
         key: "archive",
       },
     ],
-    [t],
+    [t]
   );
 
   return (
@@ -42,4 +42,4 @@ const GroupComponent = () => {
   );
 };
 
-export default GroupComponent;
+export default GroupSegmented;

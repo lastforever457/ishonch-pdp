@@ -8,10 +8,15 @@ export const SidebarContext = createContext<{
 export const SidebarProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
-  const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState(localStorage.getItem("open") === "open");
+
+  const handleToggle = () => {
+    setOpen(!open);
+    localStorage.setItem("open", open ? "close" : "open");
+  };
 
   return (
-    <SidebarContext.Provider value={{ open, setOpen }}>
+    <SidebarContext.Provider value={{ open, setOpen: handleToggle }}>
       {children}
     </SidebarContext.Provider>
   );

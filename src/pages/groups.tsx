@@ -1,6 +1,6 @@
 import AddButton from "../components/add-button.tsx";
 import { useTranslation } from "react-i18next";
-import GroupComponent from "../components/group/groupt.tsx";
+import GroupSegmented from "../components/group/group-segmented.tsx";
 import GroupTable from "../components/group/group-table.tsx";
 
 const Groups = () => {
@@ -20,8 +20,8 @@ const Groups = () => {
           </button>
         </div>
         <div className={"flex items-center justify-center gap-16"}>
-          <GroupComponent />
-          <AddButton>{t("add")}</AddButton>
+          <GroupSegmented />
+          <AddButton>{t("crud.add")}</AddButton>
         </div>
       </div>
       <div>

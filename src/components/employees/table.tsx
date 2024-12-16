@@ -38,13 +38,20 @@ const EmployeeTable = () => {
 
   const columns = useMemo(
     () => [
-      { key: "firstName", title: t("form.first name"), dataIndex: "firstName" },
-      { key: "lastName", title: t("form.last name"), dataIndex: "lastName" },
+      { key: "firstName", title: t("form.fio"), dataIndex: "fio" },
       { key: "phone", title: t("form.phone"), dataIndex: "phone" },
       { key: "role", title: t("role"), dataIndex: "role" },
     ],
     [t]
   );
+
+  const data = useMemo(() => {
+    return users?.map((item: Record<string, any>) => ({
+      ...item,
+      key: item.id,
+      fio: `${item.firstName || ""} ${item.lastName || ""}`,
+    }));
+  }, [users]);
 
   return (
     <div>
@@ -53,7 +60,7 @@ const EmployeeTable = () => {
         error={error}
         isLoading={isLoading}
         columns={columns}
-        data={users}
+        data={data || []}
       />
     </div>
   );
