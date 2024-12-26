@@ -1,0 +1,11 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.antd-inputs .ant-input,
+.antd-inputs .ant-input-affix-wrapper,
+.antd-inputs .ant-select,
+.antd-inputs .ant-picker {
+  padding: 7px 15px;
+  border-radius: 8px !important;
+}

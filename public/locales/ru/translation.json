@@ -1,0 +1,78 @@
+{
+  "form": {
+    "name": "Имя",
+    "lastName": "Фамилия",
+    "email": "Email",
+    "password": "Пароль",
+    "confirmPassword": "Подтвердите пароль",
+    "phone": "Телефон",
+    "address": "Адрес",
+    "role": "Роль",
+    "group": "Группа",
+    "status": "Статус",
+    "fio": "ФИО",
+    "search": "Поиск",
+    "dateOfBirth": "Дата рождения",
+    "gender": "Пол",
+    "male": "Мужчина",
+    "female": "Женщина",
+    "save": "Сохранить",
+    "cancel": "Отменить"
+  },
+  "formMessages": {
+    "firstName": "Пожалуйста, введите имя",
+    "lastName": "Пожалуйста, введите фамилию",
+    "email": "Пожалуйста, введите email",
+    "password": "Пожалуйста, введите пароль",
+    "confirmPassword": "Пожалуйста, подтвердите пароль",
+    "phone": "Пожалуйста, введите номер телефона",
+    "address": "Пожалуйста, введите адрес",
+    "role": "Пожалуйста, выберите роль",
+    "group": "Пожалуйста, выберите группу",
+    "dateOfBirth": "Пожалуйста, введите дату рождения",
+    "gender": "Пожалуйста, выберите пол"
+  },
+  "actions": {
+    "actions": "Действия",
+    "exit": "Выход"
+  },
+  "crud": {
+    "create": "Создать",
+    "edit": "Обновить",
+    "delete": "Удалить",
+    "add": "Добавить"
+  },
+  "dashboard": {
+    "title": "Панель управления",
+    "titleSingular": "Панель управления"
+  },
+  "groups": {
+    "title": "Группы",
+    "titleSingular": "Группа"
+  },
+  "employees": {
+    "title": "Сотрудники",
+    "titleSingular": "Сотрудник",
+    "archive": "Архив",
+    "teachers": "Преподаватели",
+    "other": "Другие сотрудники",
+    "profile": "Профиль",
+    "story": "История работы"
+  },
+  "rooms": {
+    "title": "Комнаты",
+    "titleSingular": "Комната"
+  },
+  "students": {
+    "title": "Ученики",
+    "titleSingular": "Ученик"
+  },
+  "finance": {
+    "title": "Финансы",
+    "titleSingular": "Финансы"
+  },
+  "settings": {
+    "title": "Настройки",
+    "titleSingular": "Настройки"
+  }
+}

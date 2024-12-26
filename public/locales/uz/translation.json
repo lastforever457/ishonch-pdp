@@ -1,0 +1,78 @@
+{
+  "form": {
+    "name": "Ism",
+    "lastName": "Familiya",
+    "email": "Email",
+    "password": "Parol",
+    "confirmPassword": "Parolni tasdiqlash",
+    "phone": "Telefon",
+    "address": "Manzil",
+    "role": "Rol",
+    "group": "Guruh",
+    "status": "Holati",
+    "fio": "FIO",
+    "search": "Qidirish",
+    "dateOfBirth": "Tug'ilgan sana",
+    "gender": "Jinsi",
+    "male": "Erkak",
+    "female": "Ayol",
+    "save": "Saqlash",
+    "cancel": "Bekor qilish"
+  },
+  "formMessages": {
+    "firstName": "Iltimos, ismni kiriting",
+    "lastName": "Iltimos, familiyani kiriting",
+    "email": "Iltimos, emailni kiriting",
+    "password": "Iltimos, parolni kiriting",
+    "confirmPassword": "Iltimos, parolni tasdiqlang",
+    "phone": "Iltimos, telefon raqamni kiriting",
+    "address": "Iltimos, manzilni kiriting",
+    "role": "Iltimos, rolni tanlang",
+    "group": "Iltimos, guruhni tanlang",
+    "dateOfBirth": "Iltimos, tug'ilgan sanani kiriting",
+    "gender": "Iltimos, jinsni tanlang"
+  },
+  "actions": {
+    "actions": "Amallar",
+    "exit": "Chiqish"
+  },
+  "crud": {
+    "create": "Yaratish",
+    "edit": "O'zgartirish",
+    "delete": "O'chirish",
+    "add": "Qo'shish"
+  },
+  "dashboard": {
+    "title": "Dashboard",
+    "titleSingular": "Dashboard"
+  },
+  "groups": {
+    "title": "Guruhlar",
+    "titleSingular": "Guruh"
+  },
+  "employees": {
+    "title": "Ishchilar",
+    "titleSingular": "Ishchi",
+    "archive": "Arxiv",
+    "teachers": "O'qituvchilar",
+    "other": "Boshqa xodimlar",
+    "profile": "Profil",
+    "story": "Ish tarixi"
+  },
+  "rooms": {
+    "title": "Xonalar",
+    "titleSingular": "Xona"
+  },
+  "students": {
+    "title": "O'quvchilar",
+    "titleSingular": "O'quvchi"
+  },
+  "finance": {
+    "title": "Moliya",
+    "titleSingular": "Moliya"
+  },
+  "settings": {
+    "title": "Sozlamalar",
+    "titleSingular": "Sozlama"
+  }
+}
