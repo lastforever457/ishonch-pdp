@@ -1,4 +1,3 @@
-import { Button } from "antd";
 import React from "react";
 import { FaPlus } from "react-icons/fa";
 import { useLocationParams } from "../hooks/use-location-params";
@@ -9,13 +8,13 @@ const AddButton = ({ children }: { children: React.ReactNode }) => {
   const { query } = useLocationParams();
 
   return (
-    <Button
-      icon={<FaPlus />}
+    <button
       onClick={() => push({ query: { ...query, add: true } })}
-      className="flex justify-center items-center border-0 bg-primary-green hover:!bg-lime-600 px-6 py-6 rounded-2xl font-semibold text-center text-lg text-white hover:!text-[#f5f5f5]"
+      className="flex justify-center items-center border-0 bg-primary-green hover:!bg-lime-600 px-6 py-3 rounded-2xl font-semibold text-center text-lg text-white hover:!text-[#f5f5f5]"
     >
+      <FaPlus className="mr-2" />
       {children}
-    </Button>
+    </button>
   );
 };
 
