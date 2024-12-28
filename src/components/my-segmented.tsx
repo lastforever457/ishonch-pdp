@@ -22,7 +22,7 @@ const MySegmented = ({
       {segmentedValues.map((item: Record<string, any>) => (
         <div
           key={item.key}
-          onClick={() => push({ query: { [queryName]: item.key } })}
+          onClick={() => push({ query: { ...query, [queryName]: item.key } })}
           className={`px-6 py-3 cursor-pointer segmented-item flex justify-center font-bold items-center ${
             !query[queryName] && item.isPrimary
               ? "bg-primary-blue rounded-xl text-white"

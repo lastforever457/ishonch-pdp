@@ -17,7 +17,9 @@
     "male": "Мужчина",
     "female": "Женщина",
     "save": "Сохранить",
-    "cancel": "Отменить"
+    "cancel": "Отменить",
+    "comment": "Комментарий",
+    "date": "Дата"
   },
   "formMessages": {
     "firstName": "Пожалуйста, введите имя",
@@ -55,9 +57,26 @@
     "titleSingular": "Сотрудник",
     "archive": "Архив",
     "teachers": "Преподаватели",
+    "teacher": "Преподаватель",
     "other": "Другие сотрудники",
     "profile": "Профиль",
-    "story": "История работы"
+    "story": "История работы",
+    "balance": "Баланс",
+    "branch": "Филиал",
+    "oddDays": "Нечетные дни",
+    "evenDays": "Четные дни",
+    "payments": "Платежи",
+    "dateOfPayment": "Дата платежа",
+    "amount": "Сумма",
+    "whoPaid": "Кто оплатил",
+    "howManyStudents": "Сколько учеников",
+    "credit": "Кредит",
+    "return": "Возврат",
+    "monthlyOutput": "Ежемесячный расход",
+    "courseName": "Название курса",
+    "attendance": "Посещаемость",
+    "paid": "Оплачено",
+    "duty": "Долг"
   },
   "rooms": {
     "title": "Комнаты",

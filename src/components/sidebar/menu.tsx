@@ -4,7 +4,6 @@ import useHeaderMenus from "../../hooks/use-header-menus";
 const Menu = () => {
   const { menus } = useHeaderMenus();
   const matches = useMatches();
-  console.log(matches);
 
   return (
     <div className="flex flex-col gap-2 mt-7">

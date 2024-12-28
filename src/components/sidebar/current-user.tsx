@@ -1,13 +1,13 @@
 const CurrentUser = () => {
   const currentUser = {
-    firstName: "John",
-    lastName: "Doe",
-    image: "https://randomuser.me/api/portraits/lego/1.jpg",
-    phone: "+998 99 999 99 99",
+    firstName: "Jamila",
+    lastName: "Azimova",
+    image: "/images/image.png",
+    phone: "+998 99 123 45 67",
   };
 
   return (
-    <div className="flex justify-center lg:justify-start items-center">
+    <div className="flex justify-center lg:justify-start items-center gap-2">
       <img
         src={currentUser.image}
         className="bg-cover bg-center rounded-full object-cover size-16"

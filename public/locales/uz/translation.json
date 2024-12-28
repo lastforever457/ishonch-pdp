@@ -17,7 +17,9 @@
     "male": "Erkak",
     "female": "Ayol",
     "save": "Saqlash",
-    "cancel": "Bekor qilish"
+    "cancel": "Bekor qilish",
+    "comment": "Izoh",
+    "date": "Sana"
   },
   "formMessages": {
     "firstName": "Iltimos, ismni kiriting",
@@ -55,9 +57,26 @@
     "titleSingular": "Ishchi",
     "archive": "Arxiv",
     "teachers": "O'qituvchilar",
+    "teacher": "O'qituvchi",
     "other": "Boshqa xodimlar",
     "profile": "Profil",
-    "story": "Ish tarixi"
+    "story": "Ish tarixi",
+    "balance": "Balans",
+    "branch": "Filial",
+    "oddDays": "Toq kunlar",
+    "evenDays": "Juft kunlar",
+    "payments": "To'lovlar",
+    "dateOfPayment": "To'lov sanasi",
+    "amount": "Summa",
+    "whoPaid": "Kim to'ladi",
+    "howManyStudents": "O'quvchilar soni",
+    "credit": "Kredit",
+    "return": "Qaytarish",
+    "monthlyOutput": "Oylik chiqim",
+    "courseName": "Kurs nomi",
+    "attendance": "Davomat",
+    "paid": "To'langan",
+    "duty": "Qolgan"
   },
   "rooms": {
     "title": "Xonalar",

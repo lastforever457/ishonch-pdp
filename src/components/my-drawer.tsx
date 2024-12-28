@@ -21,7 +21,15 @@ const MyDrawer: React.FC<DrawerProps> = ({
   const { query } = useLocationParams();
 
   const closeDrawer = () => {
-    push({ query: { ...query, [entryPoint]: undefined, id: undefined } });
+    push({
+      query: {
+        ...query,
+        [entryPoint]: undefined,
+        id: undefined,
+        view: undefined,
+        edit: undefined,
+      },
+    });
   };
 
   return (

@@ -109,6 +109,7 @@ const MyTable = ({
             >
               {extendedColumns.map((column: any, colIndex: number) => (
                 <MyTableRow
+                  key={colIndex}
                   column={column}
                   item={item}
                   index={index}

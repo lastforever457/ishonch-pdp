@@ -12,7 +12,7 @@ const AddButton = ({ children }: { children: React.ReactNode }) => {
     <Button
       icon={<FaPlus />}
       onClick={() => push({ query: { ...query, add: true } })}
-      className="border-0 bg-primary-green hover:!bg-lime-600 focus:ring-opacity-20 px-6 py-6 rounded-2xl focus:ring-4 focus:ring-primary-green focus:ring-offset-2 focus:ring-offset-white font-semibold text-lg text-white hover:!text-[#f5f5f5]"
+      className="flex justify-center items-center border-0 bg-primary-green hover:!bg-lime-600 focus:ring-opacity-20 px-6 py-6 rounded-2xl focus:ring-4 focus:ring-primary-green focus:ring-offset-2 focus:ring-offset-white font-semibold text-center text-lg text-white hover:!text-[#f5f5f5]"
     >
       {children}
     </Button>

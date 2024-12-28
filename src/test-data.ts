@@ -5,6 +5,10 @@ export const users: Record<string, any>[] = [
     lastName: "Courtois",
     phone: "+998 99 999 99 99",
     role: "TEACHER",
+    image: "https://picsum.photos/700/700",
+    password: "pass123",
+    balance: 500,
+    branchId: 1,
   },
   {
     id: 2,
@@ -12,6 +16,10 @@ export const users: Record<string, any>[] = [
     lastName: "Carvajal",
     phone: "+998 99 999 99 90",
     role: "TEACHER",
+    image: "https://picsum.photos/700/700",
+    password: "pass123",
+    balance: 400,
+    branchId: 1,
   },
   {
     id: 3,
@@ -19,6 +27,10 @@ export const users: Record<string, any>[] = [
     lastName: "Militao",
     phone: "+998 99 999 99 91",
     role: "TEACHER",
+    image: "https://picsum.photos/700/700",
+    password: "pass123",
+    balance: 300,
+    branchId: 2,
   },
   {
     id: 4,
@@ -26,6 +38,10 @@ export const users: Record<string, any>[] = [
     lastName: "Alaba",
     phone: "+998 99 999 99 92",
     role: "TEACHER",
+    image: "https://picsum.photos/700/700",
+    password: "pass123",
+    balance: 450,
+    branchId: 2,
   },
   {
     id: 5,
@@ -33,6 +49,10 @@ export const users: Record<string, any>[] = [
     lastName: "Mendy",
     phone: "+998 99 999 99 93",
     role: "TEACHER",
+    image: "https://picsum.photos/700/700",
+    password: "pass123",
+    balance: 600,
+    branchId: 1,
   },
   {
     id: 6,
@@ -40,6 +60,10 @@ export const users: Record<string, any>[] = [
     lastName: "Kroos",
     phone: "+998 99 999 99 94",
     role: "TEACHER",
+    image: "https://picsum.photos/700/700",
+    password: "pass123",
+    balance: 550,
+    branchId: 3,
   },
   {
     id: 7,
@@ -47,6 +71,10 @@ export const users: Record<string, any>[] = [
     lastName: "Carlos",
     phone: "+998 99 999 99 95",
     role: "TEACHER",
+    image: "https://picsum.photos/700/700",
+    password: "pass123",
+    balance: 700,
+    branchId: 3,
   },
   {
     id: 8,
@@ -54,6 +82,10 @@ export const users: Record<string, any>[] = [
     lastName: "Modric",
     phone: "+998 99 999 99 96",
     role: "TEACHER",
+    image: "https://picsum.photos/700/700",
+    password: "pass123",
+    balance: 750,
+    branchId: 1,
   },
   {
     id: 9,
@@ -61,6 +93,10 @@ export const users: Record<string, any>[] = [
     lastName: "Valverde",
     phone: "+998 99 999 99 97",
     role: "TEACHER",
+    image: "https://picsum.photos/700/700",
+    password: "pass123",
+    balance: 620,
+    branchId: 2,
   },
   {
     id: 10,
@@ -68,6 +104,10 @@ export const users: Record<string, any>[] = [
     lastName: "Benzema",
     phone: "+998 99 999 99 98",
     role: "TEACHER",
+    image: "https://picsum.photos/700/700",
+    password: "pass123",
+    balance: 800,
+    branchId: 3,
   },
   {
     id: 11,
@@ -75,6 +115,10 @@ export const users: Record<string, any>[] = [
     lastName: "Junior",
     phone: "+998 99 999 99 99",
     role: "TEACHER",
+    image: "https://picsum.photos/700/700",
+    password: "pass123",
+    balance: 580,
+    branchId: 1,
   },
   {
     id: 12,
@@ -82,6 +126,10 @@ export const users: Record<string, any>[] = [
     lastName: "Goes",
     phone: "+998 99 999 99 100",
     role: "TEACHER",
+    image: "https://picsum.photos/700/700",
+    password: "pass123",
+    balance: 640,
+    branchId: 2,
   },
   {
     id: 13,
@@ -89,6 +137,10 @@ export const users: Record<string, any>[] = [
     lastName: "Goes",
     phone: "+998 99 999 99 101",
     role: "TEACHER",
+    image: "https://picsum.photos/700/700",
+    password: "pass123",
+    balance: 480,
+    branchId: 1,
   },
   {
     id: 14,
@@ -96,6 +148,10 @@ export const users: Record<string, any>[] = [
     lastName: "Fernandez",
     phone: "+998 99 999 99 102",
     role: "TEACHER",
+    image: "https://picsum.photos/700/700",
+    password: "pass123",
+    balance: 510,
+    branchId: 3,
   },
   {
     id: 15,
@@ -103,6 +159,10 @@ export const users: Record<string, any>[] = [
     lastName: "Vazquez",
     phone: "+998 99 999 99 103",
     role: "TEACHER",
+    image: "https://picsum.photos/700/700",
+    password: "pass123",
+    balance: 560,
+    branchId: 2,
   },
   {
     id: 16,
@@ -110,6 +170,10 @@ export const users: Record<string, any>[] = [
     lastName: "Asensio",
     phone: "+998 99 999 99 104",
     role: "TEACHER",
+    image: "https://picsum.photos/700/700",
+    password: "pass123",
+    balance: 620,
+    branchId: 3,
   },
   {
     id: 17,
@@ -117,6 +181,10 @@ export const users: Record<string, any>[] = [
     lastName: "Hazard",
     phone: "+998 99 999 99 105",
     role: "TEACHER",
+    image: "https://picsum.photos/700/700",
+    password: "pass123",
+    balance: 400,
+    branchId: 1,
   },
   {
     id: 18,
@@ -124,6 +192,10 @@ export const users: Record<string, any>[] = [
     lastName: "Lunin",
     phone: "+998 99 999 99 106",
     role: "TEACHER",
+    image: "https://picsum.photos/700/700",
+    password: "pass123",
+    balance: 450,
+    branchId: 2,
   },
   {
     id: 19,
@@ -131,6 +203,10 @@ export const users: Record<string, any>[] = [
     lastName: "Odriozola",
     phone: "+998 99 999 99 107",
     role: "TEACHER",
+    image: "https://picsum.photos/700/700",
+    password: "pass123",
+    balance: 530,
+    branchId: 3,
   },
   {
     id: 20,
@@ -138,6 +214,67 @@ export const users: Record<string, any>[] = [
     lastName: "Camavinga",
     phone: "+998 99 999 99 108",
     role: "TEACHER",
+    image: "https://picsum.photos/700/700",
+    password: "pass123",
+    balance: 590,
+    branchId: 1,
+  },
+];
+
+export const filials = [
+  {
+    id: 1,
+    name: "ZIYO ILM NUR MARKAZI",
+  },
+  {
+    id: 2,
+    name: "ZIYO ILM NUR MARKAZI 2",
+  },
+  {
+    id: 3,
+    name: "ZIYO ILM NUR MARKAZI 3",
+  },
+  {
+    id: 4,
+    name: "ZIYO ILM NUR MARKAZI 4",
+  },
+  {
+    id: 5,
+    name: "ZIYO ILM NUR MARKAZI 5",
+  },
+  {
+    id: 6,
+    name: "ZIYO ILM NUR MARKAZI 6",
+  },
+];
+
+export const groups = [
+  {
+    id: 1,
+    teacherId: 1,
+    filialId: 1,
+    name: "G18",
+    direction: "Frontend",
+    startTime: "10:00",
+    dayType: "evenDays",
+  },
+  {
+    id: 2,
+    teacherId: 1,
+    filialId: 2,
+    name: "G19",
+    direction: "Backend",
+    startTime: "15:00",
+    dayType: "oddDays",
+  },
+  {
+    id: 3,
+    teacherId: 3,
+    filialId: 3,
+    name: "G20",
+    direction: "PHP",
+    startTime: "18:00",
+    dayType: "oddDays",
   },
 ];
 
