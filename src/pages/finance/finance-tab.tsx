@@ -2,8 +2,6 @@ import { Button, Col, DatePicker, Form, Row } from "antd";
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { FaMoneyBills } from "react-icons/fa6";
-import { AutoForm } from "../../components/auto-form";
-import MyDrawer from "../../components/my-drawer";
 import MyTable from "../../components/my-table";
 import { useLocationParams } from "../../hooks/use-location-params";
 import { useRouterPush } from "../../hooks/use-router-push";
@@ -35,51 +33,6 @@ const FinanceTab = () => {
         key: "amount",
         title: t("employees.amount"),
         dataIndex: "amount",
-      },
-    ],
-    [t]
-  );
-
-  const onCancel = () => {
-    push({
-      query: {
-        add: undefined,
-        edit: undefined,
-        view: undefined,
-        id: undefined,
-      },
-    });
-  };
-
-  const onFinish = (values: any) => {
-    console.log(values);
-  };
-
-  const fields = useMemo(
-    () => [
-      {
-        label: t("finance.name"),
-        name: "name",
-        type: "text",
-        rules: [{ required: true, message: t("formMessages.name") }],
-      },
-      {
-        label: t("form.date"),
-        name: "date",
-        type: "text",
-        rules: [{ required: true, message: t("formMessages.date") }],
-      },
-      {
-        label: t("finance.category"),
-        name: "category",
-        type: "text",
-        rules: [{ required: true, message: t("formMessages.category") }],
-      },
-      {
-        label: t("employees.amount"),
-        name: "amount",
-        type: "text",
-        rules: [{ required: true, message: t("formMessages.amount") }],
       },
     ],
     [t]
@@ -157,15 +110,6 @@ const FinanceTab = () => {
         </Col>
       </Row>
       <MyTable columns={columns} data={finance} />
-      <MyDrawer entryPoint="add" title={t("crud.add")}>
-        <AutoForm
-          onFinish={onFinish}
-          onCancel={onCancel}
-          saveTitle={query.add ? t("crud.create") : t("form.save")}
-          cancelTitle={t("form.cancel")}
-          fields={fields}
-        />
-      </MyDrawer>
     </>
   );
 };

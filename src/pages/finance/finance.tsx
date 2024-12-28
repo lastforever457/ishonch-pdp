@@ -1,6 +1,10 @@
+import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
+import { AutoForm } from "../../components/auto-form";
+import MyDrawer from "../../components/my-drawer";
 import MySegmented from "../../components/my-segmented";
 import { useLocationParams } from "../../hooks/use-location-params";
+import { useRouterPush } from "../../hooks/use-router-push";
 import PageLayout from "../../layouts/page-layout";
 import CourseFees from "./course-fees";
 import Debtors from "./debtors";
@@ -9,10 +13,63 @@ import FinanceTab from "./finance-tab";
 const Finance = () => {
   const { t } = useTranslation();
   const { query } = useLocationParams();
+  const { push } = useRouterPush();
+
+  const onCancel = () => {
+    push({
+      query: {
+        add: undefined,
+        edit: undefined,
+        view: undefined,
+        id: undefined,
+      },
+    });
+  };
+
+  const onFinish = (values: any) => {
+    console.log(values);
+  };
+
+  const financeFields = useMemo(
+    () => [
+      {
+        label: t("finance.name"),
+        name: "name",
+        type: "text",
+        rules: [{ required: true, message: t("formMessages.name") }],
+      },
+      {
+        label: t("form.date"),
+        name: "date",
+        type: "text",
+        rules: [{ required: true, message: t("formMessages.date") }],
+      },
+      {
+        label: t("finance.category"),
+        name: "category",
+        type: "text",
+        rules: [{ required: true, message: t("formMessages.category") }],
+      },
+      {
+        label: t("employees.amount"),
+        name: "amount",
+        type: "text",
+        rules: [{ required: true, message: t("formMessages.amount") }],
+      },
+    ],
+    [t]
+  );
 
   return (
     <PageLayout
-      title={t("finance.title")}
+      title={
+        query.financeTab === "debtors"
+          ? t("finance.debtors")
+          : query.financeTab === "course-fees"
+          ? t("finance.courseFees")
+          : t("finance.title")
+      }
+      addButton={query.financeTab === "finance" || !query.financeTab}
       segmented={
         <MySegmented
           queryName="financeTab"
@@ -31,6 +88,16 @@ const Finance = () => {
       ) : (
         <FinanceTab />
       )}
+
+      <MyDrawer entryPoint="add" title={t("crud.add")}>
+        <AutoForm
+          onFinish={onFinish}
+          onCancel={onCancel}
+          saveTitle={query.add ? t("crud.create") : t("form.save")}
+          cancelTitle={t("form.cancel")}
+          fields={financeFields}
+        />
+      </MyDrawer>
     </PageLayout>
   );
 };

@@ -6,10 +6,6 @@ import { BsThreeDotsVertical } from "react-icons/bs";
 import { Link } from "react-router-dom";
 import { useRouterPush } from "../hooks/use-router-push";
 
-interface Row {
-  [key: string]: any;
-}
-
 const MyTable = ({
   columns,
   data,
@@ -20,7 +16,7 @@ const MyTable = ({
   error,
 }: {
   columns: any;
-  data: Row[];
+  data: any;
   hasActions?: boolean;
   hasDetailPageWithId?: false | string;
   isLoading?: boolean;

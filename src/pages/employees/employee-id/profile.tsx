@@ -95,7 +95,7 @@ const Profile = () => {
   );
   return (
     <Row gutter={[26, 16]}>
-      <Col xs={24} sm={24} md={12} lg={8}>
+      <Col xs={24} sm={24} md={24} lg={8}>
         <div
           style={{
             boxShadow: "rgba(0, 0, 0, 0.35) 0px 5px 15px",
@@ -130,12 +130,12 @@ const Profile = () => {
           </div>
         </div>
       </Col>
-      <Col xs={24} sm={24} md={12} lg={16}>
+      <Col xs={24} sm={24} md={24} lg={16}>
         <div className="flex flex-col mb-7">
           <h1 className="mb-2 font-bold text-3xl">{t("groups.title")}</h1>
           <Row gutter={[26, 16]}>
             {currentEmployeeGroups?.map((group: Record<string, any>) => (
-              <Col xs={24} sm={24} md={24} lg={12} key={group.id}>
+              <Col xs={24} sm={24} md={24} lg={24} xxl={12} key={group.id}>
                 <div
                   style={{
                     boxShadow: "rgba(99, 99, 99, 0.2) 0px 2px 8px 0px",

@@ -1,6 +1,5 @@
 /** @type {import('tailwindcss').Config} */
 export default {
-  darkMode: ["class"],
   content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
   theme: {
     extend: {
@@ -13,13 +12,13 @@ export default {
           purple: "#7338AC",
           red: "#ED4337",
           bg: "#f9f9f9",
-          DEFAULT: "hsl(var(--primary))",
+          DEFAULT: "var(--color-primary)",
           foreground: "hsl(var(--primary-foreground))",
         },
         secondary: {
           text: "#8f8f8f",
           bg: "#f0f3f4",
-          DEFAULT: "hsl(var(--secondary))",
+          DEFAULT: "var(--color-secondary)",
           foreground: "hsl(var(--secondary-foreground))",
         },
         background: "hsl(var(--background))",

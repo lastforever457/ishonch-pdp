@@ -221,7 +221,7 @@ export const users: Record<string, any>[] = [
   },
 ];
 
-export const filials = [
+export const filials: Record<string, any>[] = [
   {
     id: 1,
     name: "ZIYO ILM NUR MARKAZI",
@@ -248,7 +248,7 @@ export const filials = [
   },
 ];
 
-export const groups = [
+export const groups: Record<string, any>[] = [
   {
     id: 1,
     teacherId: 1,
@@ -278,7 +278,7 @@ export const groups = [
   },
 ];
 
-export const finance = [
+export const finance: Record<string, any>[] = [
   {
     name: "O‘q. oylik",
     date: "01.07.2023",
@@ -309,7 +309,7 @@ export const finance = [
   },
 ];
 
-export const courseFees = [
+export const courseFees: Record<string, any>[] = [
   {
     id: 1,
     name: "Matematika",
@@ -337,7 +337,40 @@ export const courseFees = [
   },
 ];
 
-export const rooms = [
+export const debtors: Record<string, any>[] = [
+  {
+    id: 1234,
+    fullName: "Rustamxojayev Abdulloh",
+    phone: "+998 94 650 65 69",
+    group: {
+      name: "Python",
+      time: "13:55",
+    },
+    comment: "Lorem ipsum",
+  },
+  {
+    id: 1235,
+    fullName: "Ismoilov Doniyor",
+    phone: "+998 90 123 45 67",
+    group: {
+      name: "JavaScript",
+      time: "10:30",
+    },
+    comment: "NextJS loyihasi",
+  },
+  {
+    id: 1236,
+    fullName: "Nurmatova Maftuna",
+    phone: "+998 99 777 88 99",
+    group: {
+      name: "React",
+      time: "14:20",
+    },
+    comment: "Redux o‘rganmoqda",
+  },
+];
+
+export const rooms: Record<string, any>[] = [
   {
     id: 1,
   },

@@ -1,9 +1,14 @@
+import { useEffect } from "react";
 import { Link, useMatches } from "react-router-dom";
 import useHeaderMenus from "../../hooks/use-header-menus";
 
 const Menu = () => {
   const { menus } = useHeaderMenus();
   const matches = useMatches();
+
+  useEffect(() => {
+    console.log(matches);
+  }, [matches]);
 
   return (
     <div className="flex flex-col gap-2 mt-7">
