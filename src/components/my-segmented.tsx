@@ -18,12 +18,17 @@ const MySegmented = ({
   const { query } = useLocationParams();
 
   return (
-    <div className="flex bg-white shadow-2xl p-0.5 rounded-2xl text-xl segmented">
+    <div
+      style={{
+        boxShadow: "rgba(0, 0, 0, 0.24) 0px 3px 8px",
+      }}
+      className="flex bg-white p-1 rounded-2xl text-xl segmented"
+    >
       {segmentedValues.map((item: Record<string, any>) => (
         <div
           key={item.key}
           onClick={() => push({ query: { ...query, [queryName]: item.key } })}
-          className={`px-6 py-3 cursor-pointer segmented-item flex justify-center font-bold items-center ${
+          className={`px-6 py-3 cursor-pointer segmented-item rounded-xl flex justify-center font-bold items-center ${
             !query[queryName] && item.isPrimary
               ? "bg-primary-blue rounded-xl text-white"
               : query[queryName] === item.key

@@ -32,7 +32,11 @@
     "role": "Iltimos, rolni tanlang",
     "group": "Iltimos, guruhni tanlang",
     "dateOfBirth": "Iltimos, tug'ilgan sanani kiriting",
-    "gender": "Iltimos, jinsni tanlang"
+    "gender": "Iltimos, jinsni tanlang",
+    "name": "Iltimos, nomini kiriting",
+    "date": "Iltimos, sanani kiriting",
+    "category": "Iltimos, kategoriyani tanlang",
+    "amount": "Iltimos, summani kiriting"
   },
   "actions": {
     "actions": "Amallar",
@@ -88,7 +92,16 @@
   },
   "finance": {
     "title": "Moliya",
-    "titleSingular": "Moliya"
+    "titleSingular": "Moliya",
+    "courseFees": "Kurs to'lovlari",
+    "debtors": "Qarzdorlar",
+    "name": "Nomi",
+    "category": "Kategoriya",
+    "recipient": "Oluvchi",
+    "fromDate": "Sanadan boshlab",
+    "toDate": "Sana bo'yicha",
+    "expenseForPeriod": "Davr uchun xarajatlar",
+    "courses": "Kurslar"
   },
   "settings": {
     "title": "Sozlamalar",

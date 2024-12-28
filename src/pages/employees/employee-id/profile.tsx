@@ -3,8 +3,8 @@ import { useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { FaPencilAlt } from "react-icons/fa";
 import { useParams } from "react-router-dom";
-import { AutoForm } from "../../components/auto-form";
-import { filials, groups, users } from "../../test-data";
+import { AutoForm } from "../../../components/auto-form";
+import { filials, groups, users } from "../../../test-data";
 import { EmployeeCard } from "./employee-id";
 
 const Profile = () => {

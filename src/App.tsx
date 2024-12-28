@@ -1,8 +1,8 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import MainLayout from "./layouts/layout";
-import EmployeeId from "./pages/employee-id/employee-id.tsx";
-import Employees from "./pages/employees.tsx";
-import Finance from "./pages/finance.tsx";
+import EmployeeId from "./pages/employees/employee-id/employee-id.tsx";
+import Employees from "./pages/employees/employees.tsx";
+import Finance from "./pages/finance/finance.tsx";
 import Groups from "./pages/groups.tsx";
 import Home from "./pages/home.tsx";
 import Rooms from "./pages/rooms.tsx";

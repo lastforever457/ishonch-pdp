@@ -1,9 +1,9 @@
 import { Col, Row } from "antd";
 import { ReactNode } from "react";
 import { useTranslation } from "react-i18next";
-import MySegmented from "../../components/my-segmented";
-import { useLocationParams } from "../../hooks/use-location-params";
-import PageLayout from "../../layouts/page-layout";
+import MySegmented from "../../../components/my-segmented";
+import { useLocationParams } from "../../../hooks/use-location-params";
+import PageLayout from "../../../layouts/page-layout";
 import Profile from "./profile";
 import Story from "./story";
 

@@ -1,13 +1,14 @@
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import { AutoForm } from "../components/auto-form";
-import MyDrawer from "../components/my-drawer";
-import MySegmented from "../components/my-segmented";
-import MyTable from "../components/my-table";
-import { useLocationParams } from "../hooks/use-location-params";
-import { useRouterPush } from "../hooks/use-router-push";
-import PageLayout from "../layouts/page-layout";
-import { users } from "../test-data";
+import { AutoForm } from "../../components/auto-form";
+import MyDrawer from "../../components/my-drawer";
+import MySegmented from "../../components/my-segmented";
+import MyTable from "../../components/my-table";
+import { useLocationParams } from "../../hooks/use-location-params";
+import { useRouterPush } from "../../hooks/use-router-push";
+import i18n from "../../i18n/i18n";
+import PageLayout from "../../layouts/page-layout";
+import { users } from "../../test-data";
 
 const Employees = () => {
   const { t } = useTranslation();
@@ -177,7 +178,11 @@ const Employees = () => {
       <MyTable hasDetailPageWithId={"fio"} columns={columns} data={data} />
       <MyDrawer
         entryPoint="add"
-        title={t("crud.add") + " " + t("employees.titleSingular")}
+        title={
+          i18n.language === "uz"
+            ? `${t("employees.titleSingular")} ${t("crud.add")}`
+            : `${t("crud.add")} ${t("employees.titleSingular")}`
+        }
       >
         <AutoForm
           onFinish={onFinish}

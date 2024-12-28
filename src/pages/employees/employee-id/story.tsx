@@ -2,7 +2,7 @@ import { Col, Form, Row } from "antd";
 import { useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useParams } from "react-router-dom";
-import { filials, groups, users } from "../../test-data";
+import { filials, groups, users } from "../../../test-data";
 import { EmployeeCard } from "./employee-id";
 
 const Story = () => {

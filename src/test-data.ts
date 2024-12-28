@@ -278,6 +278,65 @@ export const groups = [
   },
 ];
 
+export const finance = [
+  {
+    name: "O‘q. oylik",
+    date: "01.07.2023",
+    category: "Ma’m. hara.",
+    recipient: "Ru. Abdulloh",
+    amount: 1000000,
+  },
+  {
+    name: "Internet",
+    date: "01.07.2023",
+    category: "oylik",
+    recipient: "Uztelecom",
+    amount: 1000000,
+  },
+  {
+    name: "Oylik",
+    date: "01.07.2023",
+    category: "Ma’m. hara.",
+    recipient: "Ru. Abdulloh",
+    amount: 1000000,
+  },
+  {
+    name: "Suv",
+    date: "01.07.2023",
+    category: "Ma’m. hara.",
+    recipient: "Uztelecom",
+    amount: 1000000,
+  },
+];
+
+export const courseFees = [
+  {
+    id: 1,
+    name: "Matematika",
+    amount: 1000000,
+  },
+  {
+    id: 2,
+    name: "Fizika",
+    amount: 1000000,
+  },
+  {
+    id: 3,
+    name: "Kimyo",
+    amount: 1000000,
+  },
+  {
+    id: 4,
+    name: "Ingliz tili",
+    amount: 1000000,
+  },
+  {
+    id: 5,
+    name: "Rus tili",
+    amount: 1000000,
+  },
+];
+
 export const rooms = [
   {
     id: 1,
