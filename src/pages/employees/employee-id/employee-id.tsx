@@ -58,10 +58,10 @@ export const EmployeeCard = ({
       } px-5 py-4 w-full ${customClass}`}
     >
       <Row gutter={[16, 16]} className="w-full">
-        <Col xs={24} sm={24} md={24} lg={12}>
+        <Col xs={12} sm={12} md={12} lg={12}>
           <p className="font-semibold text-base">{title}</p>
         </Col>
-        <Col xs={24} sm={24} md={24} lg={12}>
+        <Col xs={12} sm={12} md={12} lg={12}>
           <p className="text-base">{value}</p>
         </Col>
       </Row>

@@ -1,5 +1,6 @@
 import { Divider } from "antd";
 import React from "react";
+import { IoMdClose } from "react-icons/io";
 import { IoClose } from "react-icons/io5";
 import { useLocationParams } from "../hooks/use-location-params";
 import { useRouterPush } from "../hooks/use-router-push";
@@ -34,7 +35,7 @@ const MyDrawer: React.FC<DrawerProps> = ({
 
   return (
     <div
-      className={`fixed inset-0 z-40 flex items-start ${
+      className={`fixed inset-0 z-40 flex min-h-screen items-start ${
         position === "left" ? "justify-start" : "justify-end"
       } ${
         query[entryPoint] ? "visible opacity-100" : "invisible opacity-0"
@@ -53,7 +54,7 @@ const MyDrawer: React.FC<DrawerProps> = ({
             : "translate-x-[100%]"
         }`}
       >
-        <div className="relative bg-opacity-60 w-[15%]">
+        <div className="md:block relative hidden bg-opacity-60 w-[15%]">
           <div
             style={{
               borderTopLeftRadius: "40px",
@@ -67,8 +68,11 @@ const MyDrawer: React.FC<DrawerProps> = ({
           </div>
         </div>
         <div className="bg-white px-12 py-10 w-full">
-          <h1 className="mb-4 font-bold text-xl">{title}</h1>
-          <Divider />
+          <div className="flex justify-between items-center">
+          <h1 className="md:mb-4 font-bold text-xl">{title}</h1>
+          <button onClick={closeDrawer} className="block md:hidden text-2xl"><IoMdClose/></button>
+          </div>
+          <Divider className="my-2"/>
           {children}
         </div>
       </div>

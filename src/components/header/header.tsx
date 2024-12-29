@@ -3,6 +3,8 @@ import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { FaBars, FaSearch } from "react-icons/fa";
 import { IoMdClose } from "react-icons/io";
+import { useLocationParams } from "../../hooks/use-location-params";
+import { useRouterPush } from "../../hooks/use-router-push";
 import { useSidebar } from "../../providers/sidebar-context-provider";
 import Icon from "./icon";
 import Languages from "./languages";
@@ -11,11 +13,13 @@ import Search from "./search";
 const Header = () => {
   const { t } = useTranslation();
   const { open, setOpen } = useSidebar();
+  const {push } = useRouterPush()
+  const { query } = useLocationParams();
   const [isCollapsed, setIsCollapsed] = useState<boolean>(true);
   const [isSearchOpen, setIsSearchOpen] = useState<boolean>(false);
 
   return (
-    <div className="flex justify-between items-center gap-4 lg:gap-36 bg-white shadow-sm px-4 lg:px-10 w-full h-[80px] lg:h-[100px] transition-all">
+    <div className="flex justify-between items-center gap-4 lg:gap-36 bg-whit shadow-sm px-4 lg:px-10 w-full h-[80px] lg:h-[100px] transition-all">
       {isCollapsed && (
         <>
           <div className="flex justify-center items-center gap-3 lg:gap-5">
@@ -61,6 +65,7 @@ const Header = () => {
                 }}
               />
             }
+            onChange={(event)=>push({query: {...query, search: event?.target?.value}})}
             autoFocus
             className="px-4 py-2 rounded-full w-full transition-all duration-500 ease-in-out"
             placeholder={t("form.search")}

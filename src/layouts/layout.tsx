@@ -19,12 +19,12 @@ const MainLayout: React.FC = () => {
       <div className="flex">
         <Sidebar />
         <div
-          className={`flex-1 transition-all duration-300 ${
+          className={`w-[calc(100%-350px)] flex-1 transition-all duration-300 ${
             open ? "" : "lg:ml-[-350px]"
           }`}
         >
           <Header />
-          <div className="w-dvw h-[calc(100vh-80px)] lg:h-[calc(100vh-100px)] overflow-y-auto">
+          <div className="h-[calc(100vh-80px)] lg:h-[calc(100vh-100px)] overflow-y-auto">
             <div className="mx-auto p-6 lg:p-10 w-full">
               <Outlet />
             </div>

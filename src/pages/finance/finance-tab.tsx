@@ -1,11 +1,11 @@
 import { Button, Col, DatePicker, Form, Row } from "antd";
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import { FaMoneyBills } from "react-icons/fa6";
 import MyTable from "../../components/my-table";
 import { useLocationParams } from "../../hooks/use-location-params";
 import { useRouterPush } from "../../hooks/use-router-push";
 import { finance } from "../../test-data";
+import ExpenseForPeriod from "./expense-for-period";
 
 const FinanceTab = () => {
   const { t } = useTranslation();
@@ -45,7 +45,7 @@ const FinanceTab = () => {
           <div className="">
             <Form layout="vertical">
               <Row gutter={16}>
-                <Col xs={24} sm={12} md={8}>
+                <Col xs={24} sm={12}>
                   <Form.Item
                     label={
                       <span className="font-semibold text-base">
@@ -63,7 +63,7 @@ const FinanceTab = () => {
                   </Form.Item>
                 </Col>
 
-                <Col xs={24} sm={12} md={8}>
+                <Col xs={24} sm={12}>
                   <Form.Item
                     label={
                       <span className="font-semibold text-base">
@@ -81,7 +81,7 @@ const FinanceTab = () => {
                   </Form.Item>
                 </Col>
 
-                <Col xs={24} sm={12} md={4}>
+                <Col xs={24} sm={12} md={24} >
                   <div className="flex justify-center items-end w-full h-full">
                     <Form.Item>
                       <Button
@@ -98,17 +98,7 @@ const FinanceTab = () => {
           </div>
         </Col>
       </Row>
-      <Row>
-        <Col xs={24} sm={24} md={12} lg={12}>
-          <div className="flex justify-between items-center bg-white shadow px-5 py-3 rounded-xl">
-            <h2 className="font-semibold text-xl">
-              {t("finance.expenseForPeriod")}:
-            </h2>
-            <p className="font-bold text-xl">6 700 265 UZS</p>
-            <FaMoneyBills className="text-3xl text-primary-blue" />
-          </div>
-        </Col>
-      </Row>
+      <ExpenseForPeriod />
       <MyTable columns={columns} data={finance} />
     </>
   );

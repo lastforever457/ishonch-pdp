@@ -16,10 +16,10 @@ const PageLayout = ({
 }) => {
   const { t } = useTranslation();
   return (
-    <div className="">
+    <div className="w-full">
       <div className="flex justify-between w-full">
         <Row className="w-full">
-          <Col xs={24} sm={24} md={24} lg={12}>
+          <Col xs={24} sm={24} md={12} lg={12}>
             <div className="flex justify-between items-center w-full h-full">
               <h1 className="font-bold text-3xl lg:text-4xl">{title}</h1>
               <span className="flex md:hidden">
@@ -27,8 +27,8 @@ const PageLayout = ({
               </span>
             </div>
           </Col>
-          <Col xs={24} sm={24} md={24} lg={12}>
-            <div className="flex md:flex-row flex-col justify-center md:items-center gap-7">
+          <Col xs={24} sm={24} md={12} lg={12}>
+            <div className="flex md:flex-row flex-col justify-center md:justify-end md:items-center gap-7">
               {segmented ? segmented : null}
               <span className="md:flex hidden">
                 {addButton && <AddButton>{t("crud.add")}</AddButton>}
@@ -38,7 +38,7 @@ const PageLayout = ({
         </Row>
       </div>
       <Divider />
-      <div className="h-[60vh] overflow-y-auto">{children}</div>
+      <div className="h-[60vh]">{children}</div>
     </div>
   );
 };

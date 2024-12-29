@@ -1,24 +1,14 @@
 import { Button, Col, DatePicker, Form, Row } from "antd";
 import { useTranslation } from "react-i18next";
-import { FaMoneyBills } from "react-icons/fa6";
 import { courseFees } from "../../test-data";
 import { EmployeeCard } from "../employees/employee-id/employee-id";
+import ExpenseForPeriod from "./expense-for-period";
 
 const CourseFees = () => {
   const { t } = useTranslation();
   return (
     <>
-      <Row>
-        <Col xs={24} sm={24} md={12} lg={12}>
-          <div className="flex justify-between items-center bg-white shadow px-5 py-3 rounded-xl">
-            <h2 className="font-semibold text-xl">
-              {t("finance.expenseForPeriod")}:
-            </h2>
-            <p className="font-bold text-xl">6 700 265 UZS</p>
-            <FaMoneyBills className="text-3xl text-primary-blue" />
-          </div>
-        </Col>
-      </Row>
+     <ExpenseForPeriod/>
       <Row className="mt-7">
         <Col xs={24} sm={24} md={12} lg={12}>
           <div className="">

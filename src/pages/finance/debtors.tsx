@@ -12,11 +12,15 @@ const Debtors = () => {
         title: `${t("form.name")} ${t("form.lastName")}`,
         dataIndex: "fullName",
         key: "fullName",
+        fixed: true
       },
       {
         title: t("form.phone"),
         dataIndex: "phone",
         key: "phone",
+        ellipsis: {
+          showTitle: false,
+        },
       },
       {
         title: t("groups.title"),

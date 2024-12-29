@@ -78,7 +78,7 @@
     "archive": "Arxiv",
     "teachers": "O'qituvchilar",
     "teacher": "O'qituvchi",
-    "other": "Boshqa xodimlar",
+    "other": "Boshqa",
     "profile": "Profil",
     "story": "Ish tarixi",
     "balance": "Balans",
@@ -120,6 +120,9 @@
   },
   "settings": {
     "title": "Sozlamalar",
-    "titleSingular": "Sozlama"
+    "titleSingular": "Sozlama",
+    "theme": "Mavzu",
+    "light": "Yorug'",
+    "dark": "Qorong'u"
   }
 }

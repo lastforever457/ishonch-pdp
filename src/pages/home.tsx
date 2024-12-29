@@ -48,9 +48,9 @@ const Home = () => {
   );
   return (
       <div>
-        <Row gutter={[16, 16]} className="px-10 py-4 text-sm">
+        <Row gutter={[16, 16]} className="md:px-10 py-4 text-sm">
           {users.map((user) => (
-              <Col key={user.id} xs={24} sm={12} md={8} lg={6} xl={4}>
+              <Col key={user.id} xs={24} sm={12} md={8} lg={8} xl={8} xxl={4}>
                 <div className="flex flex-col bg-[#635AD9] shadow-md p-4 rounded-xl h-full text-center text-sm">
                   <img
                       src={user.img}

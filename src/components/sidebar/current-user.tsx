@@ -7,7 +7,7 @@ const CurrentUser = () => {
   };
 
   return (
-    <div className="flex justify-center lg:justify-start items-center gap-2">
+    <div className="flex justify-center lg:justify-start items-center gap-2 w-full">
       <img
         src={currentUser.image}
         className="bg-cover bg-center rounded-full object-cover size-16"

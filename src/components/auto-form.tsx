@@ -425,7 +425,7 @@ const Field = React.memo(
             rules={field.rules}
             className={`my-2 ${field.className || ""}`}
           >
-            <Radio.Group disabled={field.readOnly || view}>
+            <Radio.Group disabled={field.readOnly || view} onChange={onChange}>
               {field.options?.map((option) => (
                 <Radio
                   key={option.label as Key}

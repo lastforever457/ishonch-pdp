@@ -41,6 +41,7 @@ const Employees = () => {
         key: "firstName",
         title: t("form.fio"),
         dataIndex: "fio",
+        fixed: true,
         ellipsis: {
           showTitle: false,
         },

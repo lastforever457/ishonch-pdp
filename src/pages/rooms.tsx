@@ -59,16 +59,26 @@ const Rooms = () => {
         title: t("rooms.roomName"),
         dataIndex: "name",
         key: "name",
+        ellipsis: {
+          showTitle: false,
+        },
+        fixed:true
       },
       {
         title: t("rooms.roomCapacity"),
         dataIndex: "capacity",
         key: "capacity",
+        ellipsis: {
+          showTitle: false,
+        }
       },
       {
         title: t("rooms.countOfChairs"),
         dataIndex: "count",
         key: "count",
+        ellipsis: {
+          showTitle: false,
+        }
       },
     ],
     []
