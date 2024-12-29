@@ -1,3 +1,4 @@
+import { Tooltip } from "antd";
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { AutoForm } from "../../components/auto-form";
@@ -15,9 +16,7 @@ const Employees = () => {
   const { push } = useRouterPush();
   const { query } = useLocationParams();
 
-  const segmentedValues = useMemo<
-    { value: string; key: string; isPrimary?: boolean }[]
-  >(
+  const segmentedValues = useMemo(
     () => [
       {
         value: t("employees.archive"),
@@ -42,9 +41,41 @@ const Employees = () => {
         key: "firstName",
         title: t("form.fio"),
         dataIndex: "fio",
+        ellipsis: {
+          showTitle: false,
+        },
+        render: (text: string) => (
+          <Tooltip placement="topLeft" title={text}>
+            {text}
+          </Tooltip>
+        ),
       },
-      { key: "phone", title: t("form.phone"), dataIndex: "phone" },
-      { key: "role", title: t("form.role"), dataIndex: "role" },
+      {
+        key: "phone",
+        title: t("form.phone"),
+        dataIndex: "phone",
+        ellipsis: {
+          showTitle: false,
+        },
+        render: (text: string) => (
+          <Tooltip placement="topLeft" title={text}>
+            {text}
+          </Tooltip>
+        ),
+      },
+      {
+        key: "role",
+        title: t("form.role"),
+        dataIndex: "role",
+        ellipsis: {
+          showTitle: false,
+        },
+        render: (text: string) => (
+          <Tooltip placement="topLeft" title={text}>
+            {text}
+          </Tooltip>
+        ),
+      },
     ],
     [t]
   );

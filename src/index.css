@@ -14,3 +14,9 @@ body {
   padding: 7px 15px;
   border-radius: 8px !important;
 }
+
+* {
+  cursor: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg'  width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' class='feather feather-hand-pointing'><path d='M12 19h9c0-3.217-2.519-6-5.802-6-3.092 0-5.802 2.083-5.802 5.801 0 1.12.459 2.085 1.202 2.085.743 0 1.202-.965 1.202-2.085 0-3.717-2.709-6.802-5.802-6.802z'></path><path d='M15 11a2 2 0 0 0-3 3 2 2 0 0 0 3-3z'></path></svg>")
+      10 10,
+    auto !important;
+}

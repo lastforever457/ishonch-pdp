@@ -14,7 +14,7 @@ const CurrentUser = () => {
         alt=""
       />
       <div className="flex flex-col p-2">
-        <h1 className="font-bold">
+        <h1 className="font-bold text-base">
           {currentUser.firstName || ""} {currentUser.lastName || ""}
         </h1>
         <p className="font-semibold text-[#888] text-base">

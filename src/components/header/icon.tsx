@@ -5,7 +5,7 @@ const Icon = () => {
     <div className="flex justify-center items-center gap-5">
       <Link to="/">
         <div className="flex items-center">
-          <img src="/images/logo.png" className="w-32" alt="Logo" />
+          <img src="/images/logo.png" className="w-20 md:w-32" alt="Logo" />
         </div>
       </Link>
     </div>

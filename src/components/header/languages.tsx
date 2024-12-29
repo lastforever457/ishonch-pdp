@@ -19,7 +19,7 @@ const Languages = () => {
   return (
     <div className="flex items-center border-2 border-black rounded-[50px] overflow-hidden">
       <button
-        className={`px-4 py-2 flex justify-center items-center ${
+        className={`px-3 py-1.5 md:px-4 md:py-2 flex justify-center items-center ${
           activeLang === "uz"
             ? "bg-primary-gray text-white"
             : "bg-white text-black"
@@ -29,7 +29,7 @@ const Languages = () => {
         UZ
       </button>
       <button
-        className={`px-4 py-2 flex justify-center items-center ${
+        className={`px-3 py-1.5 md:px-4 md:py-2 flex justify-center items-center ${
           activeLang === "ru"
             ? "bg-primary-gray text-white"
             : "bg-white text-black"

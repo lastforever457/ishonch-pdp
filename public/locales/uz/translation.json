@@ -36,7 +36,9 @@
     "name": "Iltimos, nomini kiriting",
     "date": "Iltimos, sanani kiriting",
     "category": "Iltimos, kategoriyani tanlang",
-    "amount": "Iltimos, summani kiriting"
+    "amount": "Iltimos, summani kiriting",
+    "capacity": "Iltimos, sig'imni kiriting",
+    "count": "Iltimos, sonni kiriting"
   },
   "home": {
     "employees": "Xodimlar",
@@ -98,7 +100,10 @@
   },
   "rooms": {
     "title": "Xonalar",
-    "titleSingular": "Xona"
+    "titleSingular": "Xona",
+    "roomName": "Xona nomi",
+    "roomCapacity": "Xona sig'imi",
+    "countOfChairs": "Parta va stullar soni"
   },
   "finance": {
     "title": "Moliya",

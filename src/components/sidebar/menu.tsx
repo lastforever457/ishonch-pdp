@@ -1,14 +1,16 @@
-import { useEffect } from "react";
-import { Link, useMatches } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import useHeaderMenus from "../../hooks/use-header-menus";
 
 const Menu = () => {
   const { menus } = useHeaderMenus();
-  const matches = useMatches();
+  const { pathname } = useLocation();
 
-  useEffect(() => {
-    console.log(matches);
-  }, [matches]);
+  const isActive = (link: string) => {
+    if (link === "/") {
+      return pathname === "/";
+    }
+    return pathname.startsWith(link);
+  };
 
   return (
     <div className="flex flex-col gap-2 mt-7">
@@ -16,9 +18,9 @@ const Menu = () => {
         <Link
           to={menu.link}
           key={menu.id}
-          className={`flex items-center gap-2 px-5 py-4 rounded-xl font-medium text-lg capitalize transition-all ${
-            matches[1]?.pathname === menu.link
-              ? "bg-primary-blue text-white"
+          className={`flex items-center gap-2 tracking-wide px-3 py-2.5 md:px-5 md:py-4 rounded-xl font-medium text-base md:text-lg capitalize transition-all ${
+            isActive(menu.link)
+              ? "bg-primary-blue text-white shadow-lg"
               : "text-black hover:bg-[#f5f5f5]"
           }`}
         >
@@ -31,6 +33,3 @@ const Menu = () => {
 };
 
 export default Menu;
-
-//     ? "bg-primary-blue text-white"
-//     : "text-black hover:bg-[#f5f5f5]"

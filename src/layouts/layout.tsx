@@ -24,8 +24,8 @@ const MainLayout: React.FC = () => {
           }`}
         >
           <Header />
-          <div className="custom-container h-[calc(100vh-80px)] lg:h-[calc(100vh-100px)] overflow-y-auto">
-            <div className="mx-auto p-6 lg:p-10 w-full container">
+          <div className="w-dvw h-[calc(100vh-80px)] lg:h-[calc(100vh-100px)] overflow-y-auto">
+            <div className="mx-auto p-6 lg:p-10 w-full">
               <Outlet />
             </div>
           </div>

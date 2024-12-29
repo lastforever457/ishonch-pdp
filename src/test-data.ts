@@ -373,5 +373,74 @@ export const debtors: Record<string, any>[] = [
 export const rooms: Record<string, any>[] = [
   {
     id: 1,
+    name: "Telegram",
+    capacity: 100,
+    count: 50,
+  },
+  {
+    id: 2,
+    name: "Discord",
+    capacity: 100,
+    count: 50,
+  },
+  {
+    id: 3,
+    name: "Zoom",
+    capacity: 100,
+    count: 50,
+  },
+  {
+    id: 4,
+    name: "Amazon",
+    capacity: 100,
+    count: 50,
+  },
+  {
+    id: 5,
+    name: "Alibaba",
+    capacity: 100,
+    count: 50,
+  },
+  {
+    id: 6,
+    name: "Apple",
+    capacity: 100,
+    count: 50,
+  },
+  {
+    id: 7,
+    name: "Microsoft",
+    capacity: 100,
+    count: 50,
+  },
+  {
+    id: 8,
+    name: "Google",
+    capacity: 100,
+    count: 50,
+  },
+  {
+    id: 9,
+    name: "Facebook",
+    capacity: 100,
+    count: 50,
+  },
+  {
+    id: 10,
+    name: "Twitter",
+    capacity: 100,
+    count: 50,
+  },
+  {
+    id: 11,
+    name: "Linkedin",
+    capacity: 100,
+    count: 50,
+  },
+  {
+    id: 12,
+    name: "Instagram",
+    capacity: 100,
+    count: 50,
   },
 ];
