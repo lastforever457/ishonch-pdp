@@ -38,6 +38,14 @@
     "category": "Пожалуйста, выберите категорию",
     "amount": "Пожалуйста, введите сумму"
   },
+  "home": {
+    "employees": "Сотрудники",
+    "active-students": "Активные студенты",
+    "groups": "Группы",
+    "debtors": "Должники",
+    "pay-month": "Оплаченные за месяц",
+    "left-group": "Оставившие группу"
+  },
   "actions": {
     "actions": "Действия",
     "exit": "Выход"
@@ -54,7 +62,8 @@
   },
   "groups": {
     "title": "Группы",
-    "titleSingular": "Группа"
+    "active": "Активные",
+    "archive": "Архив"
   },
   "employees": {
     "title": "Сотрудники",
@@ -87,8 +96,9 @@
     "titleSingular": "Комната"
   },
   "students": {
-    "title": "Ученики",
-    "titleSingular": "Ученик"
+    "archive": "Архив",
+    "students": "Ученики",
+    "title": "Ученики"
   },
   "finance": {
     "title": "Финансы",

@@ -38,6 +38,14 @@
     "category": "Iltimos, kategoriyani tanlang",
     "amount": "Iltimos, summani kiriting"
   },
+  "home": {
+    "employees": "Xodimlar",
+    "active-students": "Faol talabalar",
+    "groups": "Guruhlar",
+    "debtors": "Qarzdorlar",
+    "pay-month": "Joriy oyda to'laganlar",
+    "left-group": "Faol guruhni tark etganlar"
+  },
   "actions": {
     "actions": "Amallar",
     "exit": "Chiqish"
@@ -52,9 +60,15 @@
     "title": "Dashboard",
     "titleSingular": "Dashboard"
   },
+  "students": {
+    "archive": "Arxiv",
+    "students": "O'quvchilar",
+    "title": "O'quvchilar"
+  },
   "groups": {
     "title": "Guruhlar",
-    "titleSingular": "Guruh"
+    "active": "Faol",
+    "archive": "Arxiv"
   },
   "employees": {
     "title": "Ishchilar",
@@ -85,10 +99,6 @@
   "rooms": {
     "title": "Xonalar",
     "titleSingular": "Xona"
-  },
-  "students": {
-    "title": "O'quvchilar",
-    "titleSingular": "O'quvchi"
   },
   "finance": {
     "title": "Moliya",
