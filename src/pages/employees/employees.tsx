@@ -1,6 +1,7 @@
 import { Tooltip } from "antd";
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
+import { Link } from "react-router-dom";
 import { AutoForm } from "../../components/auto-form";
 import MyDrawer from "../../components/my-drawer";
 import MySegmented from "../../components/my-segmented";
@@ -45,10 +46,8 @@ const Employees = () => {
         ellipsis: {
           showTitle: false,
         },
-        render: (text: string) => (
-          <Tooltip placement="topLeft" title={text}>
-            {text}
-          </Tooltip>
+        render: (item: Record<string, any>) => (
+          <Link to={`${item.id}`}>{item.name}</Link>
         ),
       },
       {
@@ -85,7 +84,10 @@ const Employees = () => {
     return users?.map((item: Record<string, any>) => ({
       ...item,
       key: item.id,
-      fio: `${item.firstName || ""} ${item.lastName || ""}`,
+      fio: {
+        id: item.id,
+        name: `${item.firstName || ""} ${item.lastName || ""}`,
+      },
     }));
   }, [users]);
 

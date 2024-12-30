@@ -170,7 +170,14 @@ const Profile = () => {
             <EmployeeCard title={t("employees.whoPaid")} value="Ra. Abdulloh" />
             <EmployeeCard title={t("employees.howManyStudents")} value={"44"} />
             <EmployeeCard title={t("employees.credit")} value="300 000 UZS" />
-            <EmployeeCard title={t("employees.return")} value="300 000 UZS" />
+            <EmployeeCard
+              title={t("employees.return")}
+              value={
+                <p className="flex justify-center items-center bg-red-500 px-3 py-1.5 rounded-xl font-semibold text-white">
+                  Return
+                </p>
+              }
+            />
           </div>
         </div>
       </Col>

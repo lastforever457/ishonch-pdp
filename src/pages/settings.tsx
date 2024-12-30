@@ -1,41 +1,148 @@
-import { useEffect, useMemo, useState } from "react";
+import { Button, Col, ColorPicker, Row, Select } from "antd";
+import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { AutoForm } from "../components/auto-form";
 import PageLayout from "../layouts/page-layout";
 
 const Settings = () => {
-  const {t} = useTranslation()
-  const [theme, setTheme] = useState(localStorage.getItem("ishonch-theme") || "light")
+  const { t } = useTranslation();
+  const [font, setFont] = useState<string>(
+    localStorage.getItem("ishonch-font") || "poppins"
+  );
+  const [mainColor, setMainColor] = useState<string>("#635AD9");
 
   useEffect(() => {
-    document.body.classList.toggle("dark", theme === "dark")
-  }, [theme])
+    const changeFont = (font: string) => {
+      localStorage.setItem("ishonch-font", font);
+      const fonts: Record<string, string> = {
+        poppins: "Poppins",
+        roboto: "Roboto",
+        "open-sans": "Open Sans",
+        inter: "Inter",
+        lato: "Lato",
+        montserrat: "Montserrat",
+        nunito: "Nunito",
+        raleway: "Raleway",
+        ubuntu: "Ubuntu",
+        "baloo-chettan-2": "Baloo Chettan 2",
+        "times-new-roman": "Times New Roman",
+        arial: "Arial",
+      };
 
-  const fields = useMemo(
-    () => [
-      {
-        name: "theme",
-        label: t("settings.theme"),
-        type: "radio",
-        options: [
-          {
-            label: t("settings.light"),
-            value: "light"
-          },
-          {
-            label: t("settings.dark"),
-            value: "dark"
-          }
-        ],
-        onChange: (e: any) => {setTheme(e.target.value); localStorage.setItem("ishonch-theme", e.target.value)}
-      },
-    ],
-    [t]
-  )
+      // body'ga CSS custom property qo‘llash
+      document.documentElement.style.setProperty(
+        "--main-font",
+        fonts[font] || "Poppins"
+      );
+    };
 
-  return <PageLayout addButton={false} title={t("settings.title")}>
-    <AutoForm fields={fields}/>
-  </PageLayout>;
+    changeFont(font);
+  }, [font]);
+
+  return (
+    <PageLayout addButton={false} title={t("settings.title")}>
+      <Row gutter={[16, 16]}>
+        <Col xs={24} sm={24} md={12} lg={8}>
+          <div
+            className="flex flex-col justify-center gap-3 p-5 rounded-xl h-full"
+            style={{
+              boxShadow: "rgba(0, 0, 0, 0.24) 0px 3px 8px",
+            }}
+          >
+            <span className="font-semibold text-base">
+              {t("settings.font")}:
+            </span>
+            <Select
+              style={{ width: "100%" }}
+              defaultValue={localStorage.getItem("ishonch-font") || "poppins"}
+              placeholder={t("settings.font")}
+              onChange={(value: string) => {
+                setFont(value);
+              }}
+              options={[
+                {
+                  label: "Poppins",
+                  value: "poppins",
+                },
+                {
+                  label: "Roboto",
+                  value: "roboto",
+                },
+                {
+                  label: "Open Sans",
+                  value: "open-sans",
+                },
+                {
+                  label: "Inter",
+                  value: "inter",
+                },
+                {
+                  label: "Lato",
+                  value: "lato",
+                },
+                {
+                  label: "Montserrat",
+                  value: "montserrat",
+                },
+                {
+                  label: "Nunito",
+                  value: "nunito",
+                },
+                {
+                  label: "Raleway",
+                  value: "raleway",
+                },
+                {
+                  label: "Ubuntu",
+                  value: "ubuntu",
+                },
+                {
+                  label: "Baloo Chettan 2",
+                  value: "baloo-chettan-2",
+                },
+                {
+                  label: "Times New Roman",
+                  value: "times-new-roman",
+                },
+                {
+                  label: "Arial",
+                  value: "arial",
+                },
+              ]}
+            ></Select>
+          </div>
+        </Col>
+        <Col xs={24} sm={24} md={12} lg={8}>
+          <div
+            className="flex flex-col justify-center gap-3 p-5 rounded-xl h-full"
+            style={{
+              boxShadow: "rgba(0, 0, 0, 0.24) 0px 3px 8px",
+            }}
+          >
+            <span className="font-semibold text-base">
+              {t("settings.mainColor")}:
+            </span>
+            <div className="flex items-center gap-3">
+              <ColorPicker
+                defaultValue={mainColor}
+                onChange={(e: any) => setMainColor(e.toHexString())}
+              />
+              <Button
+                onClick={() => {
+                  document.documentElement.style.setProperty(
+                    "--theme-color",
+                    mainColor
+                  );
+                  localStorage.setItem("theme-color", mainColor);
+                }}
+              >
+                {t("form.save")}
+              </Button>
+            </div>
+          </div>
+        </Col>
+      </Row>
+    </PageLayout>
+  );
 };
 
 export default Settings;

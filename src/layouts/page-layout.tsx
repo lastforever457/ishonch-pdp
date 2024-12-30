@@ -21,7 +21,9 @@ const PageLayout = ({
         <Row className="w-full">
           <Col xs={24} sm={24} md={12} lg={12}>
             <div className="flex justify-between items-center w-full h-full">
-              <h1 className="font-bold text-3xl lg:text-4xl">{title}</h1>
+              <h1 className="font-bold text-3xl lg:text-4xl tracking-wide">
+                {title}
+              </h1>
               <span className="flex md:hidden">
                 {addButton && <AddButton>{t("crud.add")}</AddButton>}
               </span>

@@ -33,8 +33,8 @@ const MySegmented = ({
             !query[queryName] && item.isPrimary
               ? "bg-primary-blue rounded-xl text-white"
               : query[queryName] === item.key
-              ? "bg-primary-blue rounded-xl text-white"
-              : "text-[#8f8f8f]"
+                ? "bg-primary-blue rounded-xl text-white"
+                : "text-[#8f8f8f]"
           }`}
         >
           {item.value}

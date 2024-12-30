@@ -59,10 +59,14 @@ export const EmployeeCard = ({
     >
       <Row gutter={[16, 16]} className="w-full">
         <Col xs={12} sm={12} md={12} lg={12}>
-          <p className="font-semibold text-base">{title}</p>
+          <div className="flex items-center w-full h-full">
+            <p className="font-semibold text-base">{title}</p>
+          </div>
         </Col>
         <Col xs={12} sm={12} md={12} lg={12}>
-          <p className="text-base">{value}</p>
+          <div className="flex items-center w-full h-full">
+            <p className="text-base">{value}</p>
+          </div>
         </Col>
       </Row>
     </div>

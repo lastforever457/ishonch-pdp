@@ -1,4 +1,3 @@
-
 /** @type {import('tailwindcss').Config} */
 export default {
   darkMode: "class",
@@ -7,7 +6,7 @@ export default {
     extend: {
       colors: {
         primary: {
-          blue: "#635AD9",
+          blue: "var(--theme-color)",
           green: "#90C049",
           gray: "#636363",
           orange: "#FFA800",

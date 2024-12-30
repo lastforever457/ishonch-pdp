@@ -123,6 +123,8 @@
     "titleSingular": "Sozlama",
     "theme": "Mavzu",
     "light": "Yorug'",
-    "dark": "Qorong'u"
+    "dark": "Qorong'u",
+    "font": "Font",
+    "mainColor": "Asosiy rang"
   }
 }

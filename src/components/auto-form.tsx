@@ -18,7 +18,7 @@ import {
 } from "antd";
 import { FormInstance, Rule } from "antd/es/form";
 import { isString } from "lodash-es";
-import React, { CSSProperties, FC, Key, ReactNode, useState } from "react";
+import { CSSProperties, FC, Key, memo, ReactNode, useState } from "react";
 import {
   FiMinusCircle as MinusCircleOutlined,
   FiPlus as PlusOutlined,
@@ -83,7 +83,7 @@ export type FormField = {
   onSearch?: any;
 };
 
-export const AutoForm = React.memo(
+export const AutoForm = memo(
   ({
     form,
     fields,
@@ -207,7 +207,7 @@ export const AutoForm = React.memo(
   }
 );
 
-const Field = React.memo(
+const Field = memo(
   ({
     field,
     form,
