@@ -3,6 +3,7 @@ import { useTranslation } from "react-i18next";
 import MySegmented from "../components/my-segmented.tsx";
 import MyTable from "../components/my-table.tsx";
 import PageLayout from "../layouts/page-layout.tsx";
+import MyDrawer from "../components/my-drawer.tsx";
 
 const Groups = () => {
   const { t } = useTranslation();
@@ -13,36 +14,39 @@ const Groups = () => {
         key: "name",
         title: t("form.name"),
         dataIndex: "name",
-        fixed: true
+        fixed: true,
       },
-      { key: "phone", title: t('form.phone'), dataIndex: "phone" },
-      { key: "role", title: t('form.role'), dataIndex: "role" },
+      { key: "phone", title: t("form.phone"), dataIndex: "phone" },
+      { key: "role", title: t("form.role"), dataIndex: "role" },
     ],
-    [t]
-  )
+    [t],
+  );
 
-  const groups = useMemo(()=>[
-    {
-      name: "sdfsdgsd",
-      phone: "sdfsdgsd",
-      role: "sdfsdgsd",
-    },
-    {
-      name: "sdfsdgsd",
-      phone: "sdfsdgsd",
-      role: "sdfsdgsd",
-    },
-    {
-      name: "sdfsdgsd",
-      phone: "sdfsdgsd",
-      role: "sdfsdgsd",
-    },
-    {
-      name: "sdfsdgsd",
-      phone: "sdfsdgsd",
-      role: "sdfsdgsd",
-    },
-  ], [t])
+  const groups = useMemo(
+    () => [
+      {
+        name: "sdfsdgsd",
+        phone: "sdfsdgsd",
+        role: "sdfsdgsd",
+      },
+      {
+        name: "sdfsdgsd",
+        phone: "sdfsdgsd",
+        role: "sdfsdgsd",
+      },
+      {
+        name: "sdfsdgsd",
+        phone: "sdfsdgsd",
+        role: "sdfsdgsd",
+      },
+      {
+        name: "sdfsdgsd",
+        phone: "sdfsdgsd",
+        role: "sdfsdgsd",
+      },
+    ],
+    [t],
+  );
 
   return (
     <PageLayout
@@ -57,10 +61,16 @@ const Groups = () => {
         />
       }
     >
-      <MyTable
-        columns={columns}
-        data={groups}
-      />
+      <MyTable columns={columns} data={groups} />
+      <MyDrawer
+        entryPoint="add"
+        children={
+          <div>
+            <h1>sdfsdgsd</h1>
+          </div>
+        }
+        title={"saasasa"}
+      ></MyDrawer>
     </PageLayout>
   );
 };

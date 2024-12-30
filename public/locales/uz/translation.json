@@ -65,7 +65,8 @@
   "students": {
     "archive": "Arxiv",
     "students": "O'quvchilar",
-    "title": "O'quvchilar"
+    "title": "O'quvchilar",
+    "titleSingular": "O'quvchi qo'shish"
   },
   "groups": {
     "title": "Guruhlar",

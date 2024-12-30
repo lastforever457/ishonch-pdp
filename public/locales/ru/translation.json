@@ -103,7 +103,8 @@
   "students": {
     "archive": "Архив",
     "students": "Ученики",
-    "title": "Ученики"
+    "title": "Ученики",
+    "titleSingular": "Ученик добавить"
   },
   "finance": {
     "title": "Финансы",
