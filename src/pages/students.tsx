@@ -2,11 +2,6 @@ import PageLayout from "../layouts/page-layout.tsx";
 import MySegmented from "../components/my-segmented.tsx";
 import MyTable from "../components/my-table.tsx";
 import { useTranslation } from "react-i18next";
-import { useEffect, useMemo, useState } from "react";
-import { filials, groups, users } from "../test-data.ts";
-import { useLocationParams } from "../hooks/use-location-params.tsx";
-import { useParams } from "react-router-dom";
-import { Form } from "antd";
 
 const Students = () => {
   const { t } = useTranslation();

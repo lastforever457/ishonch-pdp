@@ -6,7 +6,7 @@ import PageLayout from "../layouts/page-layout";
 const Settings = () => {
   const { t } = useTranslation();
   const [font, setFont] = useState<string>(
-    localStorage.getItem("ishonch-font") || "poppins"
+    localStorage.getItem("ishonch-font") || "poppins",
   );
   const [mainColor, setMainColor] = useState<string>("#635AD9");
 
@@ -31,15 +31,37 @@ const Settings = () => {
       // body'ga CSS custom property qo‘llash
       document.documentElement.style.setProperty(
         "--main-font",
-        fonts[font] || "Poppins"
+        fonts[font] || "Poppins",
       );
     };
 
     changeFont(font);
   }, [font]);
 
+  useEffect(() => {
+    const savedTheme = localStorage.getItem("theme") || "light";
+    document.documentElement.setAttribute("data-theme", savedTheme);
+  }, []);
+
   return (
-    <PageLayout addButton={false} title={t("settings.title")}>
+    <PageLayout
+      addButton={false}
+      title={t("settings.title")}
+      segmented={
+        <Button
+          onClick={() => {
+            localStorage.clear();
+            window.location.reload();
+            document.documentElement.style.setProperty(
+              "--theme-color",
+              mainColor,
+            );
+          }}
+        >
+          {t("settings.resentSettings")}
+        </Button>
+      }
+    >
       <Row gutter={[16, 16]}>
         <Col xs={24} sm={24} md={12} lg={8}>
           <div
@@ -130,7 +152,7 @@ const Settings = () => {
                 onClick={() => {
                   document.documentElement.style.setProperty(
                     "--theme-color",
-                    mainColor
+                    mainColor,
                   );
                   localStorage.setItem("theme-color", mainColor);
                 }}

@@ -25,3 +25,10 @@
   padding: 7px 15px;
   border-radius: 8px !important;
 }
+
+:root {
+  --main-font: "Poppins", sans-serif;
+  --theme-color: #635ad9;
+  --bg-color: #ffffff;
+  --text-color: #000000;
+}

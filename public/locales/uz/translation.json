@@ -125,6 +125,7 @@
     "light": "Yorug'",
     "dark": "Qorong'u",
     "font": "Font",
-    "mainColor": "Asosiy rang"
+    "mainColor": "Asosiy rang",
+    "resentSettings": "Sozlamalarni o'z asliga qaytarish"
   }
 }

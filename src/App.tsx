@@ -1,3 +1,5 @@
+import { ThemeProvider } from "@mui/material/styles";
+import CssBaseline from "@mui/material/CssBaseline";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import MainLayout from "./layouts/layout";
 import EmployeeId from "./pages/employees/employee-id/employee-id.tsx";
@@ -9,6 +11,7 @@ import Rooms from "./pages/rooms.tsx";
 import Settings from "./pages/settings.tsx";
 import Students from "./pages/students.tsx";
 import { SidebarProvider } from "./providers/sidebar-context-provider.tsx";
+import { lightTheme, darkTheme } from "./theme"; // Importing themes
 
 const App = () => {
   const routes = createBrowserRouter([
@@ -55,11 +58,15 @@ const App = () => {
       element: <div>404</div>,
     },
   ]);
-  return (
-    <SidebarProvider>
-      <RouterProvider router={routes} />
-    </SidebarProvider>
-  );
+
+    return (
+        <>
+          <CssBaseline />
+          <SidebarProvider>
+            <RouterProvider router={routes} />
+          </SidebarProvider>
+        </>
+    );
 };
 
 export default App;
