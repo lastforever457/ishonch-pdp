@@ -64,8 +64,14 @@
   },
   "groups": {
     "title": "Группы",
+    "titleSingular": "Создать группу",
     "active": "Активные",
-    "archive": "Архив"
+    "archive": "Архив",
+    "courseName": "Название курса",
+    "chooseTeacher": "Выберите преподавателя",
+    "days": "Дни недели",
+    "chooseRoom": "Выберите комнату",
+    "startTime": "Время начала"
   },
   "employees": {
     "title": "Сотрудники",

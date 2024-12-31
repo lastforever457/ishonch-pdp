@@ -70,8 +70,14 @@
   },
   "groups": {
     "title": "Guruhlar",
+    "titleSingular": "Yangi guruh qo'shish",
     "active": "Faol",
-    "archive": "Arxiv"
+    "archive": "Arxiv",
+    "courseName": "Kurs nomi",
+    "chooseTeacher": "O'qituvchini tanlang",
+    "days": "Kunlar",
+    "chooseRoom": "Xona tanlang",
+    "startTime": "Boshlanish vaqti"
   },
   "employees": {
     "title": "Ishchilar",
