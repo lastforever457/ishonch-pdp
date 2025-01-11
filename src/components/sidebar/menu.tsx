@@ -1,16 +1,16 @@
-import { Link, useLocation } from "react-router-dom";
-import useHeaderMenus from "../../hooks/use-header-menus";
+import { Link, useLocation } from 'react-router-dom'
+import useHeaderMenus from '../../hooks/use-header-menus'
 
 const Menu = () => {
-  const { menus } = useHeaderMenus();
-  const { pathname } = useLocation();
+  const { menus } = useHeaderMenus()
+  const { pathname } = useLocation()
 
   const isActive = (link: string) => {
-    if (link === "/") {
-      return pathname === "/";
+    if (link === '/') {
+      return pathname === '/'
     }
-    return pathname.startsWith(link);
-  };
+    return pathname.startsWith(link)
+  }
 
   return (
     <div className="flex flex-col gap-2 mt-7">
@@ -18,10 +18,10 @@ const Menu = () => {
         <Link
           to={menu.link}
           key={menu.id}
-          className={`flex items-center gap-2 tracking-wide px-3 py-2.5 md:px-5 md:py-4 rounded-xl font-medium text-base md:text-lg capitalize transition-all ${
+          className={`flex items-center gap-2 tracking-wide py-3 px-4 md:px-5 md:py-4 rounded-lg md:rounded-xl font-medium text-base md:text-lg capitalize transition-all ${
             isActive(menu.link)
-              ? "bg-primary-blue text-white shadow-lg"
-              : "text-black hover:bg-[#f5f5f5]"
+              ? 'bg-primary-blue text-white shadow-lg'
+              : 'text-black hover:bg-[#f5f5f5]'
           }`}
         >
           <span className="text-xl">{menu.icon}</span>
@@ -29,7 +29,7 @@ const Menu = () => {
         </Link>
       ))}
     </div>
-  );
-};
+  )
+}
 
-export default Menu;
+export default Menu

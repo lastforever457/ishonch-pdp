@@ -1,65 +1,66 @@
-import { Button, Col, ColorPicker, Row, Select } from "antd";
-import { useEffect, useState } from "react";
-import { useTranslation } from "react-i18next";
-import PageLayout from "../layouts/page-layout";
+import { Button, Col, ColorPicker, Row, Select } from 'antd'
+import { useEffect, useState } from 'react'
+import { useTranslation } from 'react-i18next'
+import MyButton from '../components/my-button'
+import PageLayout from '../layouts/page-layout'
 
 const Settings = () => {
-  const { t } = useTranslation();
+  const { t } = useTranslation()
   const [font, setFont] = useState<string>(
-    localStorage.getItem("ishonch-font") || "poppins",
-  );
-  const [mainColor, setMainColor] = useState<string>("#635AD9");
+    localStorage.getItem('ishonch-font') || 'poppins'
+  )
+  const [mainColor, setMainColor] = useState<string>('#635AD9')
 
   useEffect(() => {
     const changeFont = (font: string) => {
-      localStorage.setItem("ishonch-font", font);
+      localStorage.setItem('ishonch-font', font)
       const fonts: Record<string, string> = {
-        poppins: "Poppins",
-        roboto: "Roboto",
-        "open-sans": "Open Sans",
-        inter: "Inter",
-        lato: "Lato",
-        montserrat: "Montserrat",
-        nunito: "Nunito",
-        raleway: "Raleway",
-        ubuntu: "Ubuntu",
-        "baloo-chettan-2": "Baloo Chettan 2",
-        "times-new-roman": "Times New Roman",
-        arial: "Arial",
-      };
+        poppins: 'Poppins',
+        roboto: 'Roboto',
+        'open-sans': 'Open Sans',
+        inter: 'Inter',
+        lato: 'Lato',
+        montserrat: 'Montserrat',
+        nunito: 'Nunito',
+        raleway: 'Raleway',
+        ubuntu: 'Ubuntu',
+        'baloo-chettan-2': 'Baloo Chettan 2',
+        'times-new-roman': 'Times New Roman',
+        arial: 'Arial',
+      }
 
       // body'ga CSS custom property qo‘llash
       document.documentElement.style.setProperty(
-        "--main-font",
-        fonts[font] || "Poppins",
-      );
-    };
+        '--main-font',
+        fonts[font] || 'Poppins'
+      )
+    }
 
-    changeFont(font);
-  }, [font]);
+    changeFont(font)
+  }, [font])
 
   useEffect(() => {
-    const savedTheme = localStorage.getItem("theme") || "light";
-    document.documentElement.setAttribute("data-theme", savedTheme);
-  }, []);
+    const savedTheme = localStorage.getItem('theme') || 'light'
+    document.documentElement.setAttribute('data-theme', savedTheme)
+  }, [])
 
   return (
     <PageLayout
       addButton={false}
-      title={t("settings.title")}
+      title={t('settings.title')}
       segmented={
-        <Button
+        <MyButton
           onClick={() => {
-            localStorage.clear();
-            window.location.reload();
+            localStorage.clear()
+            // window.location.reload()
             document.documentElement.style.setProperty(
-              "--theme-color",
-              mainColor,
-            );
+              '--theme-color',
+              mainColor
+            )
           }}
         >
-          {t("settings.resentSettings")}
-        </Button>
+          {t('settings.resetSettings')}
+        </MyButton>
       }
     >
       <Row gutter={[16, 16]}>
@@ -67,67 +68,67 @@ const Settings = () => {
           <div
             className="flex flex-col justify-center gap-3 p-5 rounded-xl h-full"
             style={{
-              boxShadow: "rgba(0, 0, 0, 0.24) 0px 3px 8px",
+              boxShadow: 'rgba(0, 0, 0, 0.24) 0px 3px 8px',
             }}
           >
             <span className="font-semibold text-base">
-              {t("settings.font")}:
+              {t('settings.font')}:
             </span>
             <Select
-              style={{ width: "100%" }}
-              defaultValue={localStorage.getItem("ishonch-font") || "poppins"}
-              placeholder={t("settings.font")}
+              style={{ width: '100%' }}
+              defaultValue={localStorage.getItem('ishonch-font') || 'poppins'}
+              placeholder={t('settings.font')}
               onChange={(value: string) => {
-                setFont(value);
+                setFont(value)
               }}
               options={[
                 {
-                  label: "Poppins",
-                  value: "poppins",
+                  label: 'Poppins',
+                  value: 'poppins',
                 },
                 {
-                  label: "Roboto",
-                  value: "roboto",
+                  label: 'Roboto',
+                  value: 'roboto',
                 },
                 {
-                  label: "Open Sans",
-                  value: "open-sans",
+                  label: 'Open Sans',
+                  value: 'open-sans',
                 },
                 {
-                  label: "Inter",
-                  value: "inter",
+                  label: 'Inter',
+                  value: 'inter',
                 },
                 {
-                  label: "Lato",
-                  value: "lato",
+                  label: 'Lato',
+                  value: 'lato',
                 },
                 {
-                  label: "Montserrat",
-                  value: "montserrat",
+                  label: 'Montserrat',
+                  value: 'montserrat',
                 },
                 {
-                  label: "Nunito",
-                  value: "nunito",
+                  label: 'Nunito',
+                  value: 'nunito',
                 },
                 {
-                  label: "Raleway",
-                  value: "raleway",
+                  label: 'Raleway',
+                  value: 'raleway',
                 },
                 {
-                  label: "Ubuntu",
-                  value: "ubuntu",
+                  label: 'Ubuntu',
+                  value: 'ubuntu',
                 },
                 {
-                  label: "Baloo Chettan 2",
-                  value: "baloo-chettan-2",
+                  label: 'Baloo Chettan 2',
+                  value: 'baloo-chettan-2',
                 },
                 {
-                  label: "Times New Roman",
-                  value: "times-new-roman",
+                  label: 'Times New Roman',
+                  value: 'times-new-roman',
                 },
                 {
-                  label: "Arial",
-                  value: "arial",
+                  label: 'Arial',
+                  value: 'arial',
                 },
               ]}
             ></Select>
@@ -137,11 +138,11 @@ const Settings = () => {
           <div
             className="flex flex-col justify-center gap-3 p-5 rounded-xl h-full"
             style={{
-              boxShadow: "rgba(0, 0, 0, 0.24) 0px 3px 8px",
+              boxShadow: 'rgba(0, 0, 0, 0.24) 0px 3px 8px',
             }}
           >
             <span className="font-semibold text-base">
-              {t("settings.mainColor")}:
+              {t('settings.mainColor')}:
             </span>
             <div className="flex items-center gap-3">
               <ColorPicker
@@ -151,20 +152,20 @@ const Settings = () => {
               <Button
                 onClick={() => {
                   document.documentElement.style.setProperty(
-                    "--theme-color",
-                    mainColor,
-                  );
-                  localStorage.setItem("theme-color", mainColor);
+                    '--theme-color',
+                    mainColor
+                  )
+                  localStorage.setItem('theme-color', mainColor)
                 }}
               >
-                {t("form.save")}
+                {t('form.save')}
               </Button>
             </div>
           </div>
         </Col>
       </Row>
     </PageLayout>
-  );
-};
+  )
+}
 
-export default Settings;
+export default Settings
