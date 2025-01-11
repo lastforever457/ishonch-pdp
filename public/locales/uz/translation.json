@@ -103,7 +103,8 @@
     "courseName": "Kurs nomi",
     "attendance": "Davomat",
     "paid": "To'langan",
-    "duty": "Qolgan"
+    "duty": "Qolgan",
+    "cleaner": "Farrosh"
   },
   "rooms": {
     "title": "Xonalar",

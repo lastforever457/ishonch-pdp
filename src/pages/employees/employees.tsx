@@ -1,4 +1,5 @@
-import { Tooltip } from 'antd'
+import { useMutation } from '@tanstack/react-query'
+import { message, Tooltip } from 'antd'
 import { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Link } from 'react-router-dom'
@@ -10,21 +11,20 @@ import { useLocationParams } from '../../hooks/use-location-params'
 import { useRouterPush } from '../../hooks/use-router-push'
 import i18n from '../../i18n/i18n'
 import PageLayout from '../../layouts/page-layout'
+import api from '../../models/axios'
 import { useUsers } from '../../models/users'
 
 const Employees = () => {
-  const { data: users, isLoading: isLoadingUsers } = useUsers()
+  const { data: users, isLoading: isLoadingUsers, refetch } = useUsers()
   const { t } = useTranslation()
   const { push } = useRouterPush()
   const { query } = useLocationParams()
-
-  if (isLoadingUsers) {
-    return (
-      <div className="flex items-center justify-center h-screen">
-        <div>Loading...</div>
-      </div>
-    )
-  }
+  const { mutate } = useMutation({
+    mutationKey: ['create-user'],
+    mutationFn: async (newUser: Record<string, any>) => {
+      await api.post('/staff/create', newUser)
+    },
+  })
 
   const segmentedValues = useMemo(
     () => [
@@ -62,7 +62,7 @@ const Employees = () => {
       {
         key: 'phone',
         title: t('form.phone'),
-        dataIndex: 'phone',
+        dataIndex: 'phoneNumber',
         ellipsis: {
           showTitle: false,
         },
@@ -95,7 +95,7 @@ const Employees = () => {
       key: item.id,
       fio: {
         id: item.id,
-        name: `${item.firstName || ''} ${item.lastName || ''}`,
+        name: `${item.firstname || ''} ${item.lastname || ''}`,
       },
     }))
   }, [users])
@@ -103,7 +103,7 @@ const Employees = () => {
   const fields = useMemo(
     () => [
       {
-        name: 'lastName',
+        name: 'lastname',
         label: t('form.lastName'),
         type: 'text',
         rules: [
@@ -114,7 +114,7 @@ const Employees = () => {
         ],
       },
       {
-        name: 'firstName',
+        name: 'firstname',
         label: t('form.name'),
         type: 'text',
         rules: [
@@ -125,7 +125,7 @@ const Employees = () => {
         ],
       },
       {
-        name: 'phone',
+        name: 'phoneNumber',
         label: t('form.phone'),
         type: 'text',
         rules: [
@@ -149,7 +149,17 @@ const Employees = () => {
       {
         name: 'role',
         label: t('form.role'),
-        type: 'text',
+        type: 'select',
+        options: [
+          {
+            label: t('employees.teacher'),
+            value: 'TEACHER',
+          },
+          {
+            label: t('employees.cleaner'),
+            value: 'CLEANER',
+          },
+        ],
         rules: [
           {
             required: true,
@@ -175,11 +185,11 @@ const Employees = () => {
         options: [
           {
             label: t('form.male'),
-            value: 'male',
+            value: 'MALE',
           },
           {
             label: t('form.female'),
-            value: 'female',
+            value: 'FEMALE',
           },
         ],
         rules: [
@@ -205,7 +215,17 @@ const Employees = () => {
   }
 
   const onFinish = (values: Record<string, any>) => {
-    console.log(values)
+    mutate(values)
+    refetch()
+    message.success(t('formMessages.success'))
+  }
+
+  if (isLoadingUsers) {
+    return (
+      <div className="flex items-center justify-center h-screen">
+        <div>Loading...</div>
+      </div>
+    )
   }
 
   return (
