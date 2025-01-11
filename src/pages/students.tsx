@@ -3,7 +3,7 @@ import MySegmented from "../components/my-segmented.tsx";
 import MyTable from "../components/my-table.tsx";
 import { useTranslation } from "react-i18next";
 import MyDrawer from "../components/my-drawer.tsx";
-import { Input } from "antd";
+import { Form, Input } from "antd";
 
 const Students = () => {
   const { t } = useTranslation();
@@ -59,10 +59,6 @@ const Students = () => {
         children={
           <div>
             <div className="flex flex-col gap-3">
-              <div className="flex flex-col gap-3">
-                <span className="font-semibold">F.I.O</span>
-                <Input placeholder="F.I.O" />
-              </div>
               <div className="flex flex-col gap-3">
                 <span className="font-semibold">Phone</span>
                 <Input placeholder="Phone" />
