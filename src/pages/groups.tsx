@@ -4,63 +4,149 @@ import MySegmented from "../components/my-segmented.tsx";
 import MyTable from "../components/my-table.tsx";
 import PageLayout from "../layouts/page-layout.tsx";
 import MyDrawer from "../components/my-drawer.tsx";
-import { Button, Input, Popover, Select, TimePicker } from "antd";
+import { AutoForm } from "../components/auto-form.tsx";
+import { useMutation } from "@tanstack/react-query";
+import api from "../models/axios.ts";
 
 const Groups = () => {
   const { t } = useTranslation();
+  const { mutate } = useMutation({
+    mutationKey: ["create-group"],
+    mutationFn: async (newGroup: Record<string, any>) => {
+      await api.post("/group/create", newGroup);
+    },
+  });
 
-  const content = (
-    <div className={"flex flex-col gap-3"}>
-      <span>Juft kun</span>
-      <span>Toq kun</span>
-      <span>Dushanba</span>
-      <span>Seshanba</span>
-      <span>Chorshanba</span>
-      <span>Payshanba</span>
-      <span>Juma</span>
-      <span>Shanba</span>
-    </div>
+  const getTeachers = async () => {
+    const { data } = await api.get("/teachers");
+    console.log(data);
+  };
+
+  const fields = useMemo(
+    () => [
+      {
+        name: "courseName",
+        label: t("groups.courseName"),
+        type: "input",
+        rules: [
+          {
+            required: true,
+            message: t("formMessages.firstName"),
+          },
+        ],
+      },
+      {
+        name: "teacher",
+        label: t("groups.chooseTeacher"),
+        type: "select",
+        rules: [
+          {
+            required: true,
+            message: t("formMessages.phone"),
+          },
+        ],
+      },
+      {
+        name: "days",
+        label: t("groups.days"),
+        type: "select",
+        options: [
+          {
+            label: t("groups.monday"),
+            value: "Dushanba",
+          },
+          {
+            label: t("groups.tuesday"),
+            value: "Seshanba",
+          },
+          {
+            label: t("groups.wednesday"),
+            value: "Chorshanba",
+          },
+          {
+            label: t("groups.thursday"),
+            value: "Payshanba",
+          },
+          {
+            label: t("groups.friday"),
+            value: "Juma",
+          },
+          {
+            label: t("groups.saturday"),
+            value: "Shanba",
+          },
+        ],
+        rules: [
+          {
+            required: true,
+            message: t("formMessages.role"),
+          },
+        ],
+      },
+      {
+        name: "rooms",
+        label: t("groups.chooseRoom"),
+        type: "select",
+        rules: [
+          {
+            required: true,
+            message: t("formMessages.role"),
+          },
+        ],
+      },
+      {
+        name: "time",
+        label: t("groups.startTime"),
+        type: "timepicker",
+        rules: [
+          {
+            required: true,
+            message: t("formMessages.timeStart"),
+          },
+        ],
+      },
+    ],
+    [t],
   );
 
   const columns = useMemo(
     () => [
       {
-        key: "name",
-        title: t("form.name"),
-        dataIndex: "name",
-        fixed: true,
+        key: "group",
+        title: t("groups.title"),
+        dataIndex: "Guruhlar",
       },
-      { key: "phone", title: t("form.phone"), dataIndex: "phone" },
-      { key: "role", title: t("form.role"), dataIndex: "role" },
+      {
+        key: "teacher",
+        title: t("groups.chooseTeacher"),
+        dataIndex: "Teacher",
+      },
+
+      {
+        key: "st number",
+        title: t("groups.stNumber"),
+        dataIndex: "St number",
+      },
+      {},
+      {
+        key: "days",
+        title: t("groups.days"),
+        dataIndex: "Kunlar",
+      },
+      {
+        key: "time",
+        title: t("groups.startTime"),
+        dataIndex: "Vaqt",
+      },
     ],
     [t],
   );
 
-  const groups = useMemo(
-    () => [
-      {
-        name: "sdfsdgsd",
-        phone: "sdfsdgsd",
-        role: "sdfsdgsd",
-      },
-      {
-        name: "sdfsdgsd",
-        phone: "sdfsdgsd",
-        role: "sdfsdgsd",
-      },
-      {
-        name: "sdfsdgsd",
-        phone: "sdfsdgsd",
-        role: "sdfsdgsd",
-      },
-      {
-        name: "sdfsdgsd",
-        phone: "sdfsdgsd",
-        role: "sdfsdgsd",
-      },
-    ],
-    [t],
-  );
+  // const groups = useMemo(() => []);
+
+  const onFinish = () => {
+    mutate({});
+  };
 
   return (
     <PageLayout
@@ -75,83 +161,18 @@ const Groups = () => {
         />
       }
     >
-      <MyTable columns={columns} data={groups} />
-      <MyDrawer
-        entryPoint="add"
-        children={
-          <div>
-            <div className={"flex flex-col gap-3"}>
-              <span>{t("groups.courseName")}</span>
-              <Select
-                showSearch
-                placeholder="Select a teacher"
-                filterOption={(input, option) =>
-                  (option?.label ?? "")
-                    .toLowerCase()
-                    .includes(input.toLowerCase())
-                }
-                options={[
-                  { value: "1", label: "Frontend" },
-                  { value: "2", label: "Python" },
-                  { value: "3", label: "Java" },
-                  { value: "4", label: "Flutter" },
-                ]}
-              />
-            </div>
-            <div className={"flex flex-col gap-3"}>
-              <span>{t("groups.chooseTeacher")}</span>
-              <Select
-                showSearch
-                placeholder="Select a teacher"
-                filterOption={(input, option) =>
-                  (option?.label ?? "")
-                    .toLowerCase()
-                    .includes(input.toLowerCase())
-                }
-                options={[
-                  { value: "1", label: "Adam" },
-                  { value: "2", label: "John" },
-                  { value: "3", label: "Kelly" },
-                  { value: "4", label: "James" },
-                ]}
-              />
-            </div>
-            <div className={"flex flex-col gap-3"}>
-              <span>{t("groups.days")}</span>
-              <Popover placement="right" content={content}>
-                <Input className={"text-sm"} placeholder={"Select a days"} />
-              </Popover>
-            </div>
-            <div className={"flex flex-col gap-3"}>
-              <span>{t("groups.chooseRoom")}</span>
-              <Select
-                showSearch
-                placeholder="Select a person"
-                filterOption={(input, option) =>
-                  (option?.label ?? "")
-                    .toLowerCase()
-                    .includes(input.toLowerCase())
-                }
-                options={[
-                  { value: "1", label: "O'qituvchi" },
-                  { value: "2", label: "O'quvchi" },
-                  { value: "3", label: "Farrosh" },
-                ]}
-              />
-            </div>
-            <div className={"flex flex-col gap-3"}>
-              <span>{t("groups.startTime")}</span>
-              <TimePicker minuteStep={15} secondStep={10} hourStep={1} />
-            </div>
-            <div className={"flex justify-end gap-3 mt-5"}>
-              <Button onClick={() => {}}>Cancel</Button>
-
-              <Button onClick={() => {}}>Send</Button>
-            </div>
-          </div>
-        }
-        title={t("groups.titleSingular")}
-      ></MyDrawer>
+      <MyTable columns={columns} data={[]} />
+      <MyDrawer entryPoint="add" title={t("groups.titleSingular")}>
+        <AutoForm
+          fields={fields}
+          onCancel={() => {}}
+          onFinish={() => {
+            onFinish();
+          }}
+          saveTitle={t("crud.create")}
+          cancelTitle={t("form.cancel")}
+        />
+      </MyDrawer>
     </PageLayout>
   );
 };

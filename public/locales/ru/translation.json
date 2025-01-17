@@ -69,9 +69,16 @@
     "archive": "Архив",
     "courseName": "Название курса",
     "chooseTeacher": "Выберите преподавателя",
+    "stNumber": "Количество студентов",
     "days": "Дни недели",
     "chooseRoom": "Выберите комнату",
-    "startTime": "Время начала"
+    "startTime": "Время начала",
+    "monday": "Понедельник",
+    "tuesday": "Вторник",
+    "wednesday": "Среда",
+    "thursday": "Четверг",
+    "friday": "Пятница",
+    "saturday": "Суббота"
   },
   "employees": {
     "title": "Сотрудники",
@@ -111,7 +118,11 @@
     "archive": "Архив",
     "students": "Ученики",
     "title": "Ученики",
-    "titleSingular": "Ученик добавить"
+    "titleSingular": "Ученик добавить",
+    "name": "Имя",
+    "phone": "Телефон номер",
+    "group": "Группа",
+    "role": "Роль"
   },
   "finance": {
     "title": "Финансы",

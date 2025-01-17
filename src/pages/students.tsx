@@ -3,10 +3,88 @@ import MySegmented from "../components/my-segmented.tsx";
 import MyTable from "../components/my-table.tsx";
 import { useTranslation } from "react-i18next";
 import MyDrawer from "../components/my-drawer.tsx";
-import { Form, Input } from "antd";
+import { AutoForm } from "../components/auto-form.tsx";
+import { useMemo } from "react";
 
 const Students = () => {
   const { t } = useTranslation();
+
+  const fields = useMemo(
+    () => [
+      {
+        name: "name",
+        label: t("students.name"),
+        type: "input",
+        rules: [
+          {
+            required: true,
+            message: t("formMessages.name"),
+          },
+        ],
+      },
+
+      {
+        name: "phone",
+        label: t("students.phone"),
+        type: "input",
+        rules: [
+          {
+            required: true,
+            message: t("formMessages.phone"),
+          },
+        ],
+      },
+      {
+        name: "group",
+        label: t("students.group"),
+        type: "select",
+        rules: [
+          {
+            required: true,
+            message: t("formMessages.role"),
+          },
+        ],
+      },
+      {
+        name: "role",
+        label: t("students.role"),
+        type: "select",
+        rules: [
+          {
+            required: true,
+            message: t("formMessages.role"),
+          },
+        ],
+      },
+    ],
+    [t],
+  );
+
+  const columns = useMemo(
+    () => [
+      {
+        key: "name",
+        title: t("students.name"),
+        dataIndex: "name",
+      },
+      {
+        key: "phone",
+        title: t("students.phone"),
+        dataIndex: "phone",
+      },
+      {
+        key: "group",
+        title: t("students.group"),
+        dataIndex: "group",
+      },
+      {
+        key: "role",
+        title: t("students.role"),
+        dataIndex: "role",
+      },
+    ],
+    [t],
+  );
 
   return (
     <PageLayout
@@ -21,57 +99,10 @@ const Students = () => {
         />
       }
     >
-      <MyTable
-        columns={[
-          {
-            key: "firstName",
-            title: "F.I.O",
-            dataIndex: "fio",
-          },
-          { key: "phone", title: "Phone", dataIndex: "phone" },
-          { key: "role", title: "Role", dataIndex: "role" },
-        ]}
-        data={[
-          {
-            fio: "sdfsdgsd",
-            phone: "sdfsdgsd",
-            role: "sdfsdgsd",
-          },
-          {
-            fio: "sdfsdgsd",
-            phone: "sdfsdgsd",
-            role: "sdfsdgsd",
-          },
-          {
-            fio: "sdfsdgsd",
-            phone: "sdfsdgsd",
-            role: "sdfsdgsd",
-          },
-          {
-            fio: "sdfsdgsd",
-            phone: "sdfsdgsd",
-            role: "sdfsdgsd",
-          },
-        ]}
-      />
-      <MyDrawer
-        entryPoint="add"
-        children={
-          <div>
-            <div className="flex flex-col gap-3">
-              <div className="flex flex-col gap-3">
-                <span className="font-semibold">Phone</span>
-                <Input placeholder="Phone" />
-              </div>
-              <div className="flex flex-col gap-3">
-                <span className="font-semibold">Role</span>
-                <Input placeholder="Role" />
-              </div>
-            </div>
-          </div>
-        }
-        title={t("students.titleSingular")}
-      ></MyDrawer>
+      <MyTable columns={columns} data={[]} />
+      <MyDrawer entryPoint="add" title={t("students.titleSingular")}>
+        <AutoForm fields={fields} onCancel={() => {}} onFinish={() => {}} />
+      </MyDrawer>
     </PageLayout>
   );
 };

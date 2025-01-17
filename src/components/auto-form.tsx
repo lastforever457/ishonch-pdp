@@ -15,6 +15,7 @@ import {
   Skeleton,
   Space,
   Switch,
+  TimePicker,
 } from "antd";
 import { FormInstance, Rule } from "antd/es/form";
 import { isString } from "lodash-es";
@@ -204,7 +205,7 @@ export const AutoForm = memo(
         </Form>
       </div>
     );
-  }
+  },
 );
 
 const Field = memo(
@@ -231,10 +232,10 @@ const Field = memo(
     const { t } = useTranslation();
     const { query } = useLocationParams();
     const [selectedValues, setSelectedValues] = useState<any[]>(
-      field.defaultValue || []
+      field.defaultValue || [],
     );
     const [isSelectAllChecked, setIsSelectAllChecked] = useState(
-      field.defaultValue?.length === field.options?.length
+      field.defaultValue?.length === field.options?.length,
     );
 
     const handleSelectAll = (checked: boolean) => {
@@ -712,6 +713,23 @@ const Field = memo(
           </Form.Item>
         );
 
+      case "timepicker":
+        return (
+          <Form.Item
+            label={field.label}
+            name={fieldName}
+            rules={field.rules}
+            className={`my-2 ${field.className || ""}`}
+            initialValue={field.defaultValue}
+          >
+            <TimePicker
+              showSecond={false}
+              defaultValue={field.defaultValue}
+              disabled={field.readOnly || view}
+            />
+          </Form.Item>
+        );
+
       case "colorpicker":
         return (
           <Form.Item
@@ -747,5 +765,5 @@ const Field = memo(
           </Form.Item>
         );
     }
-  }
+  },
 );

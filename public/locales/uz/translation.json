@@ -66,7 +66,11 @@
     "archive": "Arxiv",
     "students": "O'quvchilar",
     "title": "O'quvchilar",
-    "titleSingular": "O'quvchi qo'shish"
+    "titleSingular": "O'quvchi qo'shish",
+    "name": "Ism",
+    "phone": "Telefon raqam",
+    "group": "Guruh",
+    "role": "Rol"
   },
   "groups": {
     "title": "Guruhlar",
@@ -75,9 +79,16 @@
     "archive": "Arxiv",
     "courseName": "Kurs nomi",
     "chooseTeacher": "O'qituvchini tanlang",
+    "stNumber": "O'quvchilar soni",
     "days": "Kunlar",
     "chooseRoom": "Xona tanlang",
-    "startTime": "Boshlanish vaqti"
+    "startTime": "Boshlanish vaqti",
+    "monday": "Dushanba",
+    "tuesday": "Seshanba",
+    "wednesday": "Chorshanba",
+    "thursday": "Payshanba",
+    "friday": "Juma",
+    "saturday": "Shanba"
   },
   "employees": {
     "title": "Ishchilar",
