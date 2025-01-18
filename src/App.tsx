@@ -5,7 +5,7 @@ import MainLayout from "./layouts/layout";
 import EmployeeId from "./pages/employees/employee-id/employee-id.tsx";
 import Employees from "./pages/employees/employees.tsx";
 import Finance from "./pages/finance/finance.tsx";
-import Groups from "./pages/groups.tsx";
+import Groups from "./pages/group/groups.tsx";
 import Home from "./pages/home.tsx";
 import Rooms from "./pages/rooms.tsx";
 import Settings from "./pages/settings.tsx";
@@ -59,14 +59,14 @@ const App = () => {
     },
   ]);
 
-    return (
-        <>
-          <CssBaseline />
-          <SidebarProvider>
-            <RouterProvider router={routes} />
-          </SidebarProvider>
-        </>
-    );
+  return (
+    <>
+      <CssBaseline />
+      <SidebarProvider>
+        <RouterProvider router={routes} />
+      </SidebarProvider>
+    </>
+  );
 };
 
 export default App;

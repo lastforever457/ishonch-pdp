@@ -1,15 +1,19 @@
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import MySegmented from "../components/my-segmented.tsx";
-import MyTable from "../components/my-table.tsx";
-import PageLayout from "../layouts/page-layout.tsx";
-import MyDrawer from "../components/my-drawer.tsx";
-import { AutoForm } from "../components/auto-form.tsx";
+import MySegmented from "../../components/my-segmented.tsx";
+import MyTable from "../../components/my-table.tsx";
+import PageLayout from "../../layouts/page-layout.tsx";
+import MyDrawer from "../../components/my-drawer.tsx";
+import { AutoForm } from "../../components/auto-form.tsx";
 import { useMutation } from "@tanstack/react-query";
-import api from "../models/axios.ts";
+import api from "../../models/axios.ts";
+import { useLocationParams } from "../../hooks/use-location-params.tsx";
+import Attendance from "./attendance.tsx";
+import Archive from "./archive.tsx";
 
 const Groups = () => {
   const { t } = useTranslation();
+  const { query } = useLocationParams();
   const { mutate } = useMutation({
     mutationKey: ["create-group"],
     mutationFn: async (newGroup: Record<string, any>) => {
@@ -106,7 +110,7 @@ const Groups = () => {
         ],
       },
     ],
-    [t],
+    [t]
   );
 
   const columns = useMemo(
@@ -139,7 +143,7 @@ const Groups = () => {
         dataIndex: "Vaqt",
       },
     ],
-    [t],
+    [t]
   );
 
   // const groups = useMemo(() => []);
@@ -156,12 +160,19 @@ const Groups = () => {
           segmentedValues={[
             { value: t("groups.active"), key: "active" },
             { value: t("groups.archive"), key: "archive", isPrimary: true },
+            { value: t("groups.attendance"), key: "attendance" },
           ]}
           queryName={"groupsTab"}
         />
       }
     >
-      <MyTable columns={columns} data={[]} />
+      {query.groupsTab === "active" ? (
+        <MyTable columns={columns} data={[]} />
+      ) : query.groupsTab === "attendance" ? (
+        <Attendance />
+      ) : query.groupsTab === "archive" ? (
+        <Archive />
+      ) : null}
       <MyDrawer entryPoint="add" title={t("groups.titleSingular")}>
         <AutoForm
           fields={fields}
