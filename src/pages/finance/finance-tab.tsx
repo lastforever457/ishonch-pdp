@@ -1,42 +1,42 @@
-import { Button, Col, DatePicker, Form, Row } from "antd";
-import { useMemo } from "react";
-import { useTranslation } from "react-i18next";
-import MyTable from "../../components/my-table";
-import { useLocationParams } from "../../hooks/use-location-params";
-import { useRouterPush } from "../../hooks/use-router-push";
-import { finance } from "../../test-data";
-import ExpenseForPeriod from "./expense-for-period";
+import { Button, Col, DatePicker, Form, Row } from 'antd'
+import { useMemo } from 'react'
+import { useTranslation } from 'react-i18next'
+import MyTable from '../../components/my-table'
+import { useLocationParams } from '../../hooks/use-location-params'
+import { useRouterPush } from '../../hooks/use-router-push'
+import { finance } from '../../test-data'
+import ExpenseForPeriod from './expense-for-period'
 
 const FinanceTab = () => {
-  const { t } = useTranslation();
-  const { push } = useRouterPush();
-  const { query } = useLocationParams();
+  const { t } = useTranslation()
+  const { push } = useRouterPush()
+  const { query } = useLocationParams()
 
   const columns = useMemo(
     () => [
       {
-        key: "name",
-        title: t("finance.name"),
-        dataIndex: "name",
+        key: 'name',
+        title: t('finance.name'),
+        dataIndex: 'name',
       },
       {
-        key: "date",
-        title: t("form.date"),
-        dataIndex: "date",
+        key: 'date',
+        title: t('form.date'),
+        dataIndex: 'date',
       },
       {
-        key: "category",
-        title: t("finance.category"),
-        dataIndex: "category",
+        key: 'category',
+        title: t('finance.category'),
+        dataIndex: 'category',
       },
       {
-        key: "amount",
-        title: t("employees.amount"),
-        dataIndex: "amount",
+        key: 'amount',
+        title: t('employees.amount'),
+        dataIndex: 'amount',
       },
     ],
     [t]
-  );
+  )
 
   return (
     <>
@@ -49,16 +49,16 @@ const FinanceTab = () => {
                   <Form.Item
                     label={
                       <span className="font-semibold text-base">
-                        {t("finance.fromDate")}
+                        {t('finance.fromDate')}
                       </span>
                     }
                     name="startDate"
-                    rules={[{ required: true, message: "Sanani kiriting" }]}
+                    rules={[{ required: true, message: 'Sanani kiriting' }]}
                   >
                     <DatePicker
                       className="shadow px-3 py-2 rounded-!2xl text-xl"
                       format="DD.MM.YYYY"
-                      style={{ width: "100%" }}
+                      style={{ width: '100%' }}
                     />
                   </Form.Item>
                 </Col>
@@ -67,21 +67,21 @@ const FinanceTab = () => {
                   <Form.Item
                     label={
                       <span className="font-semibold text-base">
-                        {t("finance.toDate")}
+                        {t('finance.toDate')}
                       </span>
                     }
                     name="endDate"
-                    rules={[{ required: true, message: "Sanani kiriting" }]}
+                    rules={[{ required: true, message: 'Sanani kiriting' }]}
                   >
                     <DatePicker
                       className="shadow px-3 py-2 rounded-!2xl text-xl"
                       format="DD.MM.YYYY"
-                      style={{ width: "100%" }}
+                      style={{ width: '100%' }}
                     />
                   </Form.Item>
                 </Col>
 
-                <Col xs={24} sm={12} md={24} >
+                <Col xs={24} sm={12} md={24}>
                   <div className="flex justify-center items-end w-full h-full">
                     <Form.Item>
                       <Button
@@ -99,9 +99,9 @@ const FinanceTab = () => {
         </Col>
       </Row>
       <ExpenseForPeriod />
-      <MyTable columns={columns} data={finance} />
+      <MyTable name="finance" columns={columns} data={finance} />
     </>
-  );
-};
+  )
+}
 
-export default FinanceTab;
+export default FinanceTab
