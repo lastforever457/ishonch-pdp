@@ -38,7 +38,9 @@
     "category": "Iltimos, kategoriyani tanlang",
     "amount": "Iltimos, summani kiriting",
     "capacity": "Iltimos, sig'imni kiriting",
-    "count": "Iltimos, sonni kiriting"
+    "count": "Iltimos, sonni kiriting",
+    "success": "Muvaffaqiyatli",
+    "confirmDelete": "Siz bu elementni o'chirmoqchimisiz?"
   },
   "home": {
     "employees": "Xodimlar",
@@ -123,7 +125,8 @@
     "titleSingular": "Xona",
     "roomName": "Xona nomi",
     "roomCapacity": "Xona sig'imi",
-    "countOfChairs": "Parta va stullar soni"
+    "countOfChair": "Stullar soni",
+    "countOfTable": "Stollar soni"
   },
   "finance": {
     "title": "Moliya",

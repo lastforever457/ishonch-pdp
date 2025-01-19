@@ -1,6 +1,5 @@
-import { useMutation } from '@tanstack/react-query'
 import { message, Tooltip } from 'antd'
-import { useMemo } from 'react'
+import { useEffect, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Link } from 'react-router-dom'
 import { AutoForm } from '../../components/auto-form'
@@ -11,24 +10,24 @@ import { useLocationParams } from '../../hooks/use-location-params'
 import { useRouterPush } from '../../hooks/use-router-push'
 import i18n from '../../i18n/i18n'
 import PageLayout from '../../layouts/page-layout'
-import api from '../../models/axios'
-import { useUsers } from '../../models/users'
+import { IUser, StaffTypes, useCreateUser, useUsers } from '../../models/users'
 
 const Employees = () => {
+  const { t } = useTranslation()
+  const { push } = useRouterPush()
+  const { query } = useLocationParams()
+  const { mutate } = useCreateUser()
   const {
     data: users,
     isLoading: isLoadingUsers,
     refetch,
-  } = useUsers('TEACHER')
-  const { t } = useTranslation()
-  const { push } = useRouterPush()
-  const { query } = useLocationParams()
-  const { mutate } = useMutation({
-    mutationKey: ['create-user'],
-    mutationFn: async (newUser: Record<string, any>) => {
-      await api.post('/staff/create', newUser)
-    },
-  })
+  } = useUsers(
+    (query.employeeTab?.toString().toUpperCase() as StaffTypes) || 'TEACHER'
+  )
+
+  useEffect(() => {
+    refetch()
+  }, [query.employeeTab])
 
   const segmentedValues = useMemo(
     () => [
@@ -38,7 +37,7 @@ const Employees = () => {
       },
       {
         value: t('employees.teachers'),
-        key: 'teachers',
+        key: 'teacher',
         isPrimary: true,
       },
       {
@@ -93,16 +92,25 @@ const Employees = () => {
     [t]
   )
 
-  const data = useMemo<Record<string, any>[]>(() => {
-    return users?.map((item: Record<string, any>) => ({
-      ...item,
-      key: item.id,
-      fio: {
-        id: item.id,
-        name: `${item.firstname || ''} ${item.lastname || ''}`,
-      },
-    }))
-  }, [users])
+  const data = useMemo(() => {
+    const remainedData: Record<string, any> | IUser[] | undefined = query.search
+      ? users?.data?.filter(
+          (item: IUser) =>
+            item.firstname.includes(query.search as string) ||
+            item.lastname.includes(query.search as string)
+        )
+      : users?.data
+    return (
+      remainedData?.map((item: Record<string, any>) => ({
+        ...item,
+        key: item.id,
+        fio: {
+          id: item.id,
+          name: `${item.firstname || ''} ${item.lastname || ''}`,
+        },
+      })) || []
+    )
+  }, [users, query.search])
 
   const fields = useMemo(
     () => [
@@ -138,6 +146,7 @@ const Employees = () => {
             message: t('formMessages.phone'),
           },
         ],
+        addonBefore: '+998',
       },
       {
         name: 'password',
@@ -218,9 +227,11 @@ const Employees = () => {
     })
   }
 
-  const onFinish = (values: Record<string, any>) => {
-    mutate(values)
-    refetch()
+  const onFinish = async (values: Record<string, any>) => {
+    mutate({
+      ...values,
+      phoneNumber: `+998${values.phoneNumber}`,
+    })
     message.success(t('formMessages.success'))
   }
 
@@ -242,7 +253,12 @@ const Employees = () => {
         />
       }
     >
-      <MyTable hasDetailPageWithId={'fio'} columns={columns} data={data} />
+      <MyTable
+        name="employees"
+        hasDetailPageWithId={'fio'}
+        columns={columns}
+        data={data}
+      />
       <MyDrawer
         entryPoint="add"
         title={

@@ -1,51 +1,62 @@
-import { Col, Row } from "antd";
-import { useMemo } from "react";
-import { useTranslation } from "react-i18next";
+import { Col, Row } from 'antd'
+import { useMemo } from 'react'
+import { useTranslation } from 'react-i18next'
+import { useUsers } from '../models/users'
 
 const Home = () => {
-  const { t } = useTranslation();
+  const { t } = useTranslation()
+  const { data: teachers, isLoading } = useUsers('TEACHER')
 
   const users = useMemo(
     () => [
       {
         id: 1,
-        img: "/public/images/user-1.svg",
-        percent: "56",
-        title: t("home.employees"),
+        img: '/public/images/user-1.svg',
+        percent: teachers?.data?.length,
+        title: t('home.employees'),
       },
       {
         id: 2,
-        img: "/public/images/user-2.svg",
-        percent: "258",
-        title: t("home.active-students"),
+        img: '/public/images/user-2.svg',
+        percent: '258',
+        title: t('home.active-students'),
       },
       {
         id: 3,
-        img: "/public/images/user-3.svg",
-        percent: "135",
-        title: t("home.groups"),
+        img: '/public/images/user-3.svg',
+        percent: '135',
+        title: t('home.groups'),
       },
       {
         id: 4,
-        img: "/public/images/user-4.svg",
-        percent: "56",
-        title: t("home.debtors"),
+        img: '/public/images/user-4.svg',
+        percent: '56',
+        title: t('home.debtors'),
       },
       {
         id: 5,
-        img: "/public/images/user-5.svg",
-        percent: "246",
-        title: t("home.pay-month"),
+        img: '/public/images/user-5.svg',
+        percent: '246',
+        title: t('home.pay-month'),
       },
       {
         id: 6,
-        img: "/public/images/user-6.svg",
-        percent: "24",
-        title: t("home.left-group"),
+        img: '/public/images/user-6.svg',
+        percent: '24',
+        title: t('home.left-group'),
       },
     ],
-    [t]
-  );
+    [t, teachers]
+  )
+
+  if (isLoading) {
+    return (
+      <div className="flex items-center justify-center h-screen">
+        <div>Loading...</div>
+      </div>
+    )
+  }
+
   return (
     <div>
       <Row gutter={[16, 16]} className="md:px-10 py-4 text-sm">
@@ -66,9 +77,9 @@ const Home = () => {
             </div>
           </Col>
         ))}
-      </Row>{" "}
+      </Row>{' '}
     </div>
-  );
-};
+  )
+}
 
-export default Home;
+export default Home
