@@ -96,7 +96,7 @@ const MyTable = ({
       dataSource={data}
       loading={isLoading}
       rowKey={(record) => record.id || record.key}
-      scroll={{ x: true }}
+      scroll={{ x: 'max-content' }}
     />
   )
 }

@@ -4,16 +4,22 @@ import { AutoForm } from '../components/auto-form.tsx'
 import MyDrawer from '../components/my-drawer.tsx'
 import MySegmented from '../components/my-segmented.tsx'
 import MyTable from '../components/my-table.tsx'
+import { useLocationParams } from '../hooks/use-location-params.tsx'
 import PageLayout from '../layouts/page-layout.tsx'
+import { useGroups } from '../models/groups.tsx'
+import { useStudents } from '../models/students.tsx'
 
 const Students = () => {
   const { t } = useTranslation()
+  const { query } = useLocationParams()
+  const { data: students, isLoading: isStudentsLoading } = useStudents()
+  const { data: groups, isLoading: isGroupsLoading } = useGroups('ACTIVE')
 
   const fields = useMemo(
     () => [
       {
-        name: 'name',
-        label: t('students.name'),
+        name: 'firstname',
+        label: t('form.name'),
         type: 'input',
         rules: [
           {
@@ -22,7 +28,17 @@ const Students = () => {
           },
         ],
       },
-
+      {
+        name: 'lastname',
+        label: t('form.lastName'),
+        type: 'input',
+        rules: [
+          {
+            required: true,
+            message: t('formMessages.name'),
+          },
+        ],
+      },
       {
         name: 'phone',
         label: t('students.phone'),
@@ -31,6 +47,17 @@ const Students = () => {
           {
             required: true,
             message: t('formMessages.phone'),
+          },
+        ],
+      },
+      {
+        name: 'password',
+        label: t('form.password'),
+        type: 'input',
+        rules: [
+          {
+            required: true,
+            message: t('formMessages.name'),
           },
         ],
       },
@@ -44,47 +71,60 @@ const Students = () => {
             message: t('formMessages.role'),
           },
         ],
+        options: groups?.data?.map((group: any) => ({
+          value: group.id,
+          label: `${group.groupName} - ${group.courseName}`,
+        })),
       },
       {
-        name: 'role',
-        label: t('students.role'),
-        type: 'select',
+        name: 'gender',
+        label: t('form.gender'),
+        type: 'radio',
         rules: [
           {
             required: true,
-            message: t('formMessages.role'),
+            message: t('formMessages.gender'),
+          },
+        ],
+        options: [
+          {
+            value: 'MALE',
+            label: t('form.male'),
+          },
+          {
+            value: 'FEMALE',
+            label: t('form.female'),
           },
         ],
       },
     ],
-    [t]
+    [t, groups]
   )
 
   const columns = useMemo(
     () => [
       {
-        key: 'name',
+        key: 'fio',
         title: t('students.name'),
-        dataIndex: 'name',
+        dataIndex: 'fio',
       },
       {
-        key: 'phone',
+        key: 'phoneNumber',
         title: t('students.phone'),
-        dataIndex: 'phone',
+        dataIndex: 'phoneNumber',
       },
       {
         key: 'group',
         title: t('students.group'),
         dataIndex: 'group',
       },
-      {
-        key: 'role',
-        title: t('students.role'),
-        dataIndex: 'role',
-      },
     ],
     [t]
   )
+
+  if (isStudentsLoading || isGroupsLoading) {
+    return <div className="text-center">Loading...</div>
+  }
 
   return (
     <PageLayout
@@ -99,8 +139,19 @@ const Students = () => {
         />
       }
     >
-      <MyTable name="student" columns={columns} data={[]} />
-      <MyDrawer entryPoint="add" title={t('students.titleSingular')}>
+      <MyTable
+        name="student"
+        columns={columns}
+        data={students?.data.map((item: Record<string, any>) => ({
+          ...item,
+          fio: `${item.firstname} ${item.lastname}`,
+          key: item.id,
+        }))}
+      />
+      <MyDrawer
+        entryPoint={query.add ? 'add' : 'edit'}
+        title={t('students.titleSingular')}
+      >
         <AutoForm fields={fields} onCancel={() => {}} onFinish={() => {}} />
       </MyDrawer>
     </PageLayout>

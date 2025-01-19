@@ -13,4 +13,3 @@ export const useGroups = (status: GroupType) => {
   })
   return data
 }
-  

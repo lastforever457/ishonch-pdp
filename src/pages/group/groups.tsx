@@ -8,8 +8,6 @@ import MyTable from '../../components/my-table.tsx'
 import { useLocationParams } from '../../hooks/use-location-params.tsx'
 import PageLayout from '../../layouts/page-layout.tsx'
 import api from '../../models/axios.ts'
-import Archive from './archive.tsx'
-import Attendance from './attendance.tsx'
 
 const Groups = () => {
   const { t } = useTranslation()
@@ -20,7 +18,7 @@ const Groups = () => {
       await api.post('/group/create', newGroup)
     },
   })
- 
+
   const getTeachers = async () => {
     const { data } = await api.get('/teachers')
     console.log(data)
@@ -146,8 +144,6 @@ const Groups = () => {
     [t]
   )
 
-  // const groups = useMemo(() => []);
-
   const onFinish = () => {
     mutate({})
   }
@@ -160,19 +156,12 @@ const Groups = () => {
           segmentedValues={[
             { value: t('groups.active'), key: 'active' },
             { value: t('groups.archive'), key: 'archive', isPrimary: true },
-            { value: t('groups.attendance'), key: 'attendance' },
           ]}
           queryName={'groupsTab'}
         />
       }
     >
-      {query.groupsTab === 'active' ? (
-        <MyTable name="group" columns={columns} data={[]} />
-      ) : query.groupsTab === 'attendance' ? (
-        <Attendance />
-      ) : query.groupsTab === 'archive' ? (
-        <Archive />
-      ) : null}
+      <MyTable name="group" columns={columns} data={[]} />
       <MyDrawer entryPoint="add" title={t('groups.titleSingular')}>
         <AutoForm
           fields={fields}

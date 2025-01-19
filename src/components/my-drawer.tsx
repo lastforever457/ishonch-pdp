@@ -1,25 +1,25 @@
-import { Divider } from "antd";
-import React from "react";
-import { IoMdClose } from "react-icons/io";
-import { IoClose } from "react-icons/io5";
-import { useLocationParams } from "../hooks/use-location-params";
-import { useRouterPush } from "../hooks/use-router-push";
+import { Divider } from 'antd'
+import React from 'react'
+import { IoMdClose } from 'react-icons/io'
+import { IoClose } from 'react-icons/io5'
+import { useLocationParams } from '../hooks/use-location-params'
+import { useRouterPush } from '../hooks/use-router-push'
 
 interface DrawerProps {
-  entryPoint: string;
-  title: string;
-  children: React.ReactNode;
-  position?: "left" | "right";
+  entryPoint: string
+  title: string
+  children: React.ReactNode
+  position?: 'left' | 'right'
 }
 
 const MyDrawer: React.FC<DrawerProps> = ({
   entryPoint,
   title,
   children,
-  position = "right",
+  position = 'right',
 }) => {
-  const { push } = useRouterPush();
-  const { query } = useLocationParams();
+  const { push } = useRouterPush()
+  const { query } = useLocationParams()
 
   const closeDrawer = () => {
     push({
@@ -30,15 +30,15 @@ const MyDrawer: React.FC<DrawerProps> = ({
         view: undefined,
         edit: undefined,
       },
-    });
-  };
+    })
+  }
 
   return (
     <div
       className={`fixed inset-0 z-40 flex min-h-screen items-start ${
-        position === "left" ? "justify-start" : "justify-end"
+        position === 'left' ? 'justify-start' : 'justify-end'
       } ${
-        query[entryPoint] ? "visible opacity-100" : "invisible opacity-0"
+        query[entryPoint] ? 'visible opacity-100' : 'invisible opacity-0'
       } transition-all duration-300`}
     >
       <div
@@ -48,17 +48,17 @@ const MyDrawer: React.FC<DrawerProps> = ({
       <div
         className={`relative flex  w-full max-w-lg h-screen overflow-y-auto transform transition-all duration-300 ease-in-out ${
           query[entryPoint]
-            ? "translate-x-0"
-            : position === "left"
-            ? "-translate-x-[100%]"
-            : "translate-x-[100%]"
+            ? 'translate-x-0'
+            : position === 'left'
+              ? '-translate-x-[100%]'
+              : 'translate-x-[100%]'
         }`}
       >
         <div className="md:block relative hidden bg-opacity-60 w-[15%]">
           <div
             style={{
-              borderTopLeftRadius: "40px",
-              borderBottomLeftRadius: "40px",
+              borderTopLeftRadius: '40px',
+              borderBottomLeftRadius: '40px',
             }}
             className="flex justify-center items-center bg-white mt-32"
           >
@@ -69,15 +69,17 @@ const MyDrawer: React.FC<DrawerProps> = ({
         </div>
         <div className="bg-white px-12 py-10 w-full">
           <div className="flex justify-between items-center">
-          <h1 className="md:mb-4 font-bold text-xl">{title}</h1>
-          <button onClick={closeDrawer} className="block md:hidden text-2xl"><IoMdClose/></button>
+            <h1 className="md:mb-4 font-bold text-xl">{title}</h1>
+            <button onClick={closeDrawer} className="block md:hidden text-2xl">
+              <IoMdClose />
+            </button>
           </div>
-          <Divider className="my-2"/>
+          <Divider className="my-2" />
           {children}
         </div>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default MyDrawer;
+export default MyDrawer
