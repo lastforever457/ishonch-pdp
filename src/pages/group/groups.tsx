@@ -20,7 +20,7 @@ const Groups = () => {
       await api.post('/group/create', newGroup)
     },
   })
-
+ 
   const getTeachers = async () => {
     const { data } = await api.get('/teachers')
     console.log(data)
