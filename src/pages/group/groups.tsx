@@ -20,6 +20,7 @@ import { useRooms } from "../../models/rooms.tsx";
 import { values } from "lodash-es";
 import { Table } from "antd";
 import { DataSourceItemObject } from "antd/es/auto-complete/index";
+import { Loader } from "../../components/loader.tsx";
 
 const Groups = () => {
   const { t } = useTranslation();
@@ -238,9 +239,9 @@ const Groups = () => {
 
   if (isGroupsLoading || isTeacherLoading) {
     return (
-      <div className="flex items-center justify-center h-screen">
-        <div>Loading...</div>
-      </div>
+      <>
+        <Loader />
+      </>
     );
   }
 
