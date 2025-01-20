@@ -67,6 +67,7 @@
   "groups": {
     "price": "Guruh narxi",
     "title": "Группы",
+    "room": "Комнаты",
     "name": "Название группы",
     "titleSingular": "Создать группу",
     "active": "Активные",
@@ -77,6 +78,7 @@
     "stNumber": "Количество студентов",
     "days": "Дни недели",
     "chooseRoom": "Выберите комнату",
+    "teacher": "Учителя",
     "startTime": "Время начала",
     "endTime": "Время окончания",
     "startDate": "Дата начала",

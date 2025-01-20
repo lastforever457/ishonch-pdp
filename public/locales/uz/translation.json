@@ -77,6 +77,7 @@
   "groups": {
     "price": "Guruh narxi",
     "title": "Guruhlar",
+    "room": "Xonalar",
     "name": "Guruh nomi",
     "titleSingular": "Yangi guruh qo'shish",
     "active": "Faol",
@@ -84,6 +85,7 @@
     "courseName": "Kurs nomi",
     "attendance": "Davomat",
     "chooseTeacher": "O'qituvchini tanlang",
+    "teacher": "O'qituvchilar",
     "stNumber": "O'quvchilar soni",
     "days": "Kunlar",
     "chooseRoom": "Xona tanlang",

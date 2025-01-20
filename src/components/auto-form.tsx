@@ -205,7 +205,7 @@ export const AutoForm = memo(
         </Form>
       </div>
     );
-  },
+  }
 );
 
 const Field = memo(
@@ -232,10 +232,10 @@ const Field = memo(
     const { t } = useTranslation();
     const { query } = useLocationParams();
     const [selectedValues, setSelectedValues] = useState<any[]>(
-      field.defaultValue || [],
+      field.defaultValue || []
     );
     const [isSelectAllChecked, setIsSelectAllChecked] = useState(
-      field.defaultValue?.length === field.options?.length,
+      field.defaultValue?.length === field.options?.length
     );
 
     const handleSelectAll = (checked: boolean) => {
@@ -765,5 +765,5 @@ const Field = memo(
           </Form.Item>
         );
     }
-  },
+  }
 );

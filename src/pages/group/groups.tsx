@@ -10,9 +10,16 @@ import PageLayout from "../../layouts/page-layout.tsx";
 import api from "../../models/axios.ts";
 import Attendance from "./attendance.tsx";
 import { useUsers } from "../../models/users.tsx";
-import { useCreateGroup, useGroups } from "../../models/groups.tsx";
+import {
+  useCreateGroup,
+  useDelete,
+  useGroups,
+  useUpdate,
+} from "../../models/groups.tsx";
 import { useRooms } from "../../models/rooms.tsx";
 import { values } from "lodash-es";
+import { Table } from "antd";
+import { DataSourceItemObject } from "antd/es/auto-complete/index";
 
 const Groups = () => {
   const { t } = useTranslation();
@@ -160,37 +167,62 @@ const Groups = () => {
         ],
       },
     ],
-    [t, teachers]
+    [t, teachers, rooms]
   );
 
   const columns = useMemo(
     () => [
       {
-        key: "group",
-        title: t("groups.title"),
-        dataIndex: "Guruhlar",
+        title: t("groups.name"),
+        dataIndex: "groupName",
+        key: "groupName",
       },
       {
+        title: t("groups.courseName"),
+        dataIndex: "courseName",
+        key: "courseName",
+      },
+      {
+        title: t("groups.teacher"),
+        dataIndex: "teacher",
         key: "teacher",
-        title: t("groups.chooseTeacher"),
-        dataIndex: "Teacher",
+        render: (teacher: Record<string, any>) =>
+          teacher?.firstname + " " + teacher?.lastname,
       },
-
       {
-        key: "st number",
-        title: t("groups.stNumber"),
-        dataIndex: "St number",
+        title: t("groups.room"),
+        dataIndex: "room",
+        key: "room",
+        render: (room: Record<string, any>) => room?.roomName,
       },
-      {},
       {
-        key: "days",
         title: t("groups.days"),
-        dataIndex: "Kunlar",
+        dataIndex: "days",
+        key: "days",
+        render: (days: string[]) => days.join(", "),
       },
       {
-        key: "time",
         title: t("groups.startTime"),
-        dataIndex: "Vaqt",
+        dataIndex: "startTime",
+        key: "startTime",
+        render: (startTime: string) =>
+          new Date(startTime).toLocaleTimeString([], {
+            hour: "2-digit",
+            minute: "2-digit",
+            hour12: false,
+          }),
+      },
+      {
+        title: t("groups.startDate"),
+        dataIndex: "startDate",
+        key: "startDate",
+        render: (startDate: string) => new Date(startDate).toLocaleDateString(),
+      },
+      {
+        title: t("groups.endDate"),
+        dataIndex: "endDate",
+        key: "endDate",
+        render: (endDate: string) => new Date(endDate).toLocaleDateString(),
       },
     ],
     [t]
@@ -226,6 +258,7 @@ const Groups = () => {
         />
       }
     >
+      <MyTable columns={columns} data={groups?.data || []} name="groups" />
       <MyDrawer entryPoint="add" title={t("groups.titleSingular")}>
         <AutoForm
           fields={fields as FormField[]}
