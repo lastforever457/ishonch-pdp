@@ -75,7 +75,9 @@
     "role": "Rol"
   },
   "groups": {
+    "price": "Guruh narxi",
     "title": "Guruhlar",
+    "name": "Guruh nomi",
     "titleSingular": "Yangi guruh qo'shish",
     "active": "Faol",
     "archive": "Arxiv",
@@ -86,6 +88,9 @@
     "days": "Kunlar",
     "chooseRoom": "Xona tanlang",
     "startTime": "Boshlanish vaqti",
+    "endTime": "Tugash vaqti",
+    "startDate": "Boshlanish kuni",
+    "endDate": "Tugash kuni",
     "monday": "Dushanba",
     "tuesday": "Seshanba",
     "wednesday": "Chorshanba",

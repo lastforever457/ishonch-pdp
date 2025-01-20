@@ -65,7 +65,9 @@
     "titleSingular": "Панель управления"
   },
   "groups": {
+    "price": "Guruh narxi",
     "title": "Группы",
+    "name": "Название группы",
     "titleSingular": "Создать группу",
     "active": "Активные",
     "archive": "Архив",
@@ -76,6 +78,9 @@
     "days": "Дни недели",
     "chooseRoom": "Выберите комнату",
     "startTime": "Время начала",
+    "endTime": "Время окончания",
+    "startDate": "Дата начала",
+    "endDate": "Дата окончания",
     "monday": "Понедельник",
     "tuesday": "Вторник",
     "wednesday": "Среда",
