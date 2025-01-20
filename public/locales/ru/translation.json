@@ -19,7 +19,8 @@
     "save": "Сохранить",
     "cancel": "Отменить",
     "comment": "Комментарий",
-    "date": "Дата"
+    "date": "Дата",
+    "not connected": "Не подключен"
   },
   "formMessages": {
     "firstName": "Пожалуйста, введите имя",

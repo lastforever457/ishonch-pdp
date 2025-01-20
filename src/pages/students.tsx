@@ -15,6 +15,8 @@ const Students = () => {
   const { data: students, isLoading: isStudentsLoading } = useStudents()
   const { data: groups, isLoading: isGroupsLoading } = useGroups('ACTIVE')
 
+  console.log(groups?.data)
+
   const fields = useMemo(
     () => [
       {
@@ -73,7 +75,7 @@ const Students = () => {
         ],
         options: groups?.data?.map((group: any) => ({
           value: group.id,
-          label: `${group.groupName} - ${group.courseName}`,
+          label: `${group?.groupName?.toString().toUppercase()} - ${group.courseName}`,
         })),
       },
       {
@@ -105,7 +107,7 @@ const Students = () => {
     () => [
       {
         key: 'fio',
-        title: t('students.name'),
+        title: t('form.fio'),
         dataIndex: 'fio',
       },
       {
@@ -143,8 +145,9 @@ const Students = () => {
         name="student"
         columns={columns}
         data={students?.data.map((item: Record<string, any>) => ({
-          ...item,
-          fio: `${item.firstname} ${item.lastname}`,
+          ...item.student,
+          group: item.groupName ? item.groupName : t('form.not connected'),
+          fio: `${item?.student?.firstname} ${item?.student?.lastname}`,
           key: item.id,
         }))}
       />

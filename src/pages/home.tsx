@@ -1,55 +1,59 @@
 import { Col, Row } from 'antd'
 import { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
+import { useGroups } from '../models/groups'
+import { useStudents } from '../models/students'
 import { useUsers } from '../models/users'
 
 const Home = () => {
   const { t } = useTranslation()
-  const { data: teachers, isLoading } = useUsers('TEACHER')
+  const { data: teachers, isLoading: isTeachersLoading } = useUsers('TEACHER')
+  const { data: students, isLoading: isStudentsLoading } = useStudents()
+  const { data: groups, isLoading: isGroupsLoading } = useGroups('ACTIVE')
 
   const users = useMemo(
     () => [
       {
         id: 1,
-        img: '/public/images/user-1.svg',
+        img: '/images/user-1.svg',
         percent: teachers?.data?.length,
         title: t('home.employees'),
       },
       {
         id: 2,
-        img: '/public/images/user-2.svg',
-        percent: '258',
+        img: '/images/user-2.svg',
+        percent: students?.data?.length,
         title: t('home.active-students'),
       },
       {
         id: 3,
-        img: '/public/images/user-3.svg',
-        percent: '135',
+        img: '/images/user-3.svg',
+        percent: groups?.data?.length,
         title: t('home.groups'),
       },
       {
         id: 4,
-        img: '/public/images/user-4.svg',
+        img: '/images/user-4.svg',
         percent: '56',
         title: t('home.debtors'),
       },
       {
         id: 5,
-        img: '/public/images/user-5.svg',
+        img: '/images/user-5.svg',
         percent: '246',
         title: t('home.pay-month'),
       },
       {
         id: 6,
-        img: '/public/images/user-6.svg',
+        img: '/images/user-6.svg',
         percent: '24',
         title: t('home.left-group'),
       },
     ],
-    [t, teachers]
+    [t, teachers, students, groups]
   )
 
-  if (isLoading) {
+  if (isTeachersLoading || isStudentsLoading || isGroupsLoading) {
     return (
       <div className="flex items-center justify-center h-screen">
         <div>Loading...</div>

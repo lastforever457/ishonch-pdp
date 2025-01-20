@@ -19,7 +19,8 @@
     "save": "Saqlash",
     "cancel": "Bekor qilish",
     "comment": "Izoh",
-    "date": "Sana"
+    "date": "Sana",
+    "not connected": "Biriktirilmagan"
   },
   "formMessages": {
     "firstName": "Iltimos, ismni kiriting",
