@@ -3,14 +3,6 @@
   "version": "7.7.7",
   "private": true,
   "description": "This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.",
-  "homepage": "https://github.com/lastforever457/ishonch-pdp#readme",
-  "bugs": {
-    "url": "https://github.com/lastforever457/ishonch-pdp/issues"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/lastforever457/ishonch-pdp.git"
-  },
   "license": "ISC",
   "author": "",
   "type": "module",
