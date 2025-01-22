@@ -54,8 +54,14 @@ export const useUpdateGroup = () => {
   const queryClient = useQueryClient();
   const data = useMutation({
     mutationKey: ["update-group"],
-    mutationFn: async (id: string) => {
-      const res = await api.patch(`/group/update/${id.toString()}`);
+    mutationFn: async (data: {
+      groupId: string | number;
+      data: Record<string, any>;
+    }) => {
+      const res = await api.patch(
+        `/group/update/${data.groupId.toString()}`,
+        data?.data
+      );
       console.log(res);
       queryClient.invalidateQueries({ queryKey: ["groups"] });
     },

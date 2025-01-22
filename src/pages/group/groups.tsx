@@ -1,5 +1,5 @@
 import { useMutation } from "@tanstack/react-query";
-import { useMemo } from "react";
+import { useEffect, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { AutoForm, FormField } from "../../components/auto-form.tsx";
 import MyDrawer from "../../components/my-drawer.tsx";
@@ -12,13 +12,15 @@ import { useUsers } from "../../models/users.tsx";
 import { useCreateGroup, useGroup, useGroups } from "../../models/groups.tsx";
 import { useRooms } from "../../models/rooms.tsx";
 import { values } from "lodash-es";
-import { Table } from "antd";
+import { Form, Table } from "antd";
 import { DataSourceItemObject } from "antd/es/auto-complete/index";
 import { Loader } from "../../components/loader.tsx";
 import { Link } from "react-router-dom";
+import axios from "axios";
 
 const Groups = () => {
   const { t } = useTranslation();
+  const [form] = Form.useForm();
   const { query } = useLocationParams();
   const { data: groups, isLoading: isGroupsLoading } = useGroups("ACTIVE");
   const { data: rooms } = useRooms();
@@ -26,6 +28,14 @@ const Groups = () => {
   const { mutate } = useCreateGroup();
 
   const { data: teachers, isLoading: isTeacherLoading } = useUsers("TEACHER");
+
+  useEffect(() => {
+    if (query.edit && query.id) {
+      form.setFieldsValue(
+        groups?.data.find((item: Record<string, any>) => item.id === query.id)
+      );
+    }
+  }, [query.edit, query.id, groups?.data, form]);
 
   const fields = useMemo(
     () => [
@@ -236,9 +246,13 @@ const Groups = () => {
 
   const onFinish = (values: Record<string, any>) => {
     console.log(values);
+
     mutate({
-      ...values,
-      groupPrice: Number(values.groupPrice),
+      groupId: query.id as string,
+      data: {
+        ...values,
+        groupPrice: Number(values.groupPrice),
+      },
     });
   };
 
@@ -273,6 +287,7 @@ const Groups = () => {
       />
       <MyDrawer entryPoint="add" title={t("groups.titleSingular")}>
         <AutoForm
+          form={form}
           fields={fields as FormField[]}
           onCancel={() => {}}
           onFinish={onFinish}
