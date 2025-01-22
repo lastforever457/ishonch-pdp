@@ -7,7 +7,6 @@ import MySegmented from "../../components/my-segmented.tsx";
 import MyTable from "../../components/my-table.tsx";
 import { useLocationParams } from "../../hooks/use-location-params.tsx";
 import PageLayout from "../../layouts/page-layout.tsx";
-import api from "../../models/axios.ts";
 import Attendance from "./attendance.tsx";
 import { useUsers } from "../../models/users.tsx";
 import { useCreateGroup, useGroup, useGroups } from "../../models/groups.tsx";
@@ -200,7 +199,7 @@ const Groups = () => {
         title: t("groups.days"),
         dataIndex: "days",
         key: "days",
-        render: (days: string[]) => days.join(", "),
+        render: (days: string[]) => (days ? days.join(",") : days),
       },
       {
         title: t("groups.startTime"),
