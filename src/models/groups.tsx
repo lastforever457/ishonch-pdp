@@ -14,6 +14,29 @@ export const useGroups = (status: GroupType) => {
   return data;
 };
 
+export const useGroup = (id: string) => {
+  const data = useQuery({
+    queryKey: ["groups"],
+    queryFn: async () => {
+      const { data } = await api.get(`/group/attendance/${id}`);
+      return data;
+    },
+  });
+  return data;
+};
+
+export const useGroupProfile = (id: string) => {
+  const data = useQuery({
+    queryKey: ["group-profile"],
+    queryFn: async () => {
+      const { data } = await api.get(`/group/profile/${id}`);
+      return data;
+    },
+    select: (data) => data?.data,
+  });
+  return data;
+};
+
 export const useCreateGroup = () => {
   const queryClient = useQueryClient();
   const data = useMutation({

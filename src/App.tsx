@@ -12,6 +12,7 @@ import Settings from "./pages/settings.tsx";
 import Students from "./pages/students.tsx";
 import { SidebarProvider } from "./providers/sidebar-context-provider.tsx";
 import { lightTheme, darkTheme } from "./theme"; // Importing themes
+import Attendance from "./pages/group/attendance.tsx";
 
 const App = () => {
   const routes = createBrowserRouter([
@@ -26,6 +27,10 @@ const App = () => {
         {
           path: "groups",
           element: <Groups />,
+        },
+        {
+          path: "groups/:groupId",
+          element: <Attendance />,
         },
         {
           path: "employees",
