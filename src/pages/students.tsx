@@ -1,6 +1,7 @@
 import { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { AutoForm } from '../components/auto-form.tsx'
+import { Loader } from '../components/loader.tsx'
 import MyDrawer from '../components/my-drawer.tsx'
 import MySegmented from '../components/my-segmented.tsx'
 import MyTable from '../components/my-table.tsx'
@@ -125,7 +126,7 @@ const Students = () => {
   )
 
   if (isStudentsLoading || isGroupsLoading) {
-    return <div className="text-center">Loading...</div>
+    return <Loader />
   }
 
   return (
