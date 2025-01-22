@@ -4,7 +4,7 @@ import { useTranslation } from "react-i18next";
 import { BsThreeDotsVertical } from "react-icons/bs";
 import { useRouterPush } from "../hooks/use-router-push";
 import { useDeleteUser } from "../models/users";
-import { useDelete, useUpdate } from "../models/groups";
+import { useDeleteGroup, useUpdateGroup } from "../models/groups";
 
 const MyTable = ({
   name,
@@ -30,8 +30,8 @@ const MyTable = ({
   const { mutate: userDelete } = useDeleteUser();
   const { mutate: roomDelete } = useDeleteUser();
 
-  const { mutate: mutateUser } = useUpdate();
-  const { mutate: mutateDelete } = useDelete();
+  const { mutate: updateUserMutate } = useUpdateGroup();
+  const { mutate: deleteUserMutate } = useDeleteGroup();
 
   const extendedColumns = useMemo(
     () =>
@@ -54,8 +54,13 @@ const MyTable = ({
                   {
                     key: "edit",
                     label: t("crud.edit"),
-                    onClick: () =>
-                      push({ query: { edit: true, id: record.id } }),
+                    onClick: () => {
+                      if (name === "groups") {
+                        updateUserMutate(record.id.toString());
+                      } else {
+                        push({ query: { edit: true, id: record.id } });
+                      }
+                    },
                   },
                   {
                     key: "delete",
@@ -70,9 +75,7 @@ const MyTable = ({
                           } else if (name === "room") {
                             roomDelete(record.id.toString());
                           } else if (name === "groups") {
-                            mutateDelete(record.id.toString());
-                          } else if (name === "users") {
-                            mutateUser(record.id.toString());
+                            deleteUserMutate(record.id.toString());
                           }
                         }}
                       >
@@ -106,5 +109,4 @@ const MyTable = ({
     />
   );
 };
-
 export default MyTable;

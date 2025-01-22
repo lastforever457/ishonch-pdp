@@ -27,12 +27,13 @@ export const useCreateGroup = () => {
   return data;
 };
 
-export const useUpdate = () => {
+export const useUpdateGroup = () => {
   const queryClient = useQueryClient();
   const data = useMutation({
     mutationKey: ["update-group"],
-    mutationFn: async (newGroup: Record<string, any>) => {
-      await api.patch(`/group/update/${newGroup.id}`, newGroup);
+    mutationFn: async (id: string) => {
+      const res = await api.patch(`/group/update/${id.toString()}`);
+      console.log(res);
       queryClient.invalidateQueries({ queryKey: ["groups"] });
     },
   });
@@ -40,7 +41,7 @@ export const useUpdate = () => {
   return data;
 };
 
-export const useDelete = () => {
+export const useDeleteGroup = () => {
   const queryClient = useQueryClient();
   const data = useMutation({
     mutationKey: ["delete-group"],

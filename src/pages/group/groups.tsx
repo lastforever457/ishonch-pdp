@@ -10,12 +10,7 @@ import PageLayout from "../../layouts/page-layout.tsx";
 import api from "../../models/axios.ts";
 import Attendance from "./attendance.tsx";
 import { useUsers } from "../../models/users.tsx";
-import {
-  useCreateGroup,
-  useDelete,
-  useGroups,
-  useUpdate,
-} from "../../models/groups.tsx";
+import { useCreateGroup, useGroups } from "../../models/groups.tsx";
 import { useRooms } from "../../models/rooms.tsx";
 import { values } from "lodash-es";
 import { Table } from "antd";
@@ -224,6 +219,12 @@ const Groups = () => {
         dataIndex: "endDate",
         key: "endDate",
         render: (endDate: string) => new Date(endDate).toLocaleDateString(),
+      },
+      {
+        title: t("groups.price"),
+        dataIndex: "groupPrice",
+        key: "groupPrice",
+        render: (groupPrice: number) => groupPrice + " so'm",
       },
     ],
     [t]
