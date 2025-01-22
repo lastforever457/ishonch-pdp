@@ -1,16 +1,16 @@
 import { Button, Col, DatePicker, Form, Row } from 'antd'
 import { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
+import { Loader } from '../../components/loader'
 import MyTable from '../../components/my-table'
 import { useLocationParams } from '../../hooks/use-location-params'
-import { useRouterPush } from '../../hooks/use-router-push'
-import { finance } from '../../test-data'
+import useFinance from '../../models/finance'
 import ExpenseForPeriod from './expense-for-period'
 
 const FinanceTab = () => {
   const { t } = useTranslation()
-  const { push } = useRouterPush()
   const { query } = useLocationParams()
+  const { data: financeData, isLoading: isFinanceLoading } = useFinance()
 
   const columns = useMemo(
     () => [
@@ -33,10 +33,17 @@ const FinanceTab = () => {
         key: 'amount',
         title: t('employees.amount'),
         dataIndex: 'amount',
+        render: (text: number | string) =>
+          new Intl.NumberFormat('en-UZ', {
+            style: 'currency',
+            currency: 'UZS',
+          }).format(Number(text)),
       },
     ],
     [t]
   )
+
+  if (isFinanceLoading) return <Loader />
 
   return (
     <>
@@ -99,7 +106,21 @@ const FinanceTab = () => {
         </Col>
       </Row>
       <ExpenseForPeriod />
-      <MyTable name="finance" columns={columns} data={finance} />
+      <MyTable
+        name="finance"
+        columns={columns}
+        data={
+          financeData && financeData[0]
+            ? query.search
+              ? financeData[0].filter((item: Record<string, any>) =>
+                  item.name
+                    .toLowerCase()
+                    .includes(query.search?.toString().toLowerCase() as string)
+                )
+              : financeData[0]
+            : []
+        }
+      />
     </>
   )
 }

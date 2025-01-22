@@ -26,6 +26,18 @@ export const useCreateRoom = () => {
   return createRoom
 }
 
+export const useUpdateRoom = () => {
+  const queryClient = useQueryClient()
+  const updateRoom = useMutation({
+    mutationKey: ['update-room'],
+    mutationFn: async (room: Record<string, any>) => {
+      await api.patch(`/room/${room.id}`, room.data)
+      queryClient.invalidateQueries({ queryKey: ['rooms'] })
+    },
+  })
+  return updateRoom
+}
+
 export const useDeleteRoom = () => {
   const queryClient = useQueryClient()
   const deleteRoom = useMutation({

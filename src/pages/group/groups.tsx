@@ -225,9 +225,9 @@ const Groups = () => {
         render: (endDate: string) => new Date(endDate).toLocaleDateString(),
       },
       {
-        title: t("groups.price"),
-        dataIndex: "groupPrice",
-        key: "groupPrice",
+        title: t('groups.price'),
+        dataIndex: 'groupPrice',
+        key: 'groupPrice',
         render: (groupPrice: number) => groupPrice + " so'm",
       },
     ],

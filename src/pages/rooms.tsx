@@ -1,20 +1,29 @@
-import { useMemo } from 'react'
+import { Form } from 'antd'
+import { useEffect, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { AutoForm } from '../components/auto-form'
+import { Loader } from '../components/loader'
 import MyDrawer from '../components/my-drawer'
 import MyTable from '../components/my-table'
 import { useLocationParams } from '../hooks/use-location-params'
 import { useRouterPush } from '../hooks/use-router-push'
-import i18n from '../i18n/i18n'
 import PageLayout from '../layouts/page-layout'
-import { useCreateRoom, useRooms } from '../models/rooms'
+import {
+  useCreateRoom,
+  useDeleteRoom,
+  useRooms,
+  useUpdateRoom,
+} from '../models/rooms'
 
 const Rooms = () => {
   const { t } = useTranslation()
   const { query } = useLocationParams()
   const { push } = useRouterPush()
-  const { data: rooms } = useRooms()
-  const { mutate } = useCreateRoom()
+  const { data: rooms, isLoading } = useRooms()
+  const { mutate: mutateCreateRoom } = useCreateRoom()
+  const { mutate: mutateUpdateRoom } = useUpdateRoom()
+  const { mutate: mutateDeleteRoom } = useDeleteRoom()
+  const [form] = Form.useForm()
 
   const fields = useMemo(
     () => [
@@ -116,26 +125,40 @@ const Rooms = () => {
     })
   }
 
-  const onFinish = (values: Record<string, any>) => {
+  useEffect(() => {
+    if (query.edit && query.id) {
+      form.setFieldsValue(
+        rooms?.data?.find((room: any) => room.id === query.id)
+      )
+    }
+  }, [query.edit, query.id, rooms])
+
+  const onFinish = async (values: Record<string, any>) => {
     try {
-      mutate(values)
+      if (query.edit && query.id) {
+        await mutateUpdateRoom({ id: query.id, data: values })
+      } else {
+        await mutateCreateRoom(values)
+      }
       onCancel()
     } catch (error) {
       console.log(error)
     }
   }
+
+  if (isLoading) return <Loader />
+
   return (
     <PageLayout title={t('rooms.title')}>
-      <MyTable name="room" columns={columns} data={rooms?.data} />
-      <MyDrawer
-        entryPoint="add"
-        title={
-          i18n.language === 'uz'
-            ? `${t('rooms.titleSingular')} ${t('crud.add')}`
-            : `${t('crud.add')} ${t('rooms.titleSingular')}`
-        }
-      >
+      <MyTable
+        deleteFunc={mutateDeleteRoom}
+        name="room"
+        columns={columns}
+        data={rooms?.data}
+      />
+      <MyDrawer entryPoint="add" title={t('rooms.titleSingular')}>
         <AutoForm
+          form={form}
           onFinish={onFinish}
           onCancel={onCancel}
           saveTitle={query.add ? t('crud.create') : t('form.save')}
