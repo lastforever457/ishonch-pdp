@@ -1,4 +1,3 @@
-import { useMutation } from "@tanstack/react-query";
 import { useEffect, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { AutoForm, FormField } from "../../components/auto-form.tsx";
@@ -7,16 +6,16 @@ import MySegmented from "../../components/my-segmented.tsx";
 import MyTable from "../../components/my-table.tsx";
 import { useLocationParams } from "../../hooks/use-location-params.tsx";
 import PageLayout from "../../layouts/page-layout.tsx";
-import Attendance from "./attendance.tsx";
 import { useUsers } from "../../models/users.tsx";
-import { useCreateGroup, useGroup, useGroups } from "../../models/groups.tsx";
+import {
+  useCreateGroup,
+  useDeleteGroup,
+  useGroups,
+} from "../../models/groups.tsx";
 import { useRooms } from "../../models/rooms.tsx";
-import { values } from "lodash-es";
 import { Form, Table } from "antd";
-import { DataSourceItemObject } from "antd/es/auto-complete/index";
 import { Loader } from "../../components/loader.tsx";
 import { Link } from "react-router-dom";
-import axios from "axios";
 
 const Groups = () => {
   const { t } = useTranslation();
@@ -26,13 +25,14 @@ const Groups = () => {
   const { data: rooms } = useRooms();
   const {} = useGroups("ARCHIVE");
   const { mutate } = useCreateGroup();
+  const { mutate: deleteGroup } = useDeleteGroup();
 
   const { data: teachers, isLoading: isTeacherLoading } = useUsers("TEACHER");
 
   useEffect(() => {
     if (query.edit && query.id) {
       form.setFieldsValue(
-        groups?.data.find((item: Record<string, any>) => item.id === query.id)
+        groups?.data.find((item: Record<string, any>) => item.id === query.id),
       );
     }
   }, [query.edit, query.id, groups?.data, form]);
@@ -174,7 +174,7 @@ const Groups = () => {
         ],
       },
     ],
-    [t, teachers, rooms]
+    [t, teachers, rooms],
   );
 
   const columns = useMemo(
@@ -235,18 +235,17 @@ const Groups = () => {
         render: (endDate: string) => new Date(endDate).toLocaleDateString(),
       },
       {
-        title: t('groups.price'),
-        dataIndex: 'groupPrice',
-        key: 'groupPrice',
-        render: (groupPrice: number) => groupPrice + " so'm",
+        title: t("groups.price"),
+        dataIndex: "groupPrice",
+        key: "groupPrice",
+        render: (groupPrice: number) => groupPrice + "so'm",
       },
     ],
-    [t]
+    [t],
   );
 
   const onFinish = (values: Record<string, any>) => {
     console.log(values);
-
     mutate({
       groupId: query.id as string,
       data: {
@@ -283,7 +282,8 @@ const Groups = () => {
             };
           }) || []
         }
-        name="groups"
+        name="group"
+        deleteFunc={deleteGroup}
       />
       <MyDrawer entryPoint="add" title={t("groups.titleSingular")}>
         <AutoForm
