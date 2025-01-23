@@ -192,11 +192,8 @@ const Attendance = () => {
                       <RiDeleteBin6Line className="cursor-pointer" />
                     </div>
                   </li>
-                )
+                ),
               )}
-              <li className="text-blue-500 cursor-pointer">
-                + Add a new Reader
-              </li>
             </ul>
           </div>
         </div>
