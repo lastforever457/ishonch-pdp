@@ -11,14 +11,14 @@ import {
   GroupType,
   useCreateGroup,
   useDeleteGroup,
+  useGroupProfile,
   useGroups,
 } from "../../models/groups.tsx";
 import { useRooms } from "../../models/rooms.tsx";
 import { Form, Table } from "antd";
 import { Loader } from "../../components/loader.tsx";
 import { Link } from "react-router-dom";
-import dayjs from "dayjs";
-import { defaultDateFormat } from "../../utils.ts";
+import { defaultDateFormat, defaultDateTimeFormat } from "../../utils.ts";
 
 const Groups = () => {
   const { t } = useTranslation();
@@ -33,11 +33,16 @@ const Groups = () => {
       "ACTIVE") as GroupType,
   );
   const { data: rooms } = useRooms();
-  const {} = useGroups("ARCHIVE");
+  const {
+    data: group,
+    refetch: refetchGroup,
+    isLoading: isGroupLoading,
+  } = useGroupProfile(query.id as string);
   const { mutate } = useCreateGroup();
   const { mutate: deleteGroup } = useDeleteGroup();
-
   const { data: teachers, isLoading: isTeacherLoading } = useUsers("TEACHER");
+
+  console.log(groups);
 
   useEffect(() => {
     const refetch = async () => {
@@ -67,12 +72,20 @@ const Groups = () => {
   }, [groups, query.search]);
 
   useEffect(() => {
-    if (query.edit && query.id) {
-      form.setFieldsValue(
-        groups?.data.find((item: Record<string, any>) => item.id === query.id),
-      );
-    }
-  }, [query.edit, query.id, groups?.data, form]);
+    const fetch = async () => {
+      if (query.edit && query.id) {
+        await refetchGroup();
+        form.setFieldsValue({
+          ...group,
+          teacher: { value: data.teacher.id, label: data.teacher.name },
+          startTime: defaultDateTimeFormat(data.startTime),
+          startDate: defaultDateFormat(data.startDate),
+          endDate: defaultDateFormat(data.endDate),
+        });
+      }
+    };
+    fetch();
+  }, [query.edit, query.id, data, form]);
 
   const fields = useMemo(
     () => [
@@ -286,9 +299,9 @@ const Groups = () => {
     });
   };
 
-  if (isGroupsLoading || isTeacherLoading) {
-    return <Loader />;
-  }
+  if (isGroupsLoading || isTeacherLoading) return <Loader />;
+
+  if (isGroupLoading) return <Loader />;
 
   return (
     <PageLayout
@@ -306,12 +319,14 @@ const Groups = () => {
       <MyTable
         columns={columns}
         data={
-          data.map((item: Record<string, any>) => {
+          groups &&
+          groups?.data &&
+          groups?.data.map((item: Record<string, any>) => {
             return {
               ...item,
               groupName: { groupName: item.groupName, groupId: item.id },
             };
-          }) || []
+          })
         }
         name="group"
         deleteFunc={deleteGroup}
