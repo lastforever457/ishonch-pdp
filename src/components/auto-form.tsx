@@ -707,6 +707,7 @@ const Field = memo(
             initialValue={field.defaultValue}
           >
             <DatePicker
+
               style={{ minWidth: 150 }}
               disabled={field.readOnly || view}
             />

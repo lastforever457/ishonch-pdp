@@ -7,6 +7,8 @@ import "tailwindcss/tailwind.css";
 import { useGroup, useGroupProfile } from "../../models/groups";
 import MyTable from "../../components/my-table";
 import { Loader } from "../../components/loader";
+import { IoMdReturnLeft } from "react-icons/io";
+import { BsArrowReturnLeft } from "react-icons/bs";
 
 const Attendance = () => {
   const { groupId } = useParams();
@@ -141,6 +143,12 @@ const Attendance = () => {
               </h1>
             </div>
             <div className="flex items-center space-x-2 mt-[-10px] text-[#7338ac]">
+              <a
+                href="/groups"
+                className={"hover:text-blue-500 text-xl font-bold"}
+              >
+                <BsArrowReturnLeft size={25} />
+              </a>
               <RiEditCircleLine size={25} className="cursor-pointer" />
               <RiDeleteBin6Line size={25} className="cursor-pointer" />
             </div>

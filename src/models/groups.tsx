@@ -3,6 +3,17 @@ import api from "./axios";
 
 export type GroupType = "ACTIVE" | "ARCHIVE";
 
+export const useSearchGroups = () => {
+  const data = useQuery({
+    queryKey: ["groups"],
+    queryFn: async () => {
+      const { data } = await api.post(`/group/search`);
+      return data;
+    },
+  });
+  return data;
+};
+
 export const useGroups = (status: GroupType) => {
   const data = useQuery({
     queryKey: ["groups"],
@@ -43,10 +54,9 @@ export const useCreateGroup = () => {
     mutationKey: ["create-group"],
     mutationFn: async (newGroup: Record<string, any>) => {
       await api.post("/group/addGroup", newGroup);
-      queryClient.invalidateQueries({ queryKey: ["groups"] });
+      await queryClient.invalidateQueries({ queryKey: ["groups"] });
     },
   });
-
   return data;
 };
 
@@ -60,7 +70,7 @@ export const useUpdateGroup = () => {
     }) => {
       const res = await api.patch(
         `/group/update/${data.groupId.toString()}`,
-        data?.data
+        data?.data,
       );
       console.log(res);
       queryClient.invalidateQueries({ queryKey: ["groups"] });
@@ -76,7 +86,7 @@ export const useDeleteGroup = () => {
     mutationKey: ["delete-group"],
     mutationFn: async (id: string) => {
       await api.delete(`/group/delete/${id}`);
-      queryClient.invalidateQueries({ queryKey: ["groups"] });
+      await queryClient.invalidateQueries({ queryKey: ["groups"] });
     },
   });
 

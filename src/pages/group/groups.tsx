@@ -8,6 +8,7 @@ import { useLocationParams } from "../../hooks/use-location-params.tsx";
 import PageLayout from "../../layouts/page-layout.tsx";
 import { useUsers } from "../../models/users.tsx";
 import {
+  GroupType,
   useCreateGroup,
   useDeleteGroup,
   useGroups,
@@ -16,18 +17,53 @@ import { useRooms } from "../../models/rooms.tsx";
 import { Form, Table } from "antd";
 import { Loader } from "../../components/loader.tsx";
 import { Link } from "react-router-dom";
+import dayjs from "dayjs";
 
 const Groups = () => {
   const { t } = useTranslation();
   const [form] = Form.useForm();
   const { query } = useLocationParams();
-  const { data: groups, isLoading: isGroupsLoading } = useGroups("ACTIVE");
+  const {
+    data: groups,
+    isLoading: isGroupsLoading,
+    refetch: refetchGroups,
+  } = useGroups(
+    ((query.groupsTab as GroupType).toUpperCase() || "ACTIVE") as GroupType,
+  );
   const { data: rooms } = useRooms();
   const {} = useGroups("ARCHIVE");
   const { mutate } = useCreateGroup();
   const { mutate: deleteGroup } = useDeleteGroup();
 
   const { data: teachers, isLoading: isTeacherLoading } = useUsers("TEACHER");
+
+  useEffect(() => {
+    const refetch = async () => {
+      await refetchGroups();
+    };
+
+    refetch();
+  }, [query.groupsTab]);
+
+  const data = useMemo(() => {
+    const remainedData: Record<string, any> | undefined = query.search
+      ? groups?.data?.filter(
+          (item: Record<string, any>) =>
+            item.groupName.includes(query.search as string) ||
+            item.courseName.includes(query.search as string),
+        )
+      : groups?.data;
+    return (
+      remainedData?.map((item: Record<string, any>) => ({
+        ...item,
+        key: item.id,
+        fio: {
+          id: item.id,
+          name: `${item.groupName || ""} ${item.courseName || ""}`,
+        },
+      })) || []
+    );
+  }, [groups, query.search]);
 
   useEffect(() => {
     if (query.edit && query.id) {
@@ -265,8 +301,8 @@ const Groups = () => {
       segmented={
         <MySegmented
           segmentedValues={[
-            { value: t("groups.active"), key: "active" },
-            { value: t("groups.archive"), key: "archive", isPrimary: true },
+            { value: t("groups.active"), key: "active", isPrimary: true },
+            { value: t("groups.archive"), key: "archive" },
           ]}
           queryName={"groupsTab"}
         />
@@ -275,7 +311,7 @@ const Groups = () => {
       <MyTable
         columns={columns}
         data={
-          groups?.data.map((item: Record<string, any>) => {
+          data.map((item: Record<string, any>) => {
             return {
               ...item,
               groupName: { groupName: item.groupName, groupId: item.id },
