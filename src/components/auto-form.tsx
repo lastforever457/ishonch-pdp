@@ -16,73 +16,73 @@ import {
   Space,
   Switch,
   TimePicker,
-} from "antd";
-import { FormInstance, Rule } from "antd/es/form";
-import { isString } from "lodash-es";
-import { CSSProperties, FC, Key, memo, ReactNode, useState } from "react";
+} from 'antd'
+import { FormInstance, Rule } from 'antd/es/form'
+import { isString } from 'lodash-es'
+import { CSSProperties, FC, Key, memo, ReactNode, useState } from 'react'
 import {
   FiMinusCircle as MinusCircleOutlined,
   FiPlus as PlusOutlined,
-} from "react-icons/fi";
+} from 'react-icons/fi'
 
-import { UploadListType } from "antd/es/upload/interface";
-import clsx from "clsx";
-import { useTranslation } from "react-i18next";
-import { useLocationParams } from "../hooks/use-location-params";
+import { UploadListType } from 'antd/es/upload/interface'
+import clsx from 'clsx'
+import { useTranslation } from 'react-i18next'
+import { useLocationParams } from '../hooks/use-location-params'
 
-const { RangePicker } = DatePicker;
-const { TextArea } = Input;
+const { RangePicker } = DatePicker
+const { TextArea } = Input
 
 export type ListItemContainer = {
-  children: ReactNode;
-  field: FormField;
-  index: number;
-  remove: () => void;
-};
+  children: ReactNode
+  field: FormField
+  index: number
+  remove: () => void
+}
 
-export type SelectMode = "multiple" | "tags" | undefined;
+export type SelectMode = 'multiple' | 'tags' | undefined
 
 export type FormField = {
-  label?: string | ReactNode;
-  addonBefore?: string;
-  addonAfter?: string;
-  listLabel?: string;
-  labelContainer?: string;
-  name: string;
-  type?: string;
-  rules?: Rule[] | undefined;
-  className?: string;
-  options?: { label: string | ReactNode; value: string | boolean | number }[];
-  mode?: SelectMode;
-  showSelectAll?: boolean;
-  dynamic?: boolean;
-  readOnly?: boolean;
-  placeholder?: string;
-  rows?: number;
-  min?: number;
-  max?: number;
-  loading?: boolean;
-  defaultValue?: any;
-  accept?: string;
-  span?: number;
-  autoSize?: boolean;
-  childFields?: FormField[];
-  addButton?: string | ReactNode;
-  collapse?: boolean;
-  ListItemContainer?: FC<ListItemContainer>;
-  colStyle?: CSSProperties;
-  xs?: number;
-  sm?: number;
-  md?: number;
-  lg?: number;
-  xl?: number;
-  xxl?: number;
-  listType?: UploadListType;
-  fileMultiple?: boolean;
-  showTime?: boolean;
-  onChange?: any;
-  onSearch?: any;
-};
+  label?: string | ReactNode
+  addonBefore?: string
+  addonAfter?: string
+  listLabel?: string
+  labelContainer?: string
+  name: string
+  type?: string
+  rules?: Rule[] | undefined
+  className?: string
+  options?: { label: string | ReactNode; value: string | boolean | number }[]
+  mode?: SelectMode
+  showSelectAll?: boolean
+  dynamic?: boolean
+  readOnly?: boolean
+  placeholder?: string
+  rows?: number
+  min?: number
+  max?: number
+  loading?: boolean
+  defaultValue?: any
+  accept?: string
+  span?: number
+  autoSize?: boolean
+  childFields?: FormField[]
+  addButton?: string | ReactNode
+  collapse?: boolean
+  ListItemContainer?: FC<ListItemContainer>
+  colStyle?: CSSProperties
+  xs?: number
+  sm?: number
+  md?: number
+  lg?: number
+  xl?: number
+  xxl?: number
+  listType?: UploadListType
+  fileMultiple?: boolean
+  showTime?: boolean
+  onChange?: any
+  onSearch?: any
+}
 
 export const AutoForm = memo(
   ({
@@ -91,8 +91,8 @@ export const AutoForm = memo(
     onCancel,
     onFinish,
     isSaveLoading,
-    cancelTitle = "Cancel",
-    saveTitle = "Save",
+    cancelTitle = 'Cancel',
+    saveTitle = 'Save',
     columnSize = 1,
     xsColumnSize = 1,
     mdColumnSize,
@@ -107,38 +107,38 @@ export const AutoForm = memo(
     loading,
     onValuesChange,
   }: {
-    form?: FormInstance<any>;
-    fields: FormField[];
-    onCancel?: Function;
-    onFinish?: (values: any) => void;
-    isSaveLoading?: boolean;
-    cancelTitle?: string;
-    saveTitle?: string;
-    columnSize?: number;
-    mdColumnSize?: number;
-    xsColumnSize?: number;
-    smColumnSize?: number;
-    lgColumnSize?: number;
-    xlColumnSize?: number;
-    xxlColumnSize?: number;
-    className?: string;
-    inline?: boolean;
-    hideButtons?: boolean;
-    view?: boolean;
-    loading?: boolean;
-    onValuesChange?: (changedValues: any, allValues: any) => void;
+    form?: FormInstance<any>
+    fields: FormField[]
+    onCancel?: Function
+    onFinish?: (values: any) => void
+    isSaveLoading?: boolean
+    cancelTitle?: string
+    saveTitle?: string
+    columnSize?: number
+    mdColumnSize?: number
+    xsColumnSize?: number
+    smColumnSize?: number
+    lgColumnSize?: number
+    xlColumnSize?: number
+    xxlColumnSize?: number
+    className?: string
+    inline?: boolean
+    hideButtons?: boolean
+    view?: boolean
+    loading?: boolean
+    onValuesChange?: (changedValues: any, allValues: any) => void
   }) => {
     return (
       <div className="antd-inputs">
         <Form
           form={form}
           name="basic"
-          layout={"vertical"}
+          layout={'vertical'}
           onFinish={onFinish}
           autoComplete="off"
           onValuesChange={onValuesChange || (() => {})}
           className={clsx({
-            "flex gap-2": inline,
+            'flex gap-2': inline,
             [className as string]: className,
           })}
         >
@@ -158,16 +158,16 @@ export const AutoForm = memo(
                 }
               >
                 {loading ? (
-                  <div className={"flex flex-col gap-3"}>
+                  <div className={'flex flex-col gap-3'}>
                     <Skeleton
                       active
-                      title={{ width: "30%" }}
+                      title={{ width: '30%' }}
                       paragraph={false}
                     />
                     <Skeleton.Input
                       active
-                      size={"large"}
-                      style={{ width: "70%" }}
+                      size={'large'}
+                      style={{ width: '70%' }}
                     />
                   </div>
                 ) : (
@@ -186,10 +186,10 @@ export const AutoForm = memo(
 
           {!hideButtons && (
             <div
-              className={"mb-0 mt-5 flex items-center justify-end text-right"}
+              className={'mb-0 mt-5 flex items-center justify-end text-right'}
             >
               {onCancel && (
-                <Button className={"mr-4"} onClick={() => onCancel()}>
+                <Button className={'mr-4'} onClick={() => onCancel()}>
                   {cancelTitle}
                 </Button>
               )}
@@ -204,9 +204,9 @@ export const AutoForm = memo(
           )}
         </Form>
       </div>
-    );
-  },
-);
+    )
+  }
+)
 
 const Field = memo(
   ({
@@ -218,49 +218,49 @@ const Field = memo(
     onChange,
     view,
   }: {
-    field: FormField;
-    fieldName: any;
-    fullFieldName?: any;
-    form: FormInstance<any>;
-    columnSize?: number;
-    onChange: any;
-    view?: boolean;
+    field: FormField
+    fieldName: any
+    fullFieldName?: any
+    form: FormInstance<any>
+    columnSize?: number
+    onChange: any
+    view?: boolean
   }) => {
-    if (!fullFieldName) fullFieldName = fieldName;
-    if (!field.type && field.options) field.type = "select";
-    if (!field.type && field.childFields) field.type = "list";
-    const { t } = useTranslation();
-    const { query } = useLocationParams();
+    if (!fullFieldName) fullFieldName = fieldName
+    if (!field.type && field.options) field.type = 'select'
+    if (!field.type && field.childFields) field.type = 'list'
+    const { t } = useTranslation()
+    const { query } = useLocationParams()
     const [selectedValues, setSelectedValues] = useState<any[]>(
-      field.defaultValue || [],
-    );
+      field.defaultValue || []
+    )
     const [isSelectAllChecked, setIsSelectAllChecked] = useState(
-      field.defaultValue?.length === field.options?.length,
-    );
+      field.defaultValue?.length === field.options?.length
+    )
 
     const handleSelectAll = (checked: boolean) => {
       if (checked) {
-        const allValues = field.options?.map((option) => option.value);
-        form.setFieldValue(fieldName, allValues);
-        setSelectedValues(allValues || []);
+        const allValues = field.options?.map((option) => option.value)
+        form.setFieldValue(fieldName, allValues)
+        setSelectedValues(allValues || [])
       } else {
-        form.setFieldValue(fieldName, []);
-        setSelectedValues([]);
+        form.setFieldValue(fieldName, [])
+        setSelectedValues([])
       }
-      setIsSelectAllChecked(checked);
-    };
+      setIsSelectAllChecked(checked)
+    }
 
     const handleSelectChange = (value: any) => {
-      if (onChange) onChange(value);
-      form.setFieldValue(fieldName, value);
-      setSelectedValues(value);
-      setIsSelectAllChecked(value?.length === field.options?.length);
-    };
+      if (onChange) onChange(value)
+      form.setFieldValue(fieldName, value)
+      setSelectedValues(value)
+      setIsSelectAllChecked(value?.length === field.options?.length)
+    }
 
-    if (field.dynamic && field.type != "list")
+    if (field.dynamic && field.type != 'list')
       return (
         <>
-          <div className={"mb-2 mt-2 block"}>{field.label}</div>
+          <div className={'mb-2 mt-2 block'}>{field.label}</div>
           <Form.List key={field.name} name={field.name}>
             {(listFields, { add, remove }, { errors }) => (
               <>
@@ -271,29 +271,29 @@ const Field = memo(
                     key={listField.key}
                   >
                     <Form.Item
-                      validateTrigger={["onChange", "onBlur"]}
+                      validateTrigger={['onChange', 'onBlur']}
                       {...listField}
                       noStyle
                     >
-                      {field.type === "textarea" ? (
+                      {field.type === 'textarea' ? (
                         <TextArea
                           rows={field.rows || 4}
                           autoSize={field.autoSize}
-                          className={`my-0 mr-2 ${field.className || ""}`}
-                          placeholder={field.placeholder || ""}
+                          className={`my-0 mr-2 ${field.className || ''}`}
+                          placeholder={field.placeholder || ''}
                           disabled={view}
                         />
                       ) : (
                         <Input
-                          type={field.type || "text"}
-                          className={`my-0 mr-2 ${field.className || ""}`}
-                          placeholder={field.placeholder || ""}
+                          type={field.type || 'text'}
+                          className={`my-0 mr-2 ${field.className || ''}`}
+                          placeholder={field.placeholder || ''}
                           disabled={view}
                         />
                       )}
                     </Form.Item>
                     <Button
-                      type={"text"}
+                      type={'text'}
                       onClick={() => remove(listField.name)}
                     >
                       <MinusCircleOutlined />
@@ -301,12 +301,12 @@ const Field = memo(
                   </Form.Item>
                 ))}
 
-                <Form.Item className={"mb-2"}>
+                <Form.Item className={'mb-2'}>
                   <Button
                     type="dashed"
                     onClick={() => add()}
                     icon={<PlusOutlined />}
-                    className={"px-6"}
+                    className={'px-6'}
                   >
                     {t("Qo'shish")}
                   </Button>
@@ -317,7 +317,7 @@ const Field = memo(
             )}
           </Form.List>
         </>
-      );
+      )
 
     // if (loading) {
     //   return (
@@ -331,62 +331,62 @@ const Field = memo(
     // }
 
     switch (field.type) {
-      case "checkbox":
+      case 'checkbox':
         return (
           <Form.Item
-            label={""}
+            label={''}
             name={fieldName}
             rules={field.rules}
-            className={`mb-0 ${field.className || ""}`}
+            className={`mb-0 ${field.className || ''}`}
             valuePropName="checked"
           >
             <Checkbox disabled={field.readOnly || view}>{field.label}</Checkbox>
           </Form.Item>
-        );
+        )
 
-      case "bigInt":
+      case 'bigInt':
         return (
           <Form.Item
             label={field.label}
             name={fieldName}
-            className={`my-2 ${field.className || ""}`}
+            className={`my-2 ${field.className || ''}`}
             rules={[
               ...(field.rules || []),
               {
                 pattern: /^\d+(.\d+)?$/,
-                message: "Value should contain just number",
+                message: 'Value should contain just number',
               },
               {
                 pattern: /^[\d+(.\d+)?]{0,100}$/,
-                message: "Value should be less than 100 character",
+                message: 'Value should be less than 100 character',
               },
             ]}
             validateTrigger="onBlur"
             initialValue={field.defaultValue}
           >
             <Input
-              type={"text"}
-              autoComplete={"off"}
+              type={'text'}
+              autoComplete={'off'}
               disabled={field.readOnly || view}
             />
           </Form.Item>
-        );
+        )
 
-      case "rangePicker":
+      case 'rangePicker':
         return (
           <Form.Item
             label={field.label}
             name={fieldName}
             rules={field.rules}
-            className={`my-2 ${field.className || ""}`}
+            className={`my-2 ${field.className || ''}`}
           >
             <RangePicker
               disabled={field.readOnly || view}
               showTime={field.showTime}
-              className={"w-full"}
+              className={'w-full'}
             />
           </Form.Item>
-        );
+        )
 
       // case "file":
       //   return (
@@ -418,13 +418,13 @@ const Field = memo(
       //     </>
       //   );
 
-      case "radio":
+      case 'radio':
         return (
           <Form.Item
             label={field.label}
             name={fieldName}
             rules={field.rules}
-            className={`my-2 ${field.className || ""}`}
+            className={`my-2 ${field.className || ''}`}
           >
             <Radio.Group disabled={field.readOnly || view} onChange={onChange}>
               {field.options?.map((option) => (
@@ -438,7 +438,7 @@ const Field = memo(
               ))}
             </Radio.Group>
           </Form.Item>
-        );
+        )
 
       // case "md":
       //   return (
@@ -453,20 +453,20 @@ const Field = memo(
       //     </Form.Item>
       //   );
 
-      case "switch":
+      case 'switch':
         return (
           <Form.Item
             label={field.label}
             name={fieldName}
             valuePropName="checked"
-            className={`my-2 ${field.className || ""}`}
+            className={`my-2 ${field.className || ''}`}
           >
             <Switch
               disabled={field.readOnly || view}
               defaultChecked={field.defaultValue}
             />
           </Form.Item>
-        );
+        )
 
       // case "list":
       //   return (
@@ -574,31 +574,31 @@ const Field = memo(
       //     </>
       //   );
 
-      case "password":
+      case 'password':
         return (
           <Form.Item
             label={field.label}
             name={fieldName}
             rules={field.rules}
-            className={`my-2 ${field.className || ""}`}
+            className={`my-2 ${field.className || ''}`}
             initialValue={field.defaultValue}
           >
             <Input.Password
               addonBefore={field.addonBefore}
               addonAfter={field.addonAfter}
-              autoComplete={"new-password"}
+              autoComplete={'new-password'}
               disabled={field.readOnly || view}
             />
           </Form.Item>
-        );
+        )
 
-      case "number":
+      case 'number':
         return (
           <Form.Item
             label={field.label}
             name={fieldName}
             rules={field.rules}
-            className={`my-2 ${field.className || ""}`}
+            className={`my-2 ${field.className || ''}`}
             initialValue={field.defaultValue}
           >
             <InputNumber
@@ -611,19 +611,19 @@ const Field = memo(
               disabled={field.readOnly || view}
             />
           </Form.Item>
-        );
+        )
 
-      case "select":
+      case 'select':
         return (
           <Form.Item
             label={field.label}
             name={fieldName}
             rules={field.rules}
-            className={`my-2 ${field.className || ""}`}
+            className={`my-2 ${field.className || ''}`}
             initialValue={field.defaultValue}
           >
             <Select
-              placeholder={t("select")}
+              placeholder={t('select')}
               allowClear
               mode={field.mode}
               options={field.options}
@@ -632,7 +632,7 @@ const Field = memo(
                 <>
                   {field.showSelectAll && (
                     <>
-                      <Space style={{ padding: "8px" }}>
+                      <Space style={{ padding: '8px' }}>
                         <Checkbox
                           indeterminate={
                             selectedValues?.length > 0 &&
@@ -641,10 +641,10 @@ const Field = memo(
                           onChange={(e) => handleSelectAll(e.target.checked)}
                           checked={isSelectAllChecked}
                         >
-                          {t("Hammasini belgilash")}
+                          {t('Hammasini belgilash')}
                         </Checkbox>
                       </Space>
-                      <Divider style={{ margin: "0px" }} />
+                      <Divider style={{ margin: '0px' }} />
                     </>
                   )}
                   {menu}
@@ -652,22 +652,22 @@ const Field = memo(
               )}
               showSearch
               filterOption={(input, option) =>
-                ((option?.label || "") as string)
+                ((option?.label || '') as string)
                   .toLowerCase()
                   .includes(input.toLowerCase())
               }
               disabled={field.readOnly || view}
             />
           </Form.Item>
-        );
+        )
 
-      case "autocomplete": {
+      case 'autocomplete': {
         return (
           <Form.Item
             label={field.label}
             name={fieldName}
             rules={field.rules}
-            className={`my-2 ${field.className || ""}`}
+            className={`my-2 ${field.className || ''}`}
             initialValue={field.defaultValue}
           >
             <AutoComplete
@@ -676,34 +676,34 @@ const Field = memo(
               disabled={field.readOnly || view}
             />
           </Form.Item>
-        );
+        )
       }
 
-      case "textarea":
+      case 'textarea':
         return (
           <Form.Item
             label={field.label}
             name={fieldName}
             rules={field.rules}
-            className={`my-2 ${field.className || ""}`}
+            className={`my-2 ${field.className || ''}`}
             initialValue={field.defaultValue}
           >
             <TextArea
               rows={field.rows || 4}
-              placeholder={field.placeholder || ""}
+              placeholder={field.placeholder || ''}
               disabled={field.readOnly || view}
               autoSize={field.autoSize}
             />
           </Form.Item>
-        );
+        )
 
-      case "datepicker":
+      case 'datepicker':
         return (
           <Form.Item
             label={field.label}
             name={fieldName}
             rules={field.rules}
-            className={`my-2 ${field.className || ""}`}
+            className={`my-2 ${field.className || ''}`}
             initialValue={field.defaultValue}
           >
             <DatePicker
@@ -712,15 +712,15 @@ const Field = memo(
               disabled={field.readOnly || view}
             />
           </Form.Item>
-        );
+        )
 
-      case "timepicker":
+      case 'timepicker':
         return (
           <Form.Item
             label={field.label}
             name={fieldName}
             rules={field.rules}
-            className={`my-2 ${field.className || ""}`}
+            className={`my-2 ${field.className || ''}`}
             initialValue={field.defaultValue}
           >
             <TimePicker
@@ -729,15 +729,15 @@ const Field = memo(
               disabled={field.readOnly || view}
             />
           </Form.Item>
-        );
+        )
 
-      case "colorpicker":
+      case 'colorpicker':
         return (
           <Form.Item
             label={field.label}
             name={fieldName}
             rules={field.rules}
-            className={`my-2 ${field.className || ""}`}
+            className={`my-2 ${field.className || ''}`}
             initialValue={field.defaultValue}
           >
             <ColorPicker
@@ -745,7 +745,7 @@ const Field = memo(
               disabled={field.readOnly || view}
             />
           </Form.Item>
-        );
+        )
 
       default:
         return (
@@ -753,18 +753,18 @@ const Field = memo(
             label={field.label}
             name={fieldName}
             rules={field.rules}
-            className={`my-2 ${field.className || ""}`}
+            className={`my-2 ${field.className || ''}`}
             initialValue={field.defaultValue}
           >
             <Input
               addonBefore={field.addonBefore}
               addonAfter={field.addonAfter}
-              type={field.type || "text"}
-              autoComplete={"off"}
+              type={field.type || 'text'}
+              autoComplete={'off'}
               disabled={field.readOnly || view}
             />
           </Form.Item>
-        );
+        )
     }
-  },
-);
+  }
+)

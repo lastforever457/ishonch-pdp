@@ -136,7 +136,11 @@ const Rooms = () => {
   const onFinish = async (values: Record<string, any>) => {
     try {
       if (query.edit && query.id) {
-        await mutateUpdateRoom({ id: query.id, data: values })
+        console.log(values)
+        await mutateUpdateRoom({
+          id: query.id,
+          data: values,
+        })
       } else {
         await mutateCreateRoom(values)
       }

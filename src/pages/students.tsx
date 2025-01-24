@@ -1,6 +1,7 @@
-import { useMemo } from 'react'
+import { Form } from 'antd'
+import { useEffect, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
-import { AutoForm } from '../components/auto-form.tsx'
+import { AutoForm, FormField } from '../components/auto-form.tsx'
 import { Loader } from '../components/loader.tsx'
 import MyDrawer from '../components/my-drawer.tsx'
 import MySegmented from '../components/my-segmented.tsx'
@@ -11,12 +12,40 @@ import { useGroups } from '../models/groups.tsx'
 import { useStudents } from '../models/students.tsx'
 
 const Students = () => {
+  const [form] = Form.useForm()
   const { t } = useTranslation()
   const { query } = useLocationParams()
   const { data: students, isLoading: isStudentsLoading } = useStudents()
   const { data: groups, isLoading: isGroupsLoading } = useGroups('ACTIVE')
+  console.log(groups)
 
-  console.log(groups?.data)
+  useEffect(() => {
+    if (query.edit && query.id) {
+      form.setFieldsValue(
+        students?.data?.find((room: any) => room.id === query.id)
+      )
+    }
+  }, [query.edit, query.id, students])
+
+  const data = useMemo(() => {
+    const remainedData: Record<string, any> | undefined = query.search
+      ? students?.data?.filter(
+          (item: Record<string, any>) =>
+            item?.student?.firstname.includes(query.search as string) ||
+            item?.student?.lastname.includes(query.search as string)
+        )
+      : students?.data
+    return (
+      remainedData?.map((item: Record<string, any>) => ({
+        ...item,
+        key: item.id,
+        fio: {
+          id: item.id,
+          name: `${item.firstname || ''} ${item.lastname || ''}`,
+        },
+      })) || []
+    )
+  }, [students, query.search])
 
   const fields = useMemo(
     () => [
@@ -46,6 +75,7 @@ const Students = () => {
         name: 'phone',
         label: t('students.phone'),
         type: 'input',
+        addonBefore: '+998',
         rules: [
           {
             required: true,
@@ -56,7 +86,7 @@ const Students = () => {
       {
         name: 'password',
         label: t('form.password'),
-        type: 'input',
+        type: 'password',
         rules: [
           {
             required: true,
@@ -68,16 +98,19 @@ const Students = () => {
         name: 'group',
         label: t('students.group'),
         type: 'select',
+        mode: 'multiple',
+        options: groups?.data?.map((group: any) => {
+          return {
+            value: group.id,
+            label: `${group?.groupName?.toString().toUpperCase()} - ${group.courseName.toString().toUpperCase()}`,
+          }
+        }),
         rules: [
           {
             required: true,
             message: t('formMessages.role'),
           },
         ],
-        options: groups?.data?.map((group: any) => ({
-          value: group.id,
-          label: `${group?.groupName?.toString().toUppercase()} - ${group.courseName}`,
-        })),
       },
       {
         name: 'gender',
@@ -120,6 +153,7 @@ const Students = () => {
         key: 'group',
         title: t('students.group'),
         dataIndex: 'group',
+        render: (value: any) => value.toUpperCase(),
       },
     ],
     [t]
@@ -145,7 +179,7 @@ const Students = () => {
       <MyTable
         name="student"
         columns={columns}
-        data={students?.data.map((item: Record<string, any>) => ({
+        data={data.map((item: Record<string, any>) => ({
           ...item.student,
           group: item.groupName ? item.groupName : t('form.not connected'),
           fio: `${item?.student?.firstname} ${item?.student?.lastname}`,
@@ -156,7 +190,11 @@ const Students = () => {
         entryPoint={query.add ? 'add' : 'edit'}
         title={t('students.titleSingular')}
       >
-        <AutoForm fields={fields} onCancel={() => {}} onFinish={() => {}} />
+        <AutoForm
+          fields={fields as FormField[]}
+          onCancel={() => {}}
+          onFinish={() => {}}
+        />
       </MyDrawer>
     </PageLayout>
   )

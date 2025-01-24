@@ -18,6 +18,7 @@ import { Form, Table } from "antd";
 import { Loader } from "../../components/loader.tsx";
 import { Link } from "react-router-dom";
 import dayjs from "dayjs";
+import { defaultDateFormat } from "../../utils.ts";
 
 const Groups = () => {
   const { t } = useTranslation();
@@ -28,7 +29,8 @@ const Groups = () => {
     isLoading: isGroupsLoading,
     refetch: refetchGroups,
   } = useGroups(
-    ((query.groupsTab as GroupType).toUpperCase() || "ACTIVE") as GroupType,
+    ((query.groupsTab?.toString().toUpperCase() as GroupType) ||
+      "ACTIVE") as GroupType,
   );
   const { data: rooms } = useRooms();
   const {} = useGroups("ARCHIVE");
@@ -41,7 +43,6 @@ const Groups = () => {
     const refetch = async () => {
       await refetchGroups();
     };
-
     refetch();
   }, [query.groupsTab]);
 
@@ -245,30 +246,24 @@ const Groups = () => {
         title: t("groups.days"),
         dataIndex: "days",
         key: "days",
-        render: (days: string[]) => (days ? days.join(",") : days),
       },
       {
         title: t("groups.startTime"),
         dataIndex: "startTime",
         key: "startTime",
-        render: (startTime: string) =>
-          new Date(startTime).toLocaleTimeString([], {
-            hour: "2-digit",
-            minute: "2-digit",
-            hour12: false,
-          }),
+        render: (startTime: string) => defaultDateFormat(startTime),
       },
       {
         title: t("groups.startDate"),
         dataIndex: "startDate",
         key: "startDate",
-        render: (startDate: string) => new Date(startDate).toLocaleDateString(),
+        render: (startDate: string) => defaultDateFormat(startDate),
       },
       {
         title: t("groups.endDate"),
         dataIndex: "endDate",
         key: "endDate",
-        render: (endDate: string) => new Date(endDate).toLocaleDateString(),
+        render: (endDate: string) => defaultDateFormat(endDate),
       },
       {
         title: t("groups.price"),

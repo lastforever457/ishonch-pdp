@@ -1,4 +1,4 @@
-import { useMutation, useQuery } from '@tanstack/react-query'
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import api from './axios'
 
 const useFinance = () => {
@@ -15,11 +15,12 @@ const useFinance = () => {
 }
 
 export const useCreateFinance = () => {
+  const queryClient = useQueryClient()
   const data = useMutation({
     mutationKey: ['createFinance'],
     mutationFn: async (finance) => {
-      const response = await api.post('/finance/add', finance)
-      return response.data
+      await api.post('/finance/add', finance)
+      await queryClient.invalidateQueries({ queryKey: ['finance'] })
     },
   })
 
