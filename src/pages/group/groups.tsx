@@ -9,6 +9,7 @@ import MyDrawer from '../../components/my-drawer.tsx'
 import MySegmented from '../../components/my-segmented.tsx'
 import MyTable from '../../components/my-table.tsx'
 import { useLocationParams } from '../../hooks/use-location-params.tsx'
+import { useRouterPush } from '../../hooks/use-router-push.tsx'
 import PageLayout from '../../layouts/page-layout.tsx'
 import {
   GroupType,
@@ -25,6 +26,7 @@ const Groups = () => {
   const { t } = useTranslation()
   const [form] = Form.useForm()
   const { query } = useLocationParams()
+  const { push } = useRouterPush()
   const {
     data: groups,
     isLoading: isGroupsLoading,
@@ -295,6 +297,18 @@ const Groups = () => {
     [t]
   )
 
+  const onCancel = () => {
+    push({
+      query: {
+        add: undefined,
+        edit: undefined,
+        view: undefined,
+        id: undefined,
+      },
+    })
+    form.resetFields()
+  }
+
   const onFinish = (values: Record<string, any>) => {
     console.log(values)
     if (query.edit && query.id) {
@@ -314,6 +328,7 @@ const Groups = () => {
         },
       })
     }
+    onCancel()
   }
 
   if (isGroupsLoading || isTeacherLoading) return <Loader />

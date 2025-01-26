@@ -18,6 +18,7 @@ import {
   useUser,
   useUsers,
 } from '../../models/users'
+import { formatPhoneNumber } from '../../utils.ts'
 
 const Employees = () => {
   const { t } = useTranslation()
@@ -98,11 +99,7 @@ const Employees = () => {
         ellipsis: {
           showTitle: false,
         },
-        render: (text: string) => (
-          <Tooltip placement="topLeft" title={text}>
-            {text}
-          </Tooltip>
-        ),
+        render: (text: string) => formatPhoneNumber(text),
       },
       {
         key: 'role',
@@ -125,8 +122,12 @@ const Employees = () => {
     const remainedData: Record<string, any> | undefined = query.search
       ? users?.data?.filter(
           (item: Record<string, any>) =>
-            item.firstname.includes(query.search as string) ||
-            item.lastname.includes(query.search as string)
+            item.firstname
+              .toLowerCase()
+              .includes((query.search as string).toLowerCase()) ||
+            item.lastname
+              .toLowerCase()
+              .includes((query.search as string).toLowerCase())
         )
       : users?.data
     return (

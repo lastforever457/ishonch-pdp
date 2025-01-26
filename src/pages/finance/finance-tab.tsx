@@ -50,7 +50,6 @@ const FinanceTab = () => {
 
   useEffect(() => {
     if (query.startDate && query.endDate) {
-      // `startDate` va `endDate`ni bir marta hisoblab qo'yamiz
       const startDate = dayjs(query.startDate as string, 'DD-MM-YYYY')
       const endDate = dayjs(query.endDate as string, 'DD-MM-YYYY')
       console.log({ startDate, endDate })
@@ -60,12 +59,11 @@ const FinanceTab = () => {
           ? financeData[0].filter((item: Record<string, any>) => {
               const itemDate = dayjs(item.date as string, 'DD-MM-YYYY')
 
-              // Sana oralig'ida bo'lish yoki teng bo'lish holatini qaytarish
               return (
-                itemDate.isSame(startDate, 'day') || // Sana boshlanishiga teng
-                itemDate.isSame(endDate, 'day') || // Sana tugashiga teng
+                itemDate.isSame(startDate, 'day') ||
+                itemDate.isSame(endDate, 'day') ||
                 (itemDate.isAfter(startDate, 'day') &&
-                  itemDate.isBefore(endDate, 'day')) // Oralig'ida bo'lish
+                  itemDate.isBefore(endDate, 'day'))
               )
             })
           : []
@@ -104,12 +102,15 @@ const FinanceTab = () => {
                     </span>
                   }
                   name="startDate"
-                  initialValue={dayjs(query.startDate as string, 'DD-MM-YYYY')}
                   rules={[{ required: true, message: 'Sanani kiriting' }]}
                 >
                   <DatePicker
                     className="shadow px-3 py-2 rounded-!2xl text-xl"
                     format="DD.MM.YYYY"
+                    defaultValue={
+                      query.startDate &&
+                      dayjs(query.startDate as string, 'DD-MM-YYYY')
+                    }
                     style={{ width: '100%' }}
                   />
                 </Form.Item>
@@ -122,11 +123,14 @@ const FinanceTab = () => {
                       {t('finance.toDate')}
                     </span>
                   }
-                  initialValue={dayjs(query.endDate as string, 'DD-MM-YYYY')}
                   name="endDate"
                   rules={[{ required: true, message: 'Sanani kiriting' }]}
                 >
                   <DatePicker
+                    defaultValue={
+                      query.endDate &&
+                      dayjs(query.endDate as string, 'DD-MM-YYYY')
+                    }
                     className="shadow px-3 py-2 rounded-!2xl text-xl"
                     format="DD.MM.YYYY"
                     style={{ width: '100%' }}

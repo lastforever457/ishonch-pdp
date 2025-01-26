@@ -1,5 +1,6 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { message } from 'antd'
+import { useTranslation } from 'react-i18next'
 import api from './axios'
 
 export const useStudents = () => {
@@ -40,9 +41,15 @@ export const useStudent = (id: string) => {
 }
 
 export const useCreateStudent = () => {
+  const queryClient = useQueryClient()
+  const { t } = useTranslation()
   const data = useMutation({
     mutationFn: async (data: any) => {
       const res = await api.post('/student/add', data)
+      await queryClient.invalidateQueries({
+        queryKey: ['students'],
+      })
+      message.success(t('formMessages.success'))
       return res.data
     },
   })
@@ -50,12 +57,16 @@ export const useCreateStudent = () => {
 }
 
 export const useUpdateStudent = () => {
+  const queryClient = useQueryClient()
+  const { t } = useTranslation()
   const data = useMutation({
     mutationFn: async (data: {
       id: string | number
       data: Record<string, any>
     }) => {
       const res = await api.patch(`/student/update/${data.id}`, data.data)
+      message.success(t('formMessages.success'))
+      await queryClient.invalidateQueries({ queryKey: ['students'] })
       return res.data
     },
   })
@@ -64,13 +75,14 @@ export const useUpdateStudent = () => {
 
 export const useDeleteStudent = () => {
   const queryClient = useQueryClient()
+  const { t } = useTranslation()
   const data = useMutation({
     mutationFn: async (id: string) => {
       const res = await api.delete(`/student/delete/${id}`)
       await queryClient.invalidateQueries({
         queryKey: ['students'],
       })
-      message.success('formMessages.success')
+      message.success(t('formMessages.success'))
       return res.data
     },
   })

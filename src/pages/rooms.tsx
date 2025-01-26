@@ -159,7 +159,15 @@ const Rooms = () => {
         deleteFunc={mutateDeleteRoom}
         name="room"
         columns={columns}
-        data={rooms?.data}
+        data={
+          query.search
+            ? rooms?.data.filter((room: any) =>
+                room.roomName
+                  .toLowerCase()
+                  .includes((query.search as string).toLowerCase())
+              )
+            : rooms?.data
+        }
       />
       <MyDrawer form={form} entryPoint="add" title={t('rooms.titleSingular')}>
         <AutoForm
