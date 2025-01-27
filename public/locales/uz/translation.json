@@ -95,6 +95,8 @@
     "endTime": "Tugash vaqti",
     "startDate": "Boshlanish kuni",
     "endDate": "Tugash kuni",
+    "pair": "Juft kuni",
+    "odd": "Toq kuni",
     "monday": "Dushanba",
     "tuesday": "Seshanba",
     "wednesday": "Chorshanba",

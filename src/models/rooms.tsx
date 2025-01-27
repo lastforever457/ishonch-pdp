@@ -1,51 +1,56 @@
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
-import api from './axios'
-import { DataType } from './users'
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import api from "./axios";
+import { DataType } from "./users";
+import { message } from "antd";
+import { t } from "i18next";
 
 export const useRooms = () => {
   const rooms = useQuery<DataType>({
-    queryKey: ['rooms'],
+    queryKey: ["rooms"],
     queryFn: async () => {
-      const res = await api.get('/room')
-      return res.data
+      const res = await api.get("/room");
+      return res.data;
     },
-  })
+  });
 
-  return rooms
-}
+  return rooms;
+};
 
 export const useCreateRoom = () => {
-  const queryClient = useQueryClient()
+  const queryClient = useQueryClient();
   const createRoom = useMutation({
-    mutationKey: ['create-room'],
+    mutationKey: ["create-room"],
     mutationFn: async (newRoom: Record<string, any>) => {
-      await api.post('/room', newRoom)
-      queryClient.invalidateQueries({ queryKey: ['rooms'] })
+      await api.post("/room", newRoom);
+      message.success(t("formMessages.success"));
+      queryClient.invalidateQueries({ queryKey: ["rooms"] });
     },
-  })
-  return createRoom
-}
+  });
+  return createRoom;
+};
 
 export const useUpdateRoom = () => {
-  const queryClient = useQueryClient()
+  const queryClient = useQueryClient();
   const updateRoom = useMutation({
-    mutationKey: ['update-room'],
+    mutationKey: ["update-room"],
     mutationFn: async (room: Record<string, any>) => {
-      await api.patch(`/room/${room.id}`, room.data)
-      queryClient.invalidateQueries({ queryKey: ['rooms'] })
+      await api.patch(`/room/${room.id}`, room.data);
+      message.success(t("formMessages.success"));
+      queryClient.invalidateQueries({ queryKey: ["rooms"] });
     },
-  })
-  return updateRoom
-}
+  });
+  return updateRoom;
+};
 
 export const useDeleteRoom = () => {
-  const queryClient = useQueryClient()
+  const queryClient = useQueryClient();
   const deleteRoom = useMutation({
-    mutationKey: ['delete-room'],
+    mutationKey: ["delete-room"],
     mutationFn: async (id: number | string) => {
-      await api.delete(`/room/${id}`)
-      queryClient.invalidateQueries({ queryKey: ['rooms'] })
+      await api.delete(`/room/${id}`);
+      message.success(t("formMessages.success"));
+      queryClient.invalidateQueries({ queryKey: ["rooms"] });
     },
-  })
-  return deleteRoom
-}
+  });
+  return deleteRoom;
+};
