@@ -12,7 +12,6 @@ export const useSearchGroups = () => {
     queryKey: ["groups"],
     queryFn: async () => {
       const { data } = await api.post(`/group/search`);
-      message.success(t("formMessages.success"));
       return data;
     },
   });
@@ -23,7 +22,6 @@ export const useGroups = (status: GroupType) => {
     queryKey: ["groups"],
     queryFn: async () => {
       const { data } = await api.get(`/group/${status}`);
-      message.success(t("formMessages.success"));
       return data;
     },
   });
@@ -34,7 +32,6 @@ export const useGroup = (id: string) => {
     queryKey: ["groups"],
     queryFn: async () => {
       const { data } = await api.get(`/group/attendance/${id}`);
-      message.success(t("formMessages.success"));
       return data;
     },
   });

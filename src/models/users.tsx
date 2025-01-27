@@ -15,8 +15,8 @@ export const useUsers = (status: StaffTypes) => {
   const users = useQuery({
     queryKey: ['users'],
     queryFn: async () => {
-      const res = await api.get(`/staff/${status}`)
-      return res.data
+      const res = await api.get(`/staff/${status}`);
+      return res.data;
     },
   })
 
@@ -27,8 +27,9 @@ export const useUser = (id: number | string) => {
   const user = useQuery({
     queryKey: ['user'],
     queryFn: async () => {
-      const res = await api.get(`/staff/profile/${id}`)
-      return res.data
+      if (!id) return;
+      const res = await api.get(`/staff/profile/${id}`);
+      return res.data;
     },
     retry: false,
     select: (data) => data?.data,
