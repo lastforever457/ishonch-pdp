@@ -1,18 +1,15 @@
-import { createBrowserRouter, RouterProvider } from 'react-router-dom'
-import ProtectedRoute from './components/protected-route.tsx'
-import MainLayout from './layouts/layout'
-import EmployeeId from './pages/employees/employee-id/employee-id.tsx'
-import Employees from './pages/employees/employees.tsx'
-import Finance from './pages/finance/finance.tsx'
-import Attendance from './pages/group/attendance.tsx'
-import Groups from './pages/group/groups.tsx'
-import Home from './pages/home.tsx'
-import Login from './pages/login.tsx'
-import Rooms from './pages/rooms.tsx'
-import Settings from './pages/settings.tsx'
-import Students from './pages/students.tsx'
-import Unauthorized from './pages/unauthorized.tsx'
-import { SidebarProvider } from './providers/sidebar-context-provider.tsx'
+import { createBrowserRouter, RouterProvider } from 'react-router-dom';
+import MainLayout from './layouts/layout';
+import EmployeeId from './pages/employees/employee-id/employee-id.tsx';
+import Employees from './pages/employees/employees.tsx';
+import Finance from './pages/finance/finance.tsx';
+import Attendance from './pages/group/attendance.tsx';
+import Groups from './pages/group/groups.tsx';
+import Home from './pages/home.tsx';
+import Rooms from './pages/rooms.tsx';
+import Settings from './pages/settings.tsx';
+import Students from './pages/students.tsx';
+import { SidebarProvider } from './providers/sidebar-context-provider.tsx';
 
 const App = () => {
   const routes = createBrowserRouter([
@@ -22,67 +19,35 @@ const App = () => {
       children: [
         {
           index: true,
-          element: (
-            <ProtectedRoute roles={['ADMIN', 'TEACHER']}>
-              <Home />
-            </ProtectedRoute>
-          ),
+          element: <Home />,
         },
         {
           path: 'groups',
-          element: (
-            <ProtectedRoute roles={['ADMIN', 'TEACHER']}>
-              <Groups />
-            </ProtectedRoute>
-          ),
+          element: <Groups />,
         },
         {
           path: 'groups/:groupId',
-          element: (
-            <ProtectedRoute roles={['ADMIN', 'TEACHER']}>
-              <Attendance />
-            </ProtectedRoute>
-          ),
+          element: <Attendance />,
         },
         {
           path: 'employees',
-          element: (
-            <ProtectedRoute roles={['ADMIN']}>
-              <Employees />
-            </ProtectedRoute>
-          ),
+          element: <Employees />,
         },
         {
           path: 'employees/:id',
-          element: (
-            <ProtectedRoute roles={['ADMIN']}>
-              <EmployeeId />
-            </ProtectedRoute>
-          ),
+          element: <EmployeeId />,
         },
         {
           path: 'rooms',
-          element: (
-            <ProtectedRoute roles={['ADMIN']}>
-              <Rooms />
-            </ProtectedRoute>
-          ),
+          element: <Rooms />,
         },
         {
           path: 'students',
-          element: (
-            <ProtectedRoute roles={['ADMIN']}>
-              <Students />
-            </ProtectedRoute>
-          ),
+          element: <Students />,
         },
         {
           path: 'finance',
-          element: (
-            <ProtectedRoute roles={['ADMIN']}>
-              <Finance />
-            </ProtectedRoute>
-          ),
+          element: <Finance />,
         },
         {
           path: 'settings',
@@ -91,24 +56,16 @@ const App = () => {
       ],
     },
     {
-      path: 'login',
-      element: <Login />,
-    },
-    {
       path: '*',
       element: <div>404</div>,
     },
-    {
-      path: '403',
-      element: <Unauthorized />,
-    },
-  ])
+  ]);
 
   return (
     <SidebarProvider>
       <RouterProvider router={routes} />
     </SidebarProvider>
-  )
-}
+  );
+};
 
-export default App
+export default App;

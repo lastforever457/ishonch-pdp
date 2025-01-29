@@ -1,24 +1,21 @@
-import { Col, Row } from 'antd'
-import { useMemo } from 'react'
-import { useTranslation } from 'react-i18next'
-import { Link } from 'react-router-dom'
-import { Loader } from '../components/loader'
-import { useDashboard } from '../models/dashboard'
-import { TRole, useAuth } from '../providers/auth-context-provider'
+import { Col, Row } from 'antd';
+import { useMemo } from 'react';
+import { useTranslation } from 'react-i18next';
+import { Link } from 'react-router-dom';
+import { Loader } from '../components/loader';
+import { useDashboard } from '../models/dashboard';
 
 export interface IDashboard {
-  id: number
-  img: string
-  percent: number
-  title: string
-  link: string
-  role: TRole[]
+  id: number;
+  img: string;
+  percent: number;
+  title: string;
+  link: string;
 }
 
 const Home = () => {
-  const { t } = useTranslation()
-  const { data, isLoading } = useDashboard()
-  const { user: currentUser } = useAuth()
+  const { t } = useTranslation();
+  const { data, isLoading } = useDashboard();
 
   const users: IDashboard[] = useMemo(
     () => [
@@ -28,7 +25,6 @@ const Home = () => {
         percent: data?.staffs,
         title: t('home.employees'),
         link: '/employees',
-        role: ['ADMIN'],
       },
       {
         id: 2,
@@ -36,7 +32,6 @@ const Home = () => {
         percent: data?.active_students,
         title: t('home.active-students'),
         link: '/students',
-        role: ['ADMIN', 'TEACHER'],
       },
       {
         id: 3,
@@ -44,7 +39,6 @@ const Home = () => {
         percent: data?.groups,
         title: t('home.groups'),
         link: '/groups',
-        role: ['ADMIN', 'TEACHER'],
       },
       {
         id: 4,
@@ -52,7 +46,6 @@ const Home = () => {
         percent: '56',
         title: t('home.debtors'),
         link: '/finance',
-        role: ['ADMIN'],
       },
       {
         id: 5,
@@ -60,7 +53,6 @@ const Home = () => {
         percent: '246',
         title: t('home.pay-month'),
         link: '/finance',
-        role: ['ADMIN'],
       },
       {
         id: 6,
@@ -68,45 +60,40 @@ const Home = () => {
         percent: data?.actively_left_students,
         title: t('home.left-group'),
         link: '/groups',
-        role: ['ADMIN', 'TEACHER'],
       },
     ],
-    [t, data]
-  )
+    [t, data],
+  );
 
   if (isLoading) {
-    return <Loader />
+    return <Loader />;
   }
 
   return (
     <div>
-      <Row gutter={[16, 16]} className="md:px-10 py-4 text-sm">
+      <Row gutter={[16, 16]} className="py-4 text-sm md:px-10">
         {users.map((user: IDashboard) => {
-          if (user.role.includes(currentUser?.role as TRole)) {
-            return (
-              <Col key={user.id} xs={24} sm={12} md={8} lg={8} xl={8} xxl={4}>
-                <Link to={user.link}>
-                  <div className="flex flex-col bg-primary-blue shadow-md p-4 rounded-xl h-full text-center text-sm">
-                    <img
-                      src={user.img}
-                      alt={user.title}
-                      className="flex justify-center items-center mx-auto mb-2 w-12 h-12"
-                    />
-                    <div>
-                      <p className="font-bold text-white">{user.title}</p>
-                      <p className="font-semibold text-lg text-white">
-                        {user.percent}
-                      </p>
-                    </div>
+          return (
+            <Col key={user.id} xs={24} sm={12} md={8} lg={8} xl={8} xxl={4}>
+              <Link to={user.link}>
+                <div className="bg-primary-blue flex h-full flex-col rounded-xl p-4 text-center text-sm shadow-md">
+                  <img
+                    src={user.img}
+                    alt={user.title}
+                    className="mx-auto mb-2 flex h-12 w-12 items-center justify-center"
+                  />
+                  <div>
+                    <p className="font-bold text-white">{user.title}</p>
+                    <p className="text-lg font-semibold text-white">{user.percent}</p>
                   </div>
-                </Link>
-              </Col>
-            )
-          }
+                </div>
+              </Link>
+            </Col>
+          );
         })}
       </Row>{' '}
     </div>
-  )
-}
+  );
+};
 
-export default Home
+export default Home;
