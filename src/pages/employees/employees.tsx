@@ -3,7 +3,7 @@ import { useEffect, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
 import { AutoForm } from '../../components/auto-form';
-import { Loader } from '../../components/loader.tsx';
+import { CustomLoader } from '../../components/loader.tsx';
 import MyDrawer from '../../components/my-drawer';
 import MySegmented from '../../components/my-segmented';
 import MyTable from '../../components/my-table';
@@ -248,7 +248,7 @@ const Employees = () => {
     form.resetFields();
   };
 
-  if (isLoadingUsers) return <Loader />;
+  if (isLoadingUsers) return <CustomLoader />;
 
   return (
     <PageLayout

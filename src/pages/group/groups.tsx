@@ -1,16 +1,16 @@
-import { Form, Tag } from "antd";
-import dayjs from "dayjs";
-import { useEffect, useMemo } from "react";
-import { useTranslation } from "react-i18next";
-import { Link } from "react-router-dom";
-import { AutoForm, FormField } from "../../components/auto-form.tsx";
-import { Loader } from "../../components/loader.tsx";
-import MyDrawer from "../../components/my-drawer.tsx";
-import MySegmented from "../../components/my-segmented.tsx";
-import MyTable from "../../components/my-table.tsx";
-import { useLocationParams } from "../../hooks/use-location-params.tsx";
-import { useRouterPush } from "../../hooks/use-router-push.tsx";
-import PageLayout from "../../layouts/page-layout.tsx";
+import { Form, Tag } from 'antd';
+import dayjs from 'dayjs';
+import { useEffect, useMemo } from 'react';
+import { useTranslation } from 'react-i18next';
+import { Link } from 'react-router-dom';
+import { AutoForm, FormField } from '../../components/auto-form.tsx';
+import { CustomLoader } from '../../components/loader.tsx';
+import MyDrawer from '../../components/my-drawer.tsx';
+import MySegmented from '../../components/my-segmented.tsx';
+import MyTable from '../../components/my-table.tsx';
+import { useLocationParams } from '../../hooks/use-location-params.tsx';
+import { useRouterPush } from '../../hooks/use-router-push.tsx';
+import PageLayout from '../../layouts/page-layout.tsx';
 import {
   GroupType,
   useCreateGroup,
@@ -18,9 +18,9 @@ import {
   useGroupProfile,
   useGroups,
   useUpdateGroup,
-} from "../../models/groups.tsx";
-import { useRooms } from "../../models/rooms.tsx";
-import { useUsers } from "../../models/users.tsx";
+} from '../../models/groups.tsx';
+import { useRooms } from '../../models/rooms.tsx';
+import { useUsers } from '../../models/users.tsx';
 
 const Groups = () => {
   const { t } = useTranslation();
@@ -31,20 +31,13 @@ const Groups = () => {
     data: groups,
     isLoading: isGroupsLoading,
     refetch: refetchGroups,
-  } = useGroups(
-    ((query.groupsTab?.toString().toUpperCase() as GroupType) ||
-      "ACTIVE") as GroupType
-  );
+  } = useGroups(((query.groupsTab?.toString().toUpperCase() as GroupType) || 'ACTIVE') as GroupType);
   const { data: rooms } = useRooms();
-  const {
-    data: group,
-    refetch: refetchGroup,
-    isLoading: isGroupLoading,
-  } = useGroupProfile(query.id as string);
+  const { data: group, refetch: refetchGroup, isLoading: isGroupLoading } = useGroupProfile(query.id as string);
   const { mutate: createGroup } = useCreateGroup();
   const { mutate: updateGroup } = useUpdateGroup();
   const { mutate: deleteGroup } = useDeleteGroup();
-  const { data: teachers, isLoading: isTeacherLoading } = useUsers("TEACHER");
+  const { data: teachers, isLoading: isTeacherLoading } = useUsers('TEACHER');
 
   console.log(groups);
 
@@ -63,9 +56,9 @@ const Groups = () => {
           ...group,
           roomId: group?.room?.id,
           teacherId: group?.teacher?.id,
-          startTime: dayjs(group?.startTime, "HH:mm"),
-          startDate: dayjs(group?.startDate, "YYYY-MM-DD"),
-          endDate: dayjs(group?.endDate, "YYYY-MM-DD"),
+          startTime: dayjs(group?.startTime, 'HH:mm'),
+          startDate: dayjs(group?.startDate, 'YYYY-MM-DD'),
+          endDate: dayjs(group?.endDate, 'YYYY-MM-DD'),
         });
       }
     };
@@ -76,109 +69,109 @@ const Groups = () => {
   const fields = useMemo(
     () => [
       {
-        name: "groupName",
-        label: t("groups.name"),
-        type: "input",
+        name: 'groupName',
+        label: t('groups.name'),
+        type: 'input',
         rules: [
           {
             required: true,
-            message: t("formMessages.firstName"),
+            message: t('formMessages.firstName'),
           },
         ],
       },
       {
-        name: "courseName",
-        label: t("groups.courseName"),
-        type: "select",
+        name: 'courseName',
+        label: t('groups.courseName'),
+        type: 'select',
         rules: [
           {
             required: true,
-            message: t("formMessages.firstName"),
+            message: t('formMessages.firstName'),
           },
         ],
         options: [
-          "Front end",
-          "Back end",
-          "Full stack",
-          "Python",
-          "Java",
-          "C",
-          "C#",
-          "Foundation",
-          ".NET",
-          "PHP",
-          "SQL",
+          'Front end',
+          'Back end',
+          'Full stack',
+          'Python',
+          'Java',
+          'C',
+          'C#',
+          'Foundation',
+          '.NET',
+          'PHP',
+          'SQL',
         ].map((course: string) => ({
           label: course,
           value: course,
         })),
       },
       {
-        name: "teacherId",
-        label: t("groups.chooseTeacher"),
-        type: "select",
+        name: 'teacherId',
+        label: t('groups.chooseTeacher'),
+        type: 'select',
         options: teachers?.data?.map((teacher: Record<string, any>) => ({
-          label: teacher.firstname + " " + teacher.lastname,
+          label: teacher.firstname + ' ' + teacher.lastname,
           value: teacher.id,
         })),
         rules: [
           {
             required: true,
-            message: t("formMessages.phone"),
+            message: t('formMessages.phone'),
           },
         ],
       },
       {
-        name: "days",
-        label: t("groups.days"),
-        mode: "multiple",
-        type: "select",
+        name: 'days',
+        label: t('groups.days'),
+        mode: 'multiple',
+        type: 'select',
         options: [
           {
-            label: t("groups.pair"),
-            value: "Juft kun",
+            label: t('groups.pair'),
+            value: 'Juft kun',
           },
 
           {
-            label: t("groups.odd"),
-            value: "Toq kun",
+            label: t('groups.odd'),
+            value: 'Toq kun',
           },
           {
-            label: t("groups.monday"),
-            value: "Dushanba",
+            label: t('groups.monday'),
+            value: 'Dushanba',
           },
           {
-            label: t("groups.tuesday"),
-            value: "Seshanba",
+            label: t('groups.tuesday'),
+            value: 'Seshanba',
           },
           {
-            label: t("groups.wednesday"),
-            value: "Chorshanba",
+            label: t('groups.wednesday'),
+            value: 'Chorshanba',
           },
           {
-            label: t("groups.thursday"),
-            value: "Payshanba",
+            label: t('groups.thursday'),
+            value: 'Payshanba',
           },
           {
-            label: t("groups.friday"),
-            value: "Juma",
+            label: t('groups.friday'),
+            value: 'Juma',
           },
           {
-            label: t("groups.saturday"),
-            value: "Shanba",
+            label: t('groups.saturday'),
+            value: 'Shanba',
           },
         ],
         rules: [
           {
             required: true,
-            message: t("formMessages.role"),
+            message: t('formMessages.role'),
           },
         ],
       },
       {
-        name: "roomId",
-        label: t("groups.chooseRoom"),
-        type: "select",
+        name: 'roomId',
+        label: t('groups.chooseRoom'),
+        type: 'select',
         options: rooms?.data?.map((room: Record<string, any>) => ({
           label: room?.roomName,
           value: room.id,
@@ -186,124 +179,116 @@ const Groups = () => {
         rules: [
           {
             required: true,
-            message: t("formMessages.role"),
+            message: t('formMessages.role'),
           },
         ],
       },
       {
-        name: "startTime",
-        label: t("groups.startTime"),
-        type: "timepicker",
+        name: 'startTime',
+        label: t('groups.startTime'),
+        type: 'timepicker',
         rules: [
           {
             required: true,
-            message: t("formMessages.timeStart"),
+            message: t('formMessages.timeStart'),
           },
         ],
       },
       {
-        name: "startDate",
-        label: t("groups.startDate"),
-        type: "datepicker",
+        name: 'startDate',
+        label: t('groups.startDate'),
+        type: 'datepicker',
         rules: [
           {
             required: true,
-            message: t("formMessages.startDate"),
+            message: t('formMessages.startDate'),
           },
         ],
       },
       {
-        name: "endDate",
-        label: t("groups.endDate"),
-        type: "datepicker",
+        name: 'endDate',
+        label: t('groups.endDate'),
+        type: 'datepicker',
         rules: [
           {
             required: true,
-            message: t("formMessages.endDate"),
+            message: t('formMessages.endDate'),
           },
         ],
       },
       {
-        name: "groupPrice",
-        label: t("groups.price"),
-        type: "input",
+        name: 'groupPrice',
+        label: t('groups.price'),
+        type: 'input',
         rules: [
           {
             required: true,
-            message: t("formMessages.endDate"),
+            message: t('formMessages.endDate'),
           },
         ],
       },
     ],
-    [t, teachers, rooms]
+    [t, teachers, rooms],
   );
 
   const columns = useMemo(
     () => [
       {
-        title: t("groups.name"),
-        dataIndex: "groupName",
-        key: "groupName",
-        render: ({ groupName, groupId }: Record<string, any>) => (
-          <Link to={`${groupId}`}>{groupName}</Link>
-        ),
+        title: t('groups.name'),
+        dataIndex: 'groupName',
+        key: 'groupName',
+        render: ({ groupName, groupId }: Record<string, any>) => <Link to={`${groupId}`}>{groupName}</Link>,
       },
       {
-        title: t("groups.courseName"),
-        dataIndex: "courseName",
-        key: "courseName",
-        render: (courseName: string) => (
-          <span className="capitalize">{courseName}</span>
-        ),
+        title: t('groups.courseName'),
+        dataIndex: 'courseName',
+        key: 'courseName',
+        render: (courseName: string) => <span className="capitalize">{courseName}</span>,
       },
       {
-        title: t("groups.teacher"),
-        dataIndex: "teacher",
-        key: "teacher",
-        render: (teacher: Record<string, any>) =>
-          teacher?.firstname + " " + teacher?.lastname,
+        title: t('groups.teacher'),
+        dataIndex: 'teacher',
+        key: 'teacher',
+        render: (teacher: Record<string, any>) => teacher?.firstname + ' ' + teacher?.lastname,
       },
       {
-        title: t("groups.room"),
-        dataIndex: "room",
-        key: "room",
+        title: t('groups.room'),
+        dataIndex: 'room',
+        key: 'room',
         render: (room: Record<string, any>) => room?.roomName,
       },
       {
-        title: t("groups.days"),
-        dataIndex: "days",
-        key: "days",
-        render: (days: string[]) =>
-          days
-            ? days.map((day: string) => <Tag color="blue">{day}</Tag>)
-            : days,
+        title: t('groups.days'),
+        dataIndex: 'days',
+        key: 'days',
+        render: (days: string[]) => (days ? days.map((day: string) => <Tag color="blue">{day}</Tag>) : days),
       },
       {
-        title: t("groups.startTime"),
-        dataIndex: "startTime",
-        key: "startTime",
-        render: (startTime: string) => dayjs(startTime).format("HH : mm"),
+        title: t('groups.startTime'),
+        dataIndex: 'startTime',
+        key: 'startTime',
+        render: (startTime: string) => dayjs(startTime).format('HH : mm'),
       },
       {
-        title: t("groups.startDate"),
-        dataIndex: "startDate",
-        key: "startDate",
-        render: (startDate: string) => dayjs(startDate).format("DD-MM-YYYY"),
+        title: t('groups.startDate'),
+        dataIndex: 'startDate',
+        key: 'startDate',
+        render: (startDate: string) => dayjs(startDate).format('DD-MM-YYYY'),
       },
       {
-        title: t("groups.endDate"),
-        dataIndex: "endDate",
-        key: "endDate",
-        render: (endDate: string) => dayjs(endDate).format("DD-MM-YYYY"),
+        title: t('groups.endDate'),
+        dataIndex: 'endDate',
+        key: 'endDate',
+        render: (endDate: string) => dayjs(endDate).format('DD-MM-YYYY'),
       },
       {
-        title: t("groups.price"),
-        dataIndex: "groupPrice",
-        key: "groupPrice",
+        title: t('groups.price'),
+        dataIndex: 'groupPrice',
+        key: 'groupPrice',
         render: (groupPrice: number) => groupPrice + " so'm",
       },
     ],
-    [t]
+    [t],
   );
 
   const onCancel = () => {
@@ -340,20 +325,20 @@ const Groups = () => {
     onCancel();
   };
 
-  if (isGroupsLoading || isTeacherLoading) return <Loader />;
+  if (isGroupsLoading || isTeacherLoading) return <CustomLoader />;
 
-  if (isGroupLoading) return <Loader />;
+  if (isGroupLoading) return <CustomLoader />;
 
   return (
     <PageLayout
-      title={t("groups.title")}
+      title={t('groups.title')}
       segmented={
         <MySegmented
           segmentedValues={[
-            { value: t("groups.active"), key: "active", isPrimary: true },
-            { value: t("groups.archive"), key: "archive" },
+            { value: t('groups.active'), key: 'active', isPrimary: true },
+            { value: t('groups.archive'), key: 'archive' },
           ]}
-          queryName={"groupsTab"}
+          queryName={'groupsTab'}
         />
       }
     >
@@ -368,13 +353,13 @@ const Groups = () => {
         name="group"
         deleteFunc={deleteGroup}
       />
-      <MyDrawer form={form} entryPoint="add" title={t("groups.titleSingular")}>
+      <MyDrawer form={form} entryPoint="add" title={t('groups.titleSingular')}>
         <AutoForm
           form={form}
           fields={fields as FormField[]}
           onFinish={onFinish}
-          saveTitle={t("crud.create")}
-          cancelTitle={t("form.cancel")}
+          saveTitle={t('crud.create')}
+          cancelTitle={t('form.cancel')}
         />
       </MyDrawer>
     </PageLayout>

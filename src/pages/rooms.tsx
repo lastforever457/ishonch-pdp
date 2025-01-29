@@ -1,29 +1,24 @@
-import { Form } from 'antd'
-import { useEffect, useMemo } from 'react'
-import { useTranslation } from 'react-i18next'
-import { AutoForm } from '../components/auto-form'
-import { Loader } from '../components/loader'
-import MyDrawer from '../components/my-drawer'
-import MyTable from '../components/my-table'
-import { useLocationParams } from '../hooks/use-location-params'
-import { useRouterPush } from '../hooks/use-router-push'
-import PageLayout from '../layouts/page-layout'
-import {
-  useCreateRoom,
-  useDeleteRoom,
-  useRooms,
-  useUpdateRoom,
-} from '../models/rooms'
+import { Form } from 'antd';
+import { useEffect, useMemo } from 'react';
+import { useTranslation } from 'react-i18next';
+import { AutoForm } from '../components/auto-form';
+import { CustomLoader } from '../components/loader';
+import MyDrawer from '../components/my-drawer';
+import MyTable from '../components/my-table';
+import { useLocationParams } from '../hooks/use-location-params';
+import { useRouterPush } from '../hooks/use-router-push';
+import PageLayout from '../layouts/page-layout';
+import { useCreateRoom, useDeleteRoom, useRooms, useUpdateRoom } from '../models/rooms';
 
 const Rooms = () => {
-  const { t } = useTranslation()
-  const { query } = useLocationParams()
-  const { push } = useRouterPush()
-  const { data: rooms, isLoading } = useRooms()
-  const { mutate: mutateCreateRoom } = useCreateRoom()
-  const { mutate: mutateUpdateRoom } = useUpdateRoom()
-  const { mutate: mutateDeleteRoom } = useDeleteRoom()
-  const [form] = Form.useForm()
+  const { t } = useTranslation();
+  const { query } = useLocationParams();
+  const { push } = useRouterPush();
+  const { data: rooms, isLoading } = useRooms();
+  const { mutate: mutateCreateRoom } = useCreateRoom();
+  const { mutate: mutateUpdateRoom } = useUpdateRoom();
+  const { mutate: mutateDeleteRoom } = useDeleteRoom();
+  const [form] = Form.useForm();
 
   const fields = useMemo(
     () => [
@@ -72,8 +67,8 @@ const Rooms = () => {
         ],
       },
     ],
-    [t]
-  )
+    [t],
+  );
 
   const columns = useMemo(
     () => [
@@ -111,16 +106,14 @@ const Rooms = () => {
         },
       },
     ],
-    []
-  )
+    [],
+  );
 
   useEffect(() => {
     if (query.edit && query.id) {
-      form.setFieldsValue(
-        rooms?.data?.find((room: any) => room.id === query.id)
-      )
+      form.setFieldsValue(rooms?.data?.find((room: any) => room.id === query.id));
     }
-  }, [query.edit, query.id, rooms])
+  }, [query.edit, query.id, rooms]);
 
   const onCancel = () => {
     push({
@@ -130,28 +123,28 @@ const Rooms = () => {
         view: undefined,
         id: undefined,
       },
-    })
-    form.resetFields()
-  }
+    });
+    form.resetFields();
+  };
 
   const onFinish = async (values: Record<string, any>) => {
     try {
       if (query.edit && query.id) {
-        console.log(values)
+        console.log(values);
         await mutateUpdateRoom({
           id: query.id,
           data: values,
-        })
+        });
       } else {
-        await mutateCreateRoom(values)
+        await mutateCreateRoom(values);
       }
-      onCancel()
+      onCancel();
     } catch (error) {
-      console.log(error)
+      console.log(error);
     }
-  }
+  };
 
-  if (isLoading) return <Loader />
+  if (isLoading) return <CustomLoader />;
 
   return (
     <PageLayout title={t('rooms.title')}>
@@ -162,9 +155,7 @@ const Rooms = () => {
         data={
           query.search
             ? rooms?.data.filter((room: any) =>
-                room.roomName
-                  .toLowerCase()
-                  .includes((query.search as string).toLowerCase())
+                room.roomName.toLowerCase().includes((query.search as string).toLowerCase()),
               )
             : rooms?.data
         }
@@ -179,7 +170,7 @@ const Rooms = () => {
         />
       </MyDrawer>
     </PageLayout>
-  )
-}
+  );
+};
 
-export default Rooms
+export default Rooms;

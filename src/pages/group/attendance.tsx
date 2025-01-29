@@ -7,7 +7,7 @@ import { FaCheck } from 'react-icons/fa';
 import { RiDeleteBin6Line, RiEditCircleLine } from 'react-icons/ri';
 import { Link, useParams } from 'react-router-dom';
 import 'tailwindcss/tailwind.css';
-import { Loader } from '../../components/loader';
+import { CustomLoader } from '../../components/loader';
 import MyTable from '../../components/my-table';
 import { useGroupProfile } from '../../models/groups';
 import {
@@ -120,8 +120,8 @@ const Attendance = () => {
     ...lessons,
   ];
 
-  if (isLoading) return <Loader />;
-  if (isStudentsWithoutGroupLoading) return <Loader />;
+  if (isLoading) return <CustomLoader />;
+  if (isStudentsWithoutGroupLoading) return <CustomLoader />;
 
   return (
     <div className="min-h-screen bg-gray-100">

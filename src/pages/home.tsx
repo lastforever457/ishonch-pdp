@@ -2,7 +2,7 @@ import { Col, Row } from 'antd';
 import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
-import { Loader } from '../components/loader';
+import { CustomLoader } from '../components/loader';
 import { useDashboard } from '../models/dashboard';
 
 export interface IDashboard {
@@ -66,7 +66,7 @@ const Home = () => {
   );
 
   if (isLoading) {
-    return <Loader />;
+    return <CustomLoader />;
   }
 
   return (
