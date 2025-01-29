@@ -42,7 +42,6 @@ export const useGroupProfile = (id: string) => {
     queryKey: ["group-profile"],
     queryFn: async () => {
       const { data } = await api.get(`/group/profile/${id}`);
-      message.success(t("formMessages.success"));
       return data;
     },
     select: (data) => data?.data,
