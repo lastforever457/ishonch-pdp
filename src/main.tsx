@@ -3,12 +3,15 @@ import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
 import { createRoot } from 'react-dom/client'
 import App from './App.tsx'
 import './index.css'
+import { AuthContextProvider } from './providers/auth-context-provider.tsx'
 
 const queryClient = new QueryClient()
 
 createRoot(document.getElementById('root')!).render(
   <QueryClientProvider client={queryClient}>
-    <App />
+    <AuthContextProvider>
+      <App />
+    </AuthContextProvider>
     <ReactQueryDevtools initialIsOpen={false} />
   </QueryClientProvider>
 )

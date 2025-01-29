@@ -102,19 +102,6 @@ const Students = () => {
         ],
       },
       {
-        name: 'group',
-        label: t('students.group'),
-        type: 'select',
-        readOnly: query.edit && query.id,
-        options:
-          groups?.data &&
-          groups?.data?.map((group: any) => ({
-            key: group?.id,
-            value: group?.id,
-            label: `${group?.groupName?.toUpperCase() || ''} - ${group?.courseName?.toUpperCase() || ''}`,
-          })),
-      },
-      {
         name: 'gender',
         label: t('form.gender'),
         type: 'radio',
