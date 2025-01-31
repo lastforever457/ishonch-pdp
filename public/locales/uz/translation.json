@@ -168,5 +168,19 @@
   },
   "login": {
     "title": "Tizimga kiring"
+  },
+  "month": {
+    "jan": "Yanvar",
+    "feb": "Fevral",
+    "mar": "Mart",
+    "apr": "Aprel",
+    "may": "May",
+    "jun": "Iyun",
+    "jul": "Iyul",
+    "aug": "Avgust",
+    "sep": "Sentabr",
+    "oct": "Oktabr",
+    "nov": "Noyabr",
+    "dec": "Dekabr"
   }
 }
