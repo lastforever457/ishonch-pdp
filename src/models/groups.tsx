@@ -104,3 +104,22 @@ export const useGroupAttendance = (id?: string) => {
     },
   })
 }
+
+export const useSetGroupAttendance = () => {
+  const queryClient = useQueryClient()
+  return useMutation({
+    mutationKey: ['set-group-attendance'],
+    mutationFn: async (data: {
+      groupId: string | number
+      data: Record<string, any>
+    }) => {
+      const res = await api.post(
+        `/student/attendance/${data.groupId.toString()}`,
+        data?.data
+      )
+      await queryClient.invalidateQueries({
+        queryKey: ['groups', 'group-attendance', 'group-profile'],
+      })
+    },
+  })
+}

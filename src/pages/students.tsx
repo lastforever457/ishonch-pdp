@@ -167,7 +167,6 @@ const Students = () => {
       mutateCreateStudent({
         ...values,
         phoneNumber: values.phoneNumber.startsWith('+998') ? values.phoneNumber : `+998${values.phoneNumber}`,
-        group: values.group[0],
       });
     }
     onCancel();

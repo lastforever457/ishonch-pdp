@@ -3,14 +3,18 @@ import dayjs from 'dayjs'
 import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { BsArrowReturnLeft } from 'react-icons/bs'
-import { FaCheck } from 'react-icons/fa'
 import { RiDeleteBin6Line, RiEditCircleLine } from 'react-icons/ri'
+import { TiTick, TiTimes } from 'react-icons/ti'
 import { Link, useParams } from 'react-router-dom'
 import 'tailwindcss/tailwind.css'
 import { CustomLoader } from '../../components/loader'
 import MyButton from '../../components/my-button'
 import MyTable from '../../components/my-table'
-import { useGroupAttendance, useGroupProfile } from '../../models/groups'
+import {
+  useGroupAttendance,
+  useGroupProfile,
+  useSetGroupAttendance,
+} from '../../models/groups'
 import {
   useConnectStudentToGroup,
   useDisconnectStudentFromGroup,
@@ -73,77 +77,128 @@ const convertMonth = (month: string): string => {
 const Attendance: React.FC = () => {
   const { groupId } = useParams<{ groupId: string }>()
   const { t } = useTranslation()
-  const [attendanceData, setAttendanceData] = useState<Record<string, string>>(
-    {}
-  )
   const [open, setOpen] = useState<boolean>(false)
   const [selectedStudent, setSelectedStudent] = useState<string | null>(null)
   const { mutate: connectStudentToGroup } = useConnectStudentToGroup()
   const { mutate: disconnectStudentFromGroup } = useDisconnectStudentFromGroup()
-  const { data: groupData, refetch } = useGroupProfile(groupId)
-  const { data: studentsWithoutGroup } = useStudentsWithoutGroup()
-  const { data: groupAttendance } = useGroupAttendance(groupId)
+  const { mutate: saveAttendance } = useSetGroupAttendance()
+  const {
+    data: groupData,
+    refetch,
+    isLoading: isGroupProfileLoading,
+  } = useGroupProfile(groupId)
+  const {
+    data: studentsWithoutGroup,
+    isLoading: isStudentWithoutGroupLoading,
+  } = useStudentsWithoutGroup()
+  const {
+    data: groupAttendance,
+    isLoading: isGroupAttendanceLoading,
+    refetch: refetchGroupAttendance,
+  } = useGroupAttendance(groupId)
+  const [attendanceData, setAttendanceData] = useState<number[]>([])
+
+  const defaultAttendanceData = useMemo(() => {
+    const today = dayjs().format('YYYY-MM-DD')
+    const attendance =
+      groupAttendance?.data?.[0] &&
+      Object.values(groupAttendance.data[0])
+        .flat()
+        .filter(
+          (item: any) =>
+            dayjs(item?.attendanceDate).format('YYYY-MM-DD') === today
+        )
+        .map((item: any) => item?.attended && item?.student?.id)
+        .filter(Boolean)
+    console.log(attendance)
+
+    return attendance
+  }, [groupAttendance])
 
   useEffect(() => {
-    console.log({ groupAttendance })
+    setAttendanceData(defaultAttendanceData)
+    console.log({ defaultAttendanceData })
+  }, [defaultAttendanceData])
+
+  useEffect(() => {
+    console.log({ defaultAttendanceData })
     if (groupId) {
       refetch()
     }
-  }, [groupId, refetch])
+  }, [groupId, refetch, defaultAttendanceData])
 
-  const renderStatus = useCallback(
-    (status: string | null, record: Student, date: any) => {
-      const current = dayjs(new Date())
-      return (
-        <div
-          className={`flex h-8 w-8 cursor-pointer items-center justify-center rounded-full ${
-            status === 'present'
-              ? 'bg-green-500 text-white'
-              : status === 'absent'
-                ? 'bg-red-500 text-white'
-                : 'bg-gray-200'
-          }`}
-          onClick={(e) => {
-            e.stopPropagation()
-            console.log({
-              current: current.format('DD-MM-YYYY'),
-              date: date.format('DD-MM-YYYY'),
-            })
-            if (current.isSame(date, 'day')) {
-              const newStatus = status === 'present' ? 'absent' : 'present'
-              setAttendanceData((prev) => ({
-                ...prev,
-                [record.id]: newStatus,
-              }))
-            }
-          }}
-        >
-          {status === 'present' ? (
-            <FaCheck />
-          ) : status === 'absent' ? (
-            '✖'
-          ) : (
-            '-'
-          )}
-        </div>
-      )
-    },
-    []
-  )
+  const changeStatus = (
+    newStatus: boolean,
+    studentId: number,
+    date: string
+  ) => {
+    const today = dayjs().format('YYYY-MM-DD')
 
-  const handleSubmitAttendance = async () => {
-    try {
-      console.log({ groupId, attendanceData })
-      // Assume submitAttendance is an API call
-      // await submitAttendance({ groupId, attendanceData });
-      message.success('Attendance submitted successfully')
-    } catch (error) {
-      message.error('Failed to submit attendance')
+    if (today === date) {
+      console.log(attendanceData)
+      // Faqat bugungi kunga ta'sir qilish
+      setAttendanceData((prev: number[]) => {
+        if (newStatus) {
+          return [...prev, studentId]
+        } else {
+          return prev.filter((id) => id !== studentId)
+        }
+      })
     }
   }
 
+  const renderStatus = useCallback(
+    (record: Student, date: string) => {
+      const attendance =
+        groupAttendance?.data?.[0] &&
+        Object.values(groupAttendance.data[0])
+          .flat()
+          .map((item: any) => ({
+            id: item?.id as number,
+            studentId: item?.student?.id as number,
+            attendanceDate: dayjs(item?.attendanceDate) as any,
+            attended: item?.attended as boolean,
+          }))
+
+      const currentStudent = attendance?.find(
+        (item: any) =>
+          item.studentId === parseInt(record.id) &&
+          dayjs(item.attendanceDate).isSame(date, 'day')
+      )
+
+      const isToday = dayjs().isSame(dayjs(date, 'YYYY-MM-DD'), 'day')
+      const isAttended = attendanceData?.includes(Number(record.id))
+
+      return (
+        <div className="w-full h-full flex justify-center items-center">
+          <div
+            className={`flex h-8 w-8 items-center justify-center rounded-full ${
+              (isToday && isAttended) || (!isToday && currentStudent?.attended)
+                ? 'bg-green-500 text-white'
+                : 'bg-red-500 text-white'
+            } ${isToday ? 'cursor-pointer' : 'opacity-50 cursor-not-allowed'}`}
+            onClick={() => {
+              if (isToday) {
+                changeStatus(!isAttended, parseInt(record.id), date)
+              }
+            }}
+          >
+            {(isToday && isAttended) ||
+            (!isToday && currentStudent?.attended) ? (
+              <TiTick className="text-lg" />
+            ) : (
+              <TiTimes className="text-lg" />
+            )}
+          </div>
+        </div>
+      )
+    },
+    [attendanceData, groupAttendance, groupId]
+  )
+
   const lessons = useMemo(() => {
     const lessonsArray: Array<Record<string, any>> = []
+
     if (
       groupData?.startDate &&
       groupData?.endDate &&
@@ -153,40 +208,53 @@ const Attendance: React.FC = () => {
       const endDate = dayjs(groupData.endDate)
       let current = startDate
 
+      const allowedDays = groupData.days.map(convertDaytoEnglish)
+
       while (current.isBefore(endDate) || current.isSame(endDate, 'day')) {
         const currentDate = current.clone()
-        console.log({ current: currentDate.format('DD-MM-YYYY') })
         const weekDay = currentDate.format('dddd')
         const isEven = currentDate.date() % 2 === 0
         const isOdd = !isEven
-
-        const allowedDays = groupData.days.map(convertDaytoEnglish)
         if (
           allowedDays.includes(weekDay) ||
           (allowedDays.includes('Even_days') && isEven) ||
           (allowedDays.includes('Odd_days') && isOdd)
         ) {
+          const formattedDate = currentDate.format('YYYY-MM-DD')
           lessonsArray.push({
             title: `${currentDate.format('DD')} - ${t(`month.${convertMonth(currentDate.format('MMMM'))}`)}`,
-            dataIndex: currentDate.format('DD-MM-YYYY'),
-            key: currentDate.format('DD-MM-YYYY'),
-            render: (text: any, record: Student) => {
-              const studentId = record.id
-              const status = attendanceData[studentId] || null
-              return renderStatus(status, record, currentDate)
-            },
+            dataIndex: formattedDate,
+            key: formattedDate,
+            render: (text: any, record: Student) =>
+              renderStatus(record, formattedDate),
           })
         }
+
         current = current.add(1, 'day')
       }
     }
+
     return lessonsArray
   }, [
     groupData?.startDate,
     groupData?.endDate,
     groupData?.days,
     attendanceData,
+    t,
   ])
+
+  const handleSubmitAttendance = async () => {
+    try {
+      console.log({ groupId, attendanceData })
+      await saveAttendance({
+        groupId: groupId ? groupId : (groupId as string),
+        data: attendanceData as any,
+      })
+      refetchGroupAttendance()
+    } catch (error) {
+      message.error('Failed to submit attendance')
+    }
+  }
   const columns = useMemo(
     () => [
       {
@@ -200,7 +268,15 @@ const Attendance: React.FC = () => {
     [lessons]
   )
 
-  if (!groupData || !studentsWithoutGroup) return <CustomLoader />
+  if (
+    !groupData ||
+    isStudentWithoutGroupLoading ||
+    !groupAttendance ||
+    isGroupProfileLoading ||
+    isGroupAttendanceLoading
+  ) {
+    return <CustomLoader />
+  }
 
   return (
     <div className="min-h-screen bg-gray-100">
