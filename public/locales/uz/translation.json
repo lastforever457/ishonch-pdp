@@ -95,14 +95,14 @@
     "endTime": "Tugash vaqti",
     "startDate": "Boshlanish kuni",
     "endDate": "Tugash kuni",
-    "pair": "Juft kuni",
-    "odd": "Toq kuni",
-    "monday": "Dushanba",
-    "tuesday": "Seshanba",
-    "wednesday": "Chorshanba",
-    "thursday": "Payshanba",
-    "friday": "Juma",
-    "saturday": "Shanba"
+    "Juft_kun": "Juft kuni",
+    "Toq_kun": "Toq kuni",
+    "Dushanba": "Dushanba",
+    "Seshanba": "Seshanba",
+    "Chorshanba": "Chorshanba",
+    "Payshanba": "Payshanba",
+    "Juma": "Juma",
+    "Shanba": "Shanba"
   },
   "employees": {
     "title": "Ishchilar",

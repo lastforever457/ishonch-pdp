@@ -1,16 +1,16 @@
-import { Form, Tag } from 'antd';
-import dayjs from 'dayjs';
-import { useEffect, useMemo } from 'react';
-import { useTranslation } from 'react-i18next';
-import { Link } from 'react-router-dom';
-import { AutoForm, FormField } from '../../components/auto-form.tsx';
-import { CustomLoader } from '../../components/loader.tsx';
-import MyDrawer from '../../components/my-drawer.tsx';
-import MySegmented from '../../components/my-segmented.tsx';
-import MyTable from '../../components/my-table.tsx';
-import { useLocationParams } from '../../hooks/use-location-params.tsx';
-import { useRouterPush } from '../../hooks/use-router-push.tsx';
-import PageLayout from '../../layouts/page-layout.tsx';
+import { Form, Tag } from 'antd'
+import dayjs from 'dayjs'
+import { useEffect, useMemo } from 'react'
+import { useTranslation } from 'react-i18next'
+import { Link } from 'react-router-dom'
+import { AutoForm, FormField } from '../../components/auto-form.tsx'
+import { CustomLoader } from '../../components/loader.tsx'
+import MyDrawer from '../../components/my-drawer.tsx'
+import MySegmented from '../../components/my-segmented.tsx'
+import MyTable from '../../components/my-table.tsx'
+import { useLocationParams } from '../../hooks/use-location-params.tsx'
+import { useRouterPush } from '../../hooks/use-router-push.tsx'
+import PageLayout from '../../layouts/page-layout.tsx'
 import {
   GroupType,
   useCreateGroup,
@@ -18,39 +18,46 @@ import {
   useGroupProfile,
   useGroups,
   useUpdateGroup,
-} from '../../models/groups.tsx';
-import { useRooms } from '../../models/rooms.tsx';
-import { useUsers } from '../../models/users.tsx';
+} from '../../models/groups.tsx'
+import { useRooms } from '../../models/rooms.tsx'
+import { useUsers } from '../../models/users.tsx'
 
 const Groups = () => {
-  const { t } = useTranslation();
-  const [form] = Form.useForm();
-  const { query } = useLocationParams();
-  const { push } = useRouterPush();
+  const { t } = useTranslation()
+  const [form] = Form.useForm()
+  const { query } = useLocationParams()
+  const { push } = useRouterPush()
   const {
     data: groups,
     isLoading: isGroupsLoading,
     refetch: refetchGroups,
-  } = useGroups(((query.groupsTab?.toString().toUpperCase() as GroupType) || 'ACTIVE') as GroupType);
-  const { data: rooms } = useRooms();
-  const { data: group, refetch: refetchGroup, isLoading: isGroupLoading } = useGroupProfile(query.id as string);
-  const { mutate: createGroup } = useCreateGroup();
-  const { mutate: updateGroup } = useUpdateGroup();
-  const { mutate: deleteGroup } = useDeleteGroup();
-  const { data: teachers, isLoading: isTeacherLoading } = useUsers('TEACHER');
+  } = useGroups(
+    ((query.groupsTab?.toString().toUpperCase() as GroupType) ||
+      'ACTIVE') as GroupType
+  )
+  const { data: rooms } = useRooms()
+  const {
+    data: group,
+    refetch: refetchGroup,
+    isLoading: isGroupLoading,
+  } = useGroupProfile(query.id as string)
+  const { mutate: createGroup } = useCreateGroup()
+  const { mutate: updateGroup } = useUpdateGroup()
+  const { mutate: deleteGroup } = useDeleteGroup()
+  const { data: teachers, isLoading: isTeacherLoading } = useUsers('TEACHER')
 
-  console.log(groups);
+  console.log(groups)
 
   useEffect(() => {
     const refetch = async () => {
-      await refetchGroups();
-    };
-    refetch();
-  }, [query.groupsTab]);
+      await refetchGroups()
+    }
+    refetch()
+  }, [query.groupsTab])
 
   useEffect(() => {
     const fetch = async () => {
-      await refetchGroup();
+      await refetchGroup()
       if (query.edit && query.id && group) {
         form.setFieldsValue({
           ...group,
@@ -59,12 +66,12 @@ const Groups = () => {
           startTime: dayjs(group?.startTime, 'HH:mm'),
           startDate: dayjs(group?.startDate, 'YYYY-MM-DD'),
           endDate: dayjs(group?.endDate, 'YYYY-MM-DD'),
-        });
+        })
       }
-    };
+    }
 
-    fetch();
-  }, [query.edit, query.id, group, form]);
+    fetch()
+  }, [query.edit, query.id, group, form])
 
   const fields = useMemo(
     () => [
@@ -128,36 +135,36 @@ const Groups = () => {
         type: 'select',
         options: [
           {
-            label: t('groups.pair'),
-            value: 'Juft kun',
+            label: t('groups.Juft_kun'),
+            value: 'Juft_kun',
           },
 
           {
-            label: t('groups.odd'),
-            value: 'Toq kun',
+            label: t('groups.Toq_kun'),
+            value: 'Toq_kun',
           },
           {
-            label: t('groups.monday'),
+            label: t('groups.Dushanba'),
             value: 'Dushanba',
           },
           {
-            label: t('groups.tuesday'),
+            label: t('groups.Seshanba'),
             value: 'Seshanba',
           },
           {
-            label: t('groups.wednesday'),
+            label: t('groups.Chorshanba'),
             value: 'Chorshanba',
           },
           {
-            label: t('groups.thursday'),
+            label: t('groups.Payshanba'),
             value: 'Payshanba',
           },
           {
-            label: t('groups.friday'),
+            label: t('groups.Juma'),
             value: 'Juma',
           },
           {
-            label: t('groups.saturday'),
+            label: t('groups.Shanba'),
             value: 'Shanba',
           },
         ],
@@ -228,8 +235,8 @@ const Groups = () => {
         ],
       },
     ],
-    [t, teachers, rooms],
-  );
+    [t, teachers, rooms]
+  )
 
   const columns = useMemo(
     () => [
@@ -237,19 +244,24 @@ const Groups = () => {
         title: t('groups.name'),
         dataIndex: 'groupName',
         key: 'groupName',
-        render: ({ groupName, groupId }: Record<string, any>) => <Link to={`${groupId}`}>{groupName}</Link>,
+        render: ({ groupName, groupId }: Record<string, any>) => (
+          <Link to={`${groupId}`}>{groupName}</Link>
+        ),
       },
       {
         title: t('groups.courseName'),
         dataIndex: 'courseName',
         key: 'courseName',
-        render: (courseName: string) => <span className="capitalize">{courseName}</span>,
+        render: (courseName: string) => (
+          <span className="capitalize">{courseName}</span>
+        ),
       },
       {
         title: t('groups.teacher'),
         dataIndex: 'teacher',
         key: 'teacher',
-        render: (teacher: Record<string, any>) => teacher?.firstname + ' ' + teacher?.lastname,
+        render: (teacher: Record<string, any>) =>
+          teacher?.firstname + ' ' + teacher?.lastname,
       },
       {
         title: t('groups.room'),
@@ -261,7 +273,12 @@ const Groups = () => {
         title: t('groups.days'),
         dataIndex: 'days',
         key: 'days',
-        render: (days: string[]) => (days ? days.map((day: string) => <Tag color="blue">{day}</Tag>) : days),
+        render: (days: string[]) =>
+          days
+            ? days.map((day: string) => (
+                <Tag color="blue">{t(`groups.${day}`)}</Tag>
+              ))
+            : days,
       },
       {
         title: t('groups.startTime'),
@@ -288,8 +305,8 @@ const Groups = () => {
         render: (groupPrice: number) => groupPrice + " so'm",
       },
     ],
-    [t],
-  );
+    [t]
+  )
 
   const onCancel = () => {
     push({
@@ -299,12 +316,12 @@ const Groups = () => {
         view: undefined,
         id: undefined,
       },
-    });
-    form.resetFields();
-  };
+    })
+    form.resetFields()
+  }
 
   const onFinish = (values: Record<string, any>) => {
-    console.log(values);
+    console.log(values)
     if (query.edit && query.id) {
       updateGroup({
         groupId: query.id as string,
@@ -312,7 +329,7 @@ const Groups = () => {
           ...values,
           groupPrice: parseInt(values.groupPrice),
         },
-      });
+      })
     } else {
       createGroup({
         groupId: query.id as string,
@@ -320,14 +337,14 @@ const Groups = () => {
           ...values,
           groupPrice: parseInt(values.groupPrice),
         },
-      });
+      })
     }
-    onCancel();
-  };
+    onCancel()
+  }
 
-  if (isGroupsLoading || isTeacherLoading) return <CustomLoader />;
+  if (isGroupsLoading || isTeacherLoading) return <CustomLoader />
 
-  if (isGroupLoading) return <CustomLoader />;
+  if (isGroupLoading) return <CustomLoader />
 
   return (
     <PageLayout
@@ -348,7 +365,7 @@ const Groups = () => {
           return {
             ...item,
             groupName: { groupName: item.groupName, groupId: item.id },
-          };
+          }
         })}
         name="group"
         deleteFunc={deleteGroup}
@@ -363,7 +380,7 @@ const Groups = () => {
         />
       </MyDrawer>
     </PageLayout>
-  );
-};
+  )
+}
 
-export default Groups;
+export default Groups

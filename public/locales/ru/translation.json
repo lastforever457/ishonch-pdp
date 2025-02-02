@@ -85,14 +85,14 @@
     "endTime": "Время окончания",
     "startDate": "Дата начала",
     "endDate": "Дата окончания",
-    "pair": "пара",
-    "odd": "странный",
-    "monday": "Понедельник",
-    "tuesday": "Вторник",
-    "wednesday": "Среда",
-    "thursday": "Четверг",
-    "friday": "Пятница",
-    "saturday": "Суббота"
+    "Juft_kun": "Четные дни",
+    "Toq_kun": "Нечетные дни",
+    "Dushanba": "Понедельник",
+    "Seshanba": "Вторник",
+    "Chorshanba": "Среда",
+    "Payshanba": "Четверг",
+    "Juma": "Пятница",
+    "Shanba": "Суббота"
   },
   "employees": {
     "title": "Сотрудники",
