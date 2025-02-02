@@ -67,7 +67,7 @@
     "titleSingular": "Панель управления"
   },
   "groups": {
-    "price": "Guruh narxi",
+    "price": "Цена",
     "title": "Группы",
     "room": "Комнаты",
     "name": "Название группы",
@@ -92,7 +92,8 @@
     "Chorshanba": "Среда",
     "Payshanba": "Четверг",
     "Juma": "Пятница",
-    "Shanba": "Суббота"
+    "Shanba": "Суббота",
+    "list": "Список"
   },
   "employees": {
     "title": "Сотрудники",

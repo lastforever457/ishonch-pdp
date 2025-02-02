@@ -110,18 +110,19 @@ const Attendance: React.FC = () => {
         )
         .map((item: any) => item?.attended && item?.student?.id)
         .filter(Boolean)
-    console.log(attendance)
 
     return attendance
   }, [groupAttendance])
 
   useEffect(() => {
     setAttendanceData(defaultAttendanceData)
-    console.log({ defaultAttendanceData })
   }, [defaultAttendanceData])
 
   useEffect(() => {
-    console.log({ defaultAttendanceData })
+    console.log({ attendanceData, defaultAttendanceData })
+  }, [attendanceData, defaultAttendanceData])
+
+  useEffect(() => {
     if (groupId) {
       refetch()
     }
@@ -135,8 +136,6 @@ const Attendance: React.FC = () => {
     const today = dayjs().format('YYYY-MM-DD')
 
     if (today === date) {
-      console.log(attendanceData)
-      // Faqat bugungi kunga ta'sir qilish
       setAttendanceData((prev: number[]) => {
         if (newStatus) {
           return [...prev, studentId]
@@ -245,12 +244,15 @@ const Attendance: React.FC = () => {
 
   const handleSubmitAttendance = async () => {
     try {
-      console.log({ groupId, attendanceData })
       await saveAttendance({
         groupId: groupId ? groupId : (groupId as string),
         data: attendanceData as any,
       })
-      refetchGroupAttendance()
+
+      setTimeout(async () => {
+        await refetchGroupAttendance()
+      }, 1000)
+      message.success(t('formMessages.success'))
     } catch (error) {
       message.error('Failed to submit attendance')
     }
@@ -298,16 +300,22 @@ const Attendance: React.FC = () => {
             </div>
           </div>
           <div className="space-y-2 text-sm">
-            <p className="text-1xl font-semibold text-[#477082]">Narxi: </p>
+            <p className="text-1xl font-semibold text-[#477082]">
+              {t('groups.price')}:{' '}
+            </p>
             <h2 className="text-2xl font-bold">
               {groupData.groupPrice.toLocaleString()} UZS
             </h2>
-            <p className="text-1xl font-semibold text-[#477082]">Kunlar: </p>
+            <p className="text-1xl font-semibold text-[#477082]">
+              {t('groups.days')}:{' '}
+            </p>
             <h2 className="text-2xl font-bold">Juft kunlari</h2>
-            <p className="text-1xl font-semibold text-[#477082]">Xona: </p>
+            <p className="text-1xl font-semibold text-[#477082]">
+              {t('rooms.titleSingular')}:{' '}
+            </p>
             <h2 className="text-2xl font-bold">{groupData?.room?.roomName}</h2>
             <p className="text-1xl font-semibold text-[#477082]">
-              Boshlanish vaqti :
+              {t('groups.startTime')} :
             </p>
             <h2 className="text-2xl font-bold">
               {new Date(groupData?.startTime).toLocaleTimeString([], {
@@ -317,44 +325,47 @@ const Attendance: React.FC = () => {
               })}
             </h2>
             <p className="text-1xl font-semibold text-[#477082]">
-              Boshlanish sanasi:
+              {t('groups.startDate')}:
             </p>
             <h2 className="text-2xl font-bold">{groupData?.startDate}</h2>
             <p className="text-1xl font-semibold text-[#477082]">
-              Tugash sanasi:
+              {t('groups.endDate')}:
             </p>
             <h2 className="text-2xl font-bold">{groupData?.endDate}</h2>
           </div>
           <div className="mt-4 flex flex-col gap-3">
-            <h2 className="font-semibold">Ismlar: </h2>
-            <p>{groupData?.stNumber}</p>
+            <div className="flex justify-between items-center">
+              <h2 className="font-semibold">{t('groups.list')}: </h2>
+              <p>{groupData?.students?.length}</p>
+            </div>
             <div className="flex cursor-pointer text-blue-400 hover:text-blue-600">
               <p onClick={() => setOpen(true)}>{t('crud.add')}</p>
             </div>
             <ul className="mt-2 space-y-2">
               {groupData?.students.map((item: Student, index: number) => (
-                <li
-                  key={index}
-                  className="flex items-center justify-between text-sm"
-                >
-                  <span>
-                    {item.firstname} {item.lastname}
-                  </span>
-                  <span className="text-gray-500">
-                    {item.phoneNumber.startsWith('+998')
-                      ? item.phoneNumber
-                      : `+998${item.phoneNumber}`}
-                  </span>
-                  <div
-                    onClick={() =>
-                      disconnectStudentFromGroup({
-                        studentId: item.id,
-                        groupId: groupId ? groupId : '',
-                      })
-                    }
-                    className="flex gap-2 text-purple-600"
-                  >
-                    <RiDeleteBin6Line className="cursor-pointer" />
+                <li key={index} className="flex  text-sm">
+                  <div className="flex justify-between items-center w-full">
+                    <span>
+                      {item.firstname} {item.lastname}
+                    </span>
+                    <div className="flex justify-center items-center gap-3">
+                      <span className="text-gray-500">
+                        {item.phoneNumber.startsWith('+998')
+                          ? item.phoneNumber
+                          : `+998${item.phoneNumber}`}
+                      </span>
+                      <button
+                        onClick={() =>
+                          disconnectStudentFromGroup({
+                            studentId: item.id,
+                            groupId: groupId ? groupId : '',
+                          })
+                        }
+                        className="flex gap-2 text-purple-600"
+                      >
+                        <RiDeleteBin6Line className="cursor-pointer" />
+                      </button>
+                    </div>
                   </div>
                 </li>
               ))}
