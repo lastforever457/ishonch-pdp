@@ -12,16 +12,10 @@ export const parseUrlOptions: ParseOptions = {
 
 export const useLocationParams = () => {
   const { pathname, search } = useLocation()
-  const query = useMemo(() => {
-    const parsedQuery = queryString.parse(search, parseUrlOptions)
-    Object.keys(parsedQuery).forEach((key) => {
-      if (typeof parsedQuery[key] === 'string') {
-        parsedQuery[key] = parsedQuery[key].replace(/%20/g, ' ')
-      }
-    })
-    console.log(parsedQuery)
-    return parsedQuery
-  }, [search])
+  const query = useMemo(
+    () => queryString.parse(search, parseUrlOptions),
+    [search]
+  )
 
   return { query, pathname, domain: window.location.origin }
 }

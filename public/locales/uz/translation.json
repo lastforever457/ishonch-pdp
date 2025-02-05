@@ -20,7 +20,8 @@
     "cancel": "Bekor qilish",
     "comment": "Izoh",
     "date": "Sana",
-    "not connected": "Biriktirilmagan"
+    "not connected": "Biriktirilmagan",
+    "clear filter": "Filterni tozalash"
   },
   "formMessages": {
     "firstName": "Iltimos, ismni kiriting",

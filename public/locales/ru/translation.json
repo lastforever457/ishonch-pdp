@@ -20,7 +20,8 @@
     "cancel": "Отменить",
     "comment": "Комментарий",
     "date": "Дата",
-    "not connected": "Не связан"
+    "not connected": "Не связан",
+    "clear filter": "Очистить фильтр"
   },
   "formMessages": {
     "firstName": "Пожалуйста, введите имя",
