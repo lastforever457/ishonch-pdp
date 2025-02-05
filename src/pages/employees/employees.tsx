@@ -1,52 +1,63 @@
-import { Form, message, Tooltip } from 'antd';
-import { useEffect, useMemo } from 'react';
-import { useTranslation } from 'react-i18next';
-import { Link } from 'react-router-dom';
-import { AutoForm } from '../../components/auto-form';
-import { CustomLoader } from '../../components/loader.tsx';
-import MyDrawer from '../../components/my-drawer';
-import MySegmented from '../../components/my-segmented';
-import MyTable from '../../components/my-table';
-import { useLocationParams } from '../../hooks/use-location-params';
-import { useRouterPush } from '../../hooks/use-router-push';
-import PageLayout from '../../layouts/page-layout';
-import { StaffTypes, useCreateUser, useDeleteUser, useUpdateUser, useUser, useUsers } from '../../models/users';
-import { formatPhoneNumber } from '../../utils.ts';
+import { Form, message, Tooltip } from 'antd'
+import { useEffect, useMemo } from 'react'
+import { useTranslation } from 'react-i18next'
+import { Link } from 'react-router-dom'
+import { AutoForm } from '../../components/auto-form'
+import { CustomLoader } from '../../components/loader.tsx'
+import MyDrawer from '../../components/my-drawer'
+import MySegmented from '../../components/my-segmented'
+import MyTable from '../../components/my-table'
+import { useLocationParams } from '../../hooks/use-location-params'
+import { useRouterPush } from '../../hooks/use-router-push'
+import PageLayout from '../../layouts/page-layout'
+import {
+  StaffTypes,
+  useCreateUser,
+  useDeleteUser,
+  useUpdateUser,
+  useUser,
+  useUsers,
+} from '../../models/users'
+import { formatPhoneNumber } from '../../utils.ts'
 
 const Employees = () => {
-  const { t } = useTranslation();
-  const { push } = useRouterPush();
-  const { query } = useLocationParams();
-  const [form] = Form.useForm();
-  const { mutate: mutateCreateUser } = useCreateUser();
-  const { mutate: mutateUpdateUser } = useUpdateUser();
-  const { mutate: mutateDeleteUser } = useDeleteUser();
+  const { t } = useTranslation()
+  const { push } = useRouterPush()
+  const { query } = useLocationParams()
+  const [form] = Form.useForm()
+  const { mutate: mutateCreateUser } = useCreateUser()
+  const { mutate: mutateUpdateUser } = useUpdateUser()
+  const { mutate: mutateDeleteUser } = useDeleteUser()
   const {
     data: users,
     isLoading: isLoadingUsers,
     refetch: refetchUsers,
-  } = useUsers((query.employeeTab?.toString().toUpperCase() as StaffTypes) || 'TEACHER');
-  const { data: user, refetch: refetchUser } = useUser(query.id as string);
+  } = useUsers(
+    (query.employeeTab?.toString().toUpperCase() as StaffTypes) || 'TEACHER'
+  )
+  const { data: user, refetch: refetchUser } = useUser(query.id as string)
 
   useEffect(() => {
-    refetchUsers();
-  }, [query.employeeTab]);
+    refetchUsers()
+  }, [query.employeeTab])
 
   useEffect(() => {
     if (query.edit && query.id) {
       const fetch = async () => {
-        await refetchUser();
-      };
-      fetch();
+        await refetchUser()
+      }
+      fetch()
     }
-  }, [query.id, query.edit]);
+  }, [query.id, query.edit])
 
   useEffect(() => {
     if (Array.isArray(user)) {
-      console.log(user[0]);
-      form.setFieldsValue(user ? { ...user[0], phoneNumber: user[0].phoneNumber.slice(4) } : {});
+      console.log(user[0])
+      form.setFieldsValue(
+        user ? { ...user[0], phoneNumber: user[0].phoneNumber.slice(4) } : {}
+      )
     }
-  }, [user]);
+  }, [user])
 
   const segmentedValues = useMemo(
     () => [
@@ -64,8 +75,8 @@ const Employees = () => {
         key: 'other',
       },
     ],
-    [t],
-  );
+    [t]
+  )
 
   const columns = useMemo(
     () => [
@@ -77,7 +88,9 @@ const Employees = () => {
         ellipsis: {
           showTitle: false,
         },
-        render: (item: Record<string, any>) => <Link to={`${item.id}`}>{item.name}</Link>,
+        render: (item: Record<string, any>) => (
+          <Link to={`${item.id}`}>{item.name}</Link>
+        ),
       },
       {
         key: 'phone',
@@ -102,17 +115,21 @@ const Employees = () => {
         ),
       },
     ],
-    [t],
-  );
+    [t]
+  )
 
   const data = useMemo(() => {
     const remainedData: Record<string, any> | undefined = query.search
       ? users?.data?.filter(
           (item: Record<string, any>) =>
-            item.firstname.toLowerCase().includes((query.search as string).toLowerCase()) ||
-            item.lastname.toLowerCase().includes((query.search as string).toLowerCase()),
+            `${item.firstname} ${item.lastname}`
+              .toLowerCase()
+              .includes((query.search as string).toString().toLowerCase()) ||
+            item.phoneNumber
+              .toLowerCase()
+              .includes((query.search as string).toString().toLowerCase())
         )
-      : users?.data;
+      : users?.data
     return (
       remainedData?.map((item: Record<string, any>) => ({
         ...item,
@@ -122,8 +139,8 @@ const Employees = () => {
           name: `${item.firstname || ''} ${item.lastname || ''}`,
         },
       })) || []
-    );
-  }, [users, query.search]);
+    )
+  }, [users, query.search])
 
   const fields = useMemo(
     () => [
@@ -215,19 +232,8 @@ const Employees = () => {
         ],
       },
     ],
-    [t],
-  );
-
-  const onCancel = () => {
-    push({
-      query: {
-        add: undefined,
-        edit: undefined,
-        view: undefined,
-        id: undefined,
-      },
-    });
-  };
+    [t]
+  )
 
   const onFinish = async (values: Record<string, any>) => {
     if (query.edit && query.id) {
@@ -237,23 +243,28 @@ const Employees = () => {
           phoneNumber: `+998${values.phoneNumber}`,
         },
         id: query.id,
-      });
+      })
     } else {
       await mutateCreateUser({
         ...values,
         phoneNumber: `+998${values.phoneNumber}`,
-      });
+      })
     }
-    message.success(t('formMessages.success'));
-    form.resetFields();
-  };
+    message.success(t('formMessages.success'))
+    form.resetFields()
+  }
 
-  if (isLoadingUsers) return <CustomLoader />;
+  if (isLoadingUsers) return <CustomLoader />
 
   return (
     <PageLayout
       title={t('employees.title')}
-      segmented={<MySegmented segmentedValues={segmentedValues} queryName="employeeTab" />}
+      segmented={
+        <MySegmented
+          segmentedValues={segmentedValues}
+          queryName="employeeTab"
+        />
+      }
     >
       <MyTable
         name="employees"
@@ -263,7 +274,11 @@ const Employees = () => {
         deleteFunc={mutateDeleteUser}
         isLoading={isLoadingUsers}
       />
-      <MyDrawer form={form} entryPoint="add" title={t('employees.titleSingular')}>
+      <MyDrawer
+        form={form}
+        entryPoint="add"
+        title={t('employees.titleSingular')}
+      >
         <AutoForm
           form={form}
           onFinish={onFinish}
@@ -273,7 +288,7 @@ const Employees = () => {
         />
       </MyDrawer>
     </PageLayout>
-  );
-};
+  )
+}
 
-export default Employees;
+export default Employees

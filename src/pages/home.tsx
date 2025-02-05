@@ -1,21 +1,23 @@
-import { Col, Row } from 'antd';
-import { useMemo } from 'react';
-import { useTranslation } from 'react-i18next';
-import { Link } from 'react-router-dom';
-import { CustomLoader } from '../components/loader';
-import { useDashboard } from '../models/dashboard';
+import { Col, Row } from 'antd'
+import { useMemo } from 'react'
+import { useTranslation } from 'react-i18next'
+import { Link } from 'react-router-dom'
+import { CustomLoader } from '../components/loader'
+import { useLocationParams } from '../hooks/use-location-params'
+import { useDashboard } from '../models/dashboard'
 
 export interface IDashboard {
-  id: number;
-  img: string;
-  percent: number;
-  title: string;
-  link: string;
+  id: number
+  img: string
+  percent: number
+  title: string
+  link: string
 }
 
 const Home = () => {
-  const { t } = useTranslation();
-  const { data, isLoading } = useDashboard();
+  const { t } = useTranslation()
+  const { query } = useLocationParams()
+  const { data, isLoading } = useDashboard()
 
   const users: IDashboard[] = useMemo(
     () => [
@@ -62,38 +64,74 @@ const Home = () => {
         link: '/groups',
       },
     ],
-    [t, data],
-  );
+    [t, data]
+  )
 
-  if (isLoading) {
-    return <CustomLoader />;
-  }
+  if (isLoading) return <CustomLoader />
 
   return (
     <div>
       <Row gutter={[16, 16]} className="py-4 text-sm md:px-10">
-        {users.map((user: IDashboard) => {
-          return (
-            <Col key={user.id} xs={24} sm={12} md={8} lg={8} xl={8} xxl={4}>
-              <Link to={user.link}>
-                <div className="bg-primary-blue flex h-full flex-col rounded-xl p-4 text-center text-sm shadow-md">
-                  <img
-                    src={user.img}
-                    alt={user.title}
-                    className="mx-auto mb-2 flex h-12 w-12 items-center justify-center"
-                  />
-                  <div>
-                    <p className="font-bold text-white">{user.title}</p>
-                    <p className="text-lg font-semibold text-white">{user.percent}</p>
-                  </div>
-                </div>
-              </Link>
-            </Col>
-          );
-        })}
+        {query.search
+          ? users
+              .filter((user) =>
+                user.title
+                  .toLowerCase()
+                  .includes((query.search as string).toString().toLowerCase())
+              )
+              .map((user: IDashboard) => {
+                return (
+                  <Col
+                    key={user.id}
+                    xs={24}
+                    sm={12}
+                    md={8}
+                    lg={8}
+                    xl={8}
+                    xxl={4}
+                  >
+                    <Link to={user.link}>
+                      <div className="bg-primary-blue flex h-full flex-col rounded-xl p-4 text-center text-sm shadow-md">
+                        <img
+                          src={user.img}
+                          alt={user.title}
+                          className="mx-auto mb-2 flex h-12 w-12 items-center justify-center"
+                        />
+                        <div>
+                          <p className="font-bold text-white">{user.title}</p>
+                          <p className="text-lg font-semibold text-white">
+                            {user.percent}
+                          </p>
+                        </div>
+                      </div>
+                    </Link>
+                  </Col>
+                )
+              })
+          : users.map((user: IDashboard) => {
+              return (
+                <Col key={user.id} xs={24} sm={12} md={8} lg={8} xl={8} xxl={4}>
+                  <Link to={user.link}>
+                    <div className="bg-primary-blue flex h-full flex-col rounded-xl p-4 text-center text-sm shadow-md">
+                      <img
+                        src={user.img}
+                        alt={user.title}
+                        className="mx-auto mb-2 flex h-12 w-12 items-center justify-center"
+                      />
+                      <div>
+                        <p className="font-bold text-white">{user.title}</p>
+                        <p className="text-lg font-semibold text-white">
+                          {user.percent}
+                        </p>
+                      </div>
+                    </div>
+                  </Link>
+                </Col>
+              )
+            })}
       </Row>{' '}
     </div>
-  );
-};
+  )
+}
 
-export default Home;
+export default Home

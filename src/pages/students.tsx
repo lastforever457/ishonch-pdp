@@ -1,16 +1,16 @@
-import { Form } from 'antd';
-import { useEffect, useMemo } from 'react';
-import { useTranslation } from 'react-i18next';
-import { Link } from 'react-router-dom';
-import { AutoForm, FormField } from '../components/auto-form.tsx';
-import { CustomLoader } from '../components/loader.tsx';
-import MyDrawer from '../components/my-drawer.tsx';
-import MySegmented from '../components/my-segmented.tsx';
-import MyTable from '../components/my-table.tsx';
-import { useLocationParams } from '../hooks/use-location-params.tsx';
-import { useRouterPush } from '../hooks/use-router-push.tsx';
-import PageLayout from '../layouts/page-layout.tsx';
-import { useGroups } from '../models/groups.tsx';
+import { Form } from 'antd'
+import { useEffect, useMemo } from 'react'
+import { useTranslation } from 'react-i18next'
+import { Link } from 'react-router-dom'
+import { AutoForm, FormField } from '../components/auto-form.tsx'
+import { CustomLoader } from '../components/loader.tsx'
+import MyDrawer from '../components/my-drawer.tsx'
+import MySegmented from '../components/my-segmented.tsx'
+import MyTable from '../components/my-table.tsx'
+import { useLocationParams } from '../hooks/use-location-params.tsx'
+import { useRouterPush } from '../hooks/use-router-push.tsx'
+import PageLayout from '../layouts/page-layout.tsx'
+import { useGroups } from '../models/groups.tsx'
 import {
   useArchiveStudent,
   useCreateStudent,
@@ -18,37 +18,41 @@ import {
   useStudent,
   useStudents,
   useUpdateStudent,
-} from '../models/students.tsx';
-import { formatPhoneNumber } from '../utils.ts';
+} from '../models/students.tsx'
+import { formatPhoneNumber } from '../utils.ts'
 
 const Students = () => {
-  const { push } = useRouterPush();
-  const [form] = Form.useForm();
-  const { t } = useTranslation();
-  const { query } = useLocationParams();
-  const { data: students, isLoading: isStudentsLoading } = useStudents();
-  const { data: archStudents, isLoading: isArchStLoading } = useArchiveStudent();
-  const { mutate: mutateCreateStudent } = useCreateStudent();
-  const { mutate: mutateUpdateStudent } = useUpdateStudent();
-  const { mutate: mutateDeleteStudent } = useDeleteStudent();
-  const { data: student, isLoading: isStudentLoading, refetch: refetchStudent } = useStudent(query.id as string);
-  const { data: groups, isLoading: isGroupsLoading } = useGroups('ACTIVE');
+  const { push } = useRouterPush()
+  const [form] = Form.useForm()
+  const { t } = useTranslation()
+  const { query } = useLocationParams()
+  const { data: students, isLoading: isStudentsLoading } = useStudents()
+  const { data: archStudents, isLoading: isArchStLoading } = useArchiveStudent()
+  const { mutate: mutateCreateStudent } = useCreateStudent()
+  const { mutate: mutateUpdateStudent } = useUpdateStudent()
+  const { mutate: mutateDeleteStudent } = useDeleteStudent()
+  const {
+    data: student,
+    isLoading: isStudentLoading,
+    refetch: refetchStudent,
+  } = useStudent(query.id as string)
+  const { data: groups, isLoading: isGroupsLoading } = useGroups('ACTIVE')
 
   useEffect(() => {
     const fetch = async () => {
       if (query.edit && query.id) {
-        await refetchStudent();
-        console.log(student?.data);
+        await refetchStudent()
+        console.log(student?.data)
         form.setFieldsValue({
           ...student?.data?.student,
           group: [student?.data?.group?.id],
           phoneNumber: student?.data?.student?.phoneNumber.replace('+998', ''),
-        });
+        })
       }
-    };
+    }
 
-    fetch();
-  }, [query.edit, query.id, student, form]);
+    fetch()
+  }, [query.edit, query.id, student, form])
 
   const fields = useMemo(
     () => [
@@ -119,8 +123,8 @@ const Students = () => {
         ],
       },
     ],
-    [t, groups, query],
-  );
+    [t, groups, query]
+  )
 
   const columns = useMemo(
     () => [
@@ -151,8 +155,8 @@ const Students = () => {
         render: (value: any) => (value ? t(`form.${value}`) : value),
       },
     ],
-    [t],
-  );
+    [t]
+  )
 
   const onFinish = (values: Record<string, any>) => {
     if (query.edit && query.id) {
@@ -160,17 +164,21 @@ const Students = () => {
         id: query.id as string,
         data: {
           ...values,
-          phoneNumber: values.phoneNumber.startsWith('+998') ? values.phoneNumber : `+998${values.phoneNumber}`,
+          phoneNumber: values.phoneNumber.startsWith('+998')
+            ? values.phoneNumber
+            : `+998${values.phoneNumber}`,
         },
-      });
+      })
     } else {
       mutateCreateStudent({
         ...values,
-        phoneNumber: values.phoneNumber.startsWith('+998') ? values.phoneNumber : `+998${values.phoneNumber}`,
-      });
+        phoneNumber: values.phoneNumber.startsWith('+998')
+          ? values.phoneNumber
+          : `+998${values.phoneNumber}`,
+      })
     }
-    onCancel();
-  };
+    onCancel()
+  }
 
   const onCancel = () => {
     push({
@@ -180,11 +188,12 @@ const Students = () => {
         view: undefined,
         id: undefined,
       },
-    });
-    form.resetFields();
-  };
+    })
+    form.resetFields()
+  }
 
-  if (isStudentsLoading || isGroupsLoading || isArchStLoading) return <CustomLoader />;
+  if (isStudentsLoading || isGroupsLoading || isArchStLoading)
+    return <CustomLoader />
 
   return (
     <PageLayout
@@ -209,8 +218,16 @@ const Students = () => {
               ? archStudents
                   .filter(
                     (item: any) =>
-                      item?.student?.firstname.toLowerCase()?.includes((query.search as string).toLowerCase()) ||
-                      item?.student?.lastname.toLowerCase()?.includes((query.search as string).toLowerCase()),
+                      item?.student?.firstname
+                        .toLowerCase()
+                        ?.includes(
+                          (query.search as string).toString().toLowerCase()
+                        ) ||
+                      item?.student?.lastname
+                        .toLowerCase()
+                        ?.includes(
+                          (query.search as string).toString().toLowerCase()
+                        )
                   )
                   .map((item: any) => ({
                     ...item?.student,
@@ -242,8 +259,17 @@ const Students = () => {
               ? students
                   .filter(
                     (item: any) =>
-                      item?.student?.firstname.toLowerCase()?.includes((query.search as string).toLowerCase()) ||
-                      item?.student?.lastname.toLowerCase()?.includes((query.search as string).toLowerCase()),
+                      `${item?.firstname} ${item?.lastname}`
+                        .toLowerCase()
+                        ?.includes(
+                          (query.search as string).toString().toLowerCase()
+                        ) ||
+                      item?.student?.phoneNumber
+                        .toString()
+                        .toLowerCase()
+                        ?.includes(
+                          (query.search as string).toString().toLowerCase()
+                        )
                   )
                   .map((item: any) => ({
                     ...item?.student,
@@ -273,11 +299,19 @@ const Students = () => {
                 }))
         }
       />
-      <MyDrawer form={form} entryPoint={query.add ? 'add' : 'edit'} title={t('students.titleSingular')}>
-        <AutoForm form={form} fields={fields as FormField[]} onFinish={onFinish} />
+      <MyDrawer
+        form={form}
+        entryPoint={query.add ? 'add' : 'edit'}
+        title={t('students.titleSingular')}
+      >
+        <AutoForm
+          form={form}
+          fields={fields as FormField[]}
+          onFinish={onFinish}
+        />
       </MyDrawer>
     </PageLayout>
-  );
-};
+  )
+}
 
-export default Students;
+export default Students

@@ -1,5 +1,5 @@
 import { Input } from 'antd'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { FaBars, FaSearch } from 'react-icons/fa'
 import { IoMdClose } from 'react-icons/io'
@@ -17,6 +17,11 @@ const Header = () => {
   const { query } = useLocationParams()
   const [isCollapsed, setIsCollapsed] = useState<boolean>(true)
   const [isSearchOpen, setIsSearchOpen] = useState<boolean>(false)
+  const [search, setSearch] = useState<string>((query.search as string) || '')
+
+  useEffect(() => {
+    setSearch(query.search as string)
+  }, [query.search])
 
   return (
     <div className="flex justify-between items-center gap-4 lg:gap-36 bg-whit shadow-sm px-4 lg:px-10 w-full h-[80px] lg:h-[100px] transition-all">
@@ -65,7 +70,7 @@ const Header = () => {
                 }}
               />
             }
-            defaultValue={query.search as string}
+            defaultValue={search}
             onChange={(event) =>
               push({ query: { ...query, search: event?.target?.value } })
             }

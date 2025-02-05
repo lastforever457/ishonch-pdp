@@ -1,9 +1,9 @@
-import { Form, message, Modal, Select } from 'antd'
+import { Form, message, Modal, Popconfirm, Select } from 'antd'
 import dayjs from 'dayjs'
 import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { BsArrowReturnLeft } from 'react-icons/bs'
-import { RiDeleteBin6Line, RiEditCircleLine } from 'react-icons/ri'
+import { RiDeleteBin6Line } from 'react-icons/ri'
 import { TiTick, TiTimes } from 'react-icons/ti'
 import { Link, useParams } from 'react-router-dom'
 import 'tailwindcss/tailwind.css'
@@ -11,6 +11,7 @@ import { CustomLoader } from '../../components/loader'
 import MyButton from '../../components/my-button'
 import MyTable from '../../components/my-table'
 import {
+  useDeleteGroup,
   useGroupAttendance,
   useGroupProfile,
   useSetGroupAttendance,
@@ -82,6 +83,7 @@ const Attendance: React.FC = () => {
   const { mutate: connectStudentToGroup } = useConnectStudentToGroup()
   const { mutate: disconnectStudentFromGroup } = useDisconnectStudentFromGroup()
   const { mutate: saveAttendance } = useSetGroupAttendance()
+  const { mutate: deleteGroup } = useDeleteGroup()
   const {
     data: groupData,
     refetch,
@@ -295,8 +297,14 @@ const Attendance: React.FC = () => {
               >
                 <BsArrowReturnLeft size={25} />
               </Link>
-              <RiEditCircleLine size={25} className="cursor-pointer" />
-              <RiDeleteBin6Line size={25} className="cursor-pointer" />
+              <Popconfirm
+                title={t('formMessages.confirmDelete')}
+                okText={t('crud.delete')}
+                cancelText={t('form.cancel')}
+                onConfirm={() => deleteGroup(groupId as string)}
+              >
+                <RiDeleteBin6Line size={25} className="cursor-pointer" />
+              </Popconfirm>
             </div>
           </div>
           <div className="space-y-2 text-sm">
