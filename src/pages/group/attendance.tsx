@@ -1,8 +1,9 @@
-import { Form, message, Modal, Popconfirm, Select } from 'antd'
+import { Button, Form, message, Modal, Popconfirm, Select, Tooltip } from 'antd'
 import dayjs from 'dayjs'
 import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { BsArrowReturnLeft } from 'react-icons/bs'
+import { MdBlock } from 'react-icons/md'
 import { RiDeleteBin6Line } from 'react-icons/ri'
 import { TiTick, TiTimes } from 'react-icons/ti'
 import { Link, useParams } from 'react-router-dom'
@@ -17,6 +18,7 @@ import {
   useSetGroupAttendance,
 } from '../../models/groups'
 import {
+  useBlockDebtorStudent,
   useConnectStudentToGroup,
   useDisconnectStudentFromGroup,
   useStudentsWithoutGroup,
@@ -84,6 +86,7 @@ const Attendance: React.FC = () => {
   const { mutate: disconnectStudentFromGroup } = useDisconnectStudentFromGroup()
   const { mutate: saveAttendance } = useSetGroupAttendance()
   const { mutate: deleteGroup } = useDeleteGroup()
+  const { mutate: blockDebtorStudent } = useBlockDebtorStudent()
   const {
     data: groupData,
     refetch,
@@ -110,11 +113,7 @@ const Attendance: React.FC = () => {
           (item: any) =>
             dayjs(item?.attendanceDate).format('YYYY-MM-DD') === today
         )
-        .map((item: any, index: number) => ({
-          key: index,
-          attended: item?.attended,
-          studentId: item?.student?.id,
-        }))
+        .map((item: any) => item?.attended && item?.student?.id)
         .filter(Boolean)
 
     return attendance
@@ -272,6 +271,27 @@ const Attendance: React.FC = () => {
         fixed: 'left',
       },
       ...lessons,
+      {
+        title: t('actions.actions'),
+        dataIndex: 'actions',
+        key: 'actions',
+        fixed: 'right',
+        render: (student: Record<string, any>) => (
+          <Popconfirm
+            onConfirm={() => blockDebtorStudent(student.id)}
+            title={t('formMessages.confirmBlock')}
+          >
+            <Tooltip title={t('students.block')}>
+              <Button
+                type="text"
+                className="size-12 p-0 text-red-500 hover:!text-red-700"
+              >
+                <MdBlock className="text-2xl " />
+              </Button>
+            </Tooltip>
+          </Popconfirm>
+        ),
+      },
     ],
     [lessons]
   )
@@ -394,6 +414,7 @@ const Attendance: React.FC = () => {
               key: student.id,
               id: student.id,
               name: `${student.firstname} ${student.lastname}`,
+              actions: student,
             }))}
             hasActions={false}
           />

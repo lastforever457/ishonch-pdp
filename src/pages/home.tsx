@@ -47,7 +47,7 @@ const Home = () => {
         img: '/images/user-4.svg',
         percent: data?.debtors,
         title: t('home.debtors'),
-        link: '/finance',
+        link: '/finance?financeTab=debtors',
       },
       {
         id: 5,

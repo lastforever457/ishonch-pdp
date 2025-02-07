@@ -42,7 +42,8 @@
     "capacity": "Iltimos, sig'imni kiriting",
     "count": "Iltimos, sonni kiriting",
     "success": "Muvaffaqiyatli",
-    "confirmDelete": "Siz bu elementni o'chirmoqchimisiz?"
+    "confirmDelete": "Siz bu elementni o'chirmoqchimisiz?",
+    "confirmBlock": "Siz bu o'quvchini bloklamoqchimisiz?"
   },
   "home": {
     "employees": "Xodimlar",
@@ -66,16 +67,6 @@
   "dashboard": {
     "title": "Dashboard",
     "titleSingular": "Dashboard"
-  },
-  "students": {
-    "archive": "Arxiv",
-    "students": "O'quvchilar",
-    "title": "O'quvchilar",
-    "titleSingular": "O'quvchi",
-    "name": "Ism",
-    "phone": "Telefon raqam",
-    "group": "Guruh",
-    "role": "Rol"
   },
   "groups": {
     "price": "Narxi",
@@ -141,6 +132,17 @@
     "countOfChair": "Stullar soni",
     "countOfTable": "Stollar soni"
   },
+  "students": {
+    "archive": "Arxiv",
+    "students": "O'quvchilar",
+    "title": "O'quvchilar",
+    "titleSingular": "O'quvchi",
+    "name": "Ism",
+    "phone": "Telefon raqam",
+    "group": "Guruh",
+    "role": "Rol",
+    "block": "Bloklash"
+  },
   "finance": {
     "title": "Moliya",
     "titleSingular": "Moliya",
@@ -172,17 +174,17 @@
     "title": "Tizimga kiring"
   },
   "month": {
-    "jan": "Yanvar",
-    "feb": "Fevral",
-    "mar": "Mart",
-    "apr": "Aprel",
+    "jan": "Yan",
+    "feb": "Fev",
+    "mar": "Mar",
+    "apr": "Apr",
     "may": "May",
-    "jun": "Iyun",
-    "jul": "Iyul",
-    "aug": "Avgust",
-    "sep": "Sentabr",
-    "oct": "Oktabr",
-    "nov": "Noyabr",
-    "dec": "Dekabr"
+    "jun": "Iyu",
+    "jul": "Iyu",
+    "aug": "Avg",
+    "sep": "Sen",
+    "oct": "Okt",
+    "nov": "Noy",
+    "dec": "Dek"
   }
 }

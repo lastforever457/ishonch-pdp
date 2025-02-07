@@ -25,7 +25,7 @@ const CourseFees = () => {
           <div className="flex flex-col gap-5">
             {data?.['Course fees']?.map((item: Record<string, any>) => (
               <EmployeeCard
-                key={`${item.id}_${item.name}`}
+                key={`${item.id}_${item.courseName}`}
                 title={item.courseName}
                 value={item.course_fee}
                 bgWhite={true}
