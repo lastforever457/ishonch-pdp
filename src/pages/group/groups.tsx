@@ -259,7 +259,9 @@ const Groups = () => {
         dataIndex: 'teacher',
         key: 'teacher',
         render: (teacher: Record<string, any>) =>
-          teacher?.firstname + ' ' + teacher?.lastname,
+          teacher?.firstname && teacher?.lastname
+            ? teacher?.firstname + ' ' + teacher?.lastname
+            : 'Xatolik',
       },
       {
         title: t('groups.room'),

@@ -161,3 +161,19 @@ export const useBlockDebtorStudent = () => {
   })
   return data
 }
+
+export const useUnblockDebtorStudent = () => {
+  const { t } = useTranslation()
+  const queryClient = useQueryClient()
+  const data = useMutation({
+    mutationFn: async (id: string) => {
+      const res = await api.post(`/student/not-debtor/${id}`)
+      await queryClient.invalidateQueries({
+        queryKey: ['debtorStudents'],
+      })
+      message.success(t('formMessages.success'))
+      return res.data
+    },
+  })
+  return data
+}

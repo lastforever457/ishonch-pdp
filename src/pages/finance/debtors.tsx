@@ -4,11 +4,15 @@ import { useTranslation } from 'react-i18next'
 import { MdOutlineKeyboardReturn } from 'react-icons/md'
 import { CustomLoader } from '../../components/loader'
 import MyTable from '../../components/my-table'
-import { useDebtorStudents } from '../../models/students'
+import {
+  useDebtorStudents,
+  useUnblockDebtorStudent,
+} from '../../models/students'
 
 const Debtors = () => {
   const { t } = useTranslation()
   const { data, isLoading: isLoadingStudents } = useDebtorStudents()
+  const { mutate: unblockDebtorStudent } = useUnblockDebtorStudent()
   const columns = useMemo(
     () => [
       {
@@ -36,7 +40,7 @@ const Debtors = () => {
         render: (student: Record<string, any>) => (
           <Button
             type="text"
-            // onClick={() => {}}
+            onClick={() => unblockDebtorStudent(student.id.toString())}
             className="p-0 text-2xl size-8 text-green-500 hover:!text-green-700"
           >
             <MdOutlineKeyboardReturn />

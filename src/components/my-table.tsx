@@ -1,10 +1,9 @@
-import { Button, Dropdown, Popconfirm, Table } from "antd";
-import { useMemo } from "react";
-import { useTranslation } from "react-i18next";
-import { BsThreeDotsVertical } from "react-icons/bs";
-import { useRouterPush } from "../hooks/use-router-push";
-import { useUpdateGroup } from "../models/groups";
-import { useDeleteStudent } from "../models/students.tsx";
+import { Button, Dropdown, Popconfirm, Table } from 'antd'
+import { useMemo } from 'react'
+import { useTranslation } from 'react-i18next'
+import { BsThreeDotsVertical } from 'react-icons/bs'
+import { useRouterPush } from '../hooks/use-router-push'
+import { useUpdateGroup } from '../models/groups'
 
 const MyTable = ({
   name,

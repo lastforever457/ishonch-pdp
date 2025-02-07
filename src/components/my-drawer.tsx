@@ -63,7 +63,7 @@ const MyDrawer: React.FC<DrawerProps> = ({
               : 'translate-x-[100%]'
         }`}
       >
-        <div className="md:block relative hidden bg-opacity-60 w-[15%]">
+        <div className="md:block relative hidden bg-opacity-60 w-[15%] min-h-screen">
           <div
             style={{
               borderTopLeftRadius: '40px',
@@ -76,7 +76,7 @@ const MyDrawer: React.FC<DrawerProps> = ({
             </button>
           </div>
         </div>
-        <div className="bg-white px-12 py-10 w-full">
+        <div className="bg-white px-12 py-10 w-full h-screen overflow-y-auto">
           <div className="flex justify-between items-center">
             <h1 className="md:mb-4 font-bold text-xl">{title}</h1>
             <button onClick={closeDrawer} className="block md:hidden text-2xl">
