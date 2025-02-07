@@ -98,7 +98,7 @@ const Students = () => {
         rules: [
           {
             required: true,
-            message: t("formMessages.name"),
+            message: t('formMessages.password'),
           },
         ],
       },

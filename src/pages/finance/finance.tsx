@@ -1,4 +1,5 @@
 import { Form } from 'antd'
+import dayjs from 'dayjs'
 import { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { AutoForm } from '../../components/auto-form'
@@ -32,7 +33,10 @@ const Finance = () => {
 
   const onFinish = async (values: any) => {
     try {
-      await mutateCreateFinance(values)
+      await mutateCreateFinance({
+        ...values,
+        date: dayjs(values.date).format('YYYY-MM-DD'),
+      })
     } catch (error) {
       console.log(error)
     }

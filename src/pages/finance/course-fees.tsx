@@ -1,15 +1,17 @@
 import { Col, Row } from 'antd'
 import { useTranslation } from 'react-i18next'
-import { courseFees } from '../../test-data'
+import { CustomLoader } from '../../components/loader'
+import { useCourseFees } from '../../models/finance'
 import { EmployeeCard } from '../employees/employee-id/employee-id'
 import ExpenseForPeriod from './expense-for-period'
 
 const CourseFees = () => {
   const { t } = useTranslation()
-
+  const { data, isLoading } = useCourseFees()
+  if (isLoading) return <CustomLoader />
   return (
     <>
-      <ExpenseForPeriod />
+      <ExpenseForPeriod expense={data?.['total price']} isLoading={false} />
       <Row className="mt-7">
         <Col xs={24} sm={24} md={24} lg={12}>
           <EmployeeCard
@@ -21,11 +23,11 @@ const CourseFees = () => {
             customClass="rounded-xl"
           />
           <div className="flex flex-col gap-5">
-            {courseFees.map((item: Record<string, any>) => (
+            {data?.['Course fees']?.map((item: Record<string, any>) => (
               <EmployeeCard
-                key={item.id}
-                title={item.name}
-                value={item.amount}
+                key={`${item.id}_${item.name}`}
+                title={item.courseName}
+                value={item.course_fee}
                 bgWhite={true}
                 hasShadow={false}
                 customClass="rounded-xl"

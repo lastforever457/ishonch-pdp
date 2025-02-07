@@ -1,13 +1,12 @@
-import { useMemo } from 'react';
-import { useTranslation } from 'react-i18next';
-import { CustomLoader } from '../../components/loader';
-import MyTable from '../../components/my-table';
-import { useUsers } from '../../models/users';
+import { useMemo } from 'react'
+import { useTranslation } from 'react-i18next'
+import { CustomLoader } from '../../components/loader'
+import MyTable from '../../components/my-table'
+import { useUsers } from '../../models/users'
 
 const Debtors = () => {
-  const { t } = useTranslation();
-  const { data: teachers, isLoading: isTeachersLoading } = useUsers('TEACHER');
-  console.log(teachers);
+  const { t } = useTranslation()
+  const { data: teachers, isLoading: isTeachersLoading } = useUsers('TEACHER')
   const columns = useMemo(
     () => [
       {
@@ -29,12 +28,19 @@ const Debtors = () => {
         },
       },
     ],
-    [t],
-  );
+    [t]
+  )
 
-  if (isTeachersLoading) return <CustomLoader />;
+  if (isTeachersLoading) return <CustomLoader />
 
-  return <MyTable name="finance" hasActions={false} columns={columns} data={teachers?.data} />;
-};
+  return (
+    <MyTable
+      name="finance"
+      hasActions={false}
+      columns={columns}
+      data={teachers?.data}
+    />
+  )
+}
 
-export default Debtors;
+export default Debtors

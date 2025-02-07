@@ -79,7 +79,7 @@ const Settings = () => {
             </span>
             <Select
               style={{ width: '100%' }}
-              defaultValue={localStorage.getItem('ishonch-font') || 'poppins'}
+              defaultValue={localStorage.getItem('ishonch-font') || 'inter'}
               placeholder={t('settings.font')}
               onChange={(value: string) => {
                 setFont(value)

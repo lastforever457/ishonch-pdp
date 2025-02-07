@@ -46,8 +46,6 @@ const Groups = () => {
   const { mutate: deleteGroup } = useDeleteGroup()
   const { data: teachers, isLoading: isTeacherLoading } = useUsers('TEACHER')
 
-  console.log(groups)
-
   useEffect(() => {
     const refetch = async () => {
       await refetchGroups()

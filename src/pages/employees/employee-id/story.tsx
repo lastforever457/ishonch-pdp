@@ -84,6 +84,7 @@ const Story = () => {
         defaultValue: currentEmployee?.branchId.toString(),
         type: 'select',
         options: filials.map((filial: Record<string, any>) => ({
+          key: filial.id,
           label: filial.name,
           value: filial.id.toString(),
         })),

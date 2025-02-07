@@ -110,7 +110,11 @@ const Attendance: React.FC = () => {
           (item: any) =>
             dayjs(item?.attendanceDate).format('YYYY-MM-DD') === today
         )
-        .map((item: any) => item?.attended && item?.student?.id)
+        .map((item: any, index: number) => ({
+          key: index,
+          attended: item?.attended,
+          studentId: item?.student?.id,
+        }))
         .filter(Boolean)
 
     return attendance
@@ -393,8 +397,11 @@ const Attendance: React.FC = () => {
             }))}
             hasActions={false}
           />
-          <div className="flex items-center justify-end">
-            <MyButton onClick={handleSubmitAttendance}>
+          <div className="flex mt-3 items-center justify-end">
+            <MyButton
+              disabled={groupData?.students?.length === 0}
+              onClick={handleSubmitAttendance}
+            >
               {t('form.save')}
             </MyButton>
           </div>

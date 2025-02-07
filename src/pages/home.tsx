@@ -45,14 +45,14 @@ const Home = () => {
       {
         id: 4,
         img: '/images/user-4.svg',
-        percent: '56',
+        percent: data?.debtors,
         title: t('home.debtors'),
         link: '/finance',
       },
       {
         id: 5,
         img: '/images/user-5.svg',
-        percent: '246',
+        percent: '0',
         title: t('home.pay-month'),
         link: '/finance',
       },
