@@ -1,139 +1,136 @@
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
-import { message } from 'antd'
-import { useTranslation } from 'react-i18next'
-import api from './axios'
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { message } from "antd";
+import { useTranslation } from "react-i18next";
+import api from "./axios";
 
 export const useStudents = () => {
   const data = useQuery({
-    queryKey: ['students'],
+    queryKey: ["students"],
     queryFn: async () => {
-      const res = await api.get('/student')
-      return res.data
+      const res = await api.get("/student");
+      return res.data;
     },
     select: (data) => data.data,
-  })
-  return data
-}
+  });
+  return data;
+};
 
 export const useArchiveStudent = () => {
   const data = useQuery({
-    queryKey: ['archiveStudent'],
+    queryKey: ["archiveStudent"],
     queryFn: async () => {
-      const res = await api.get(`/student/arxiv`)
-      return res.data
+      const res = await api.get(`/student/arxiv`);
+      return res.data;
     },
     select: (data) => data.data,
-  })
-  return data
-}
+  });
+  return data;
+};
 
 export const useStudent = (id: string) => {
   const data = useQuery({
-    queryKey: ['student'],
+    queryKey: ["student"],
     queryFn: async () => {
-      if (!id) return null
-      const res = await api(`/student/${id}`)
-      return res.data
+      if (!id) return null;
+      const res = await api(`/student/${id}`);
+      return res.data;
     },
     retry: false,
-  })
-  return data
-}
+  });
+  return data;
+};
 
 export const useCreateStudent = () => {
-  const queryClient = useQueryClient()
-  const { t } = useTranslation()
+  const queryClient = useQueryClient();
+  const { t } = useTranslation();
   const data = useMutation({
     mutationFn: async (data: any) => {
-      const res = await api.post('/student/add', data)
+      const res = await api.post("/student/add", data);
       await queryClient.invalidateQueries({
-        queryKey: ['students'],
-      })
-      message.success(t('formMessages.success'))
-      return res.data
+        queryKey: ["students"],
+      });
+      message.success(t("formMessages.success"));
+      return res.data;
     },
-  })
-  return data
-}
+  });
+  return data;
+};
 
 export const useUpdateStudent = () => {
-  const queryClient = useQueryClient()
-  const { t } = useTranslation()
+  const queryClient = useQueryClient();
+  const { t } = useTranslation();
   const data = useMutation({
-    mutationFn: async (data: {
-      id: string | number
-      data: Record<string, any>
-    }) => {
-      const res = await api.patch(`/student/update/${data.id}`, data.data)
-      message.success(t('formMessages.success'))
-      await queryClient.invalidateQueries({ queryKey: ['students'] })
-      return res.data
+    mutationFn: async (data: { id: string; data: Record<string, any> }) => {
+      const res = await api.patch(`/student/update/${data.id}`, data.data);
+      message.success(t("formMessages.success"));
+      await queryClient.invalidateQueries({ queryKey: ["students"] });
+      return res.data;
     },
-  })
-  return data
-}
+  });
+  return data;
+};
 
 export const useDeleteStudent = () => {
-  const queryClient = useQueryClient()
-  const { t } = useTranslation()
+  const queryClient = useQueryClient();
+  const { t } = useTranslation();
   const data = useMutation({
     mutationFn: async (id: string) => {
-      const res = await api.delete(`/student/delete/${id}`)
+      const res = await api.delete(`/student/delete/${id}`);
       await queryClient.invalidateQueries({
-        queryKey: ['students'],
-      })
-      message.success(t('formMessages.success'))
-      return res.data
+        queryKey: ["students"],
+      });
+      message.success(t("formMessages.success"));
+      return res.data;
     },
-  })
-  return data
-}
+  });
+  return data;
+};
 
 export const useStudentsWithoutGroup = () => {
   const data = useQuery({
-    queryKey: ['studentsWithoutGroup'],
+    queryKey: ["studentsWithoutGroup"],
     queryFn: async () => {
-      const res = await api.get('/group/getStudentWithoutGroup')
-      return res.data
+      const res = await api.get("/group/getStudentWithoutGroup");
+      return res.data;
     },
-  })
-  return data
-}
+  });
+  return data;
+};
 
 export const useConnectStudentToGroup = () => {
-  const queryClient = useQueryClient()
+  const queryClient = useQueryClient();
   const data = useMutation({
     mutationFn: async (data: {
-      studentId: string | number
-      groupId: string
+      studentId: string | number;
+      groupId: string;
     }) => {
       const res = await api.post(
         `/group/addNewReader/${data.studentId}/${data.groupId}`
-      )
+      );
       await queryClient.invalidateQueries({
-        queryKey: ['group-profile', 'studentsWithoutGroup'],
-      })
-      return res.data
+        queryKey: ["group-profile", "studentsWithoutGroup"],
+      });
+      return res.data;
     },
-  })
-  return data
-}
+  });
+  return data;
+};
 
 export const useDisconnectStudentFromGroup = () => {
-  const queryClient = useQueryClient()
+  const queryClient = useQueryClient();
   const data = useMutation({
     mutationFn: async (data: {
-      studentId: string | number
-      groupId: string
+      studentId: string | number;
+      groupId: string;
     }) => {
       const res = await api.post(
         `/group/remove/${data.studentId}/${data.groupId}`
-      )
+      );
       await queryClient.invalidateQueries({
-        queryKey: ['group-profile', 'studentsWithoutGroup'],
-      })
-      return res.data
+        queryKey: ["group-profile", "studentsWithoutGroup"],
+      });
+      return res.data;
     },
-  })
-  return data
-}
+  });
+  return data;
+};
