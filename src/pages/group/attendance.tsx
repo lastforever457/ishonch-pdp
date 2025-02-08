@@ -1,14 +1,14 @@
-import { Button, Form, message, Modal, Popconfirm, Select, Tooltip } from 'antd'
+import {Button, Form, message, Modal, Popconfirm, Select, Tooltip} from 'antd'
 import dayjs from 'dayjs'
-import React, { useCallback, useEffect, useMemo, useState } from 'react'
-import { useTranslation } from 'react-i18next'
-import { BsArrowReturnLeft } from 'react-icons/bs'
-import { MdBlock } from 'react-icons/md'
-import { RiDeleteBin6Line } from 'react-icons/ri'
-import { TiTick, TiTimes } from 'react-icons/ti'
-import { Link, useParams } from 'react-router-dom'
+import React, {useCallback, useEffect, useMemo, useState} from 'react'
+import {useTranslation} from 'react-i18next'
+import {BsArrowReturnLeft} from 'react-icons/bs'
+import {MdBlock} from 'react-icons/md'
+import {RiDeleteBin6Line} from 'react-icons/ri'
+import {TiTick, TiTimes} from 'react-icons/ti'
+import {Link, useParams} from 'react-router-dom'
 import 'tailwindcss/tailwind.css'
-import { CustomLoader } from '../../components/loader'
+import {CustomLoader} from '../../components/loader'
 import MyButton from '../../components/my-button'
 import MyTable from '../../components/my-table'
 import {
@@ -78,16 +78,16 @@ const convertMonth = (month: string): string => {
 }
 
 const Attendance: React.FC = () => {
-  const { groupId } = useParams<{ groupId: string }>()
-  const { t } = useTranslation()
+  const {groupId} = useParams<{ groupId: string }>()
+  const {t} = useTranslation()
   const [connectStudentForm] = Form.useForm()
   const [open, setOpen] = useState<boolean>(false)
   const [selectedStudent, setSelectedStudent] = useState<string | null>(null)
-  const { mutate: connectStudentToGroup } = useConnectStudentToGroup()
-  const { mutate: disconnectStudentFromGroup } = useDisconnectStudentFromGroup()
-  const { mutate: saveAttendance } = useSetGroupAttendance()
-  const { mutate: deleteGroup } = useDeleteGroup()
-  const { mutate: blockDebtorStudent } = useBlockDebtorStudent()
+  const {mutate: connectStudentToGroup} = useConnectStudentToGroup()
+  const {mutate: disconnectStudentFromGroup} = useDisconnectStudentFromGroup()
+  const {mutate: saveAttendance} = useSetGroupAttendance()
+  const {mutate: deleteGroup} = useDeleteGroup()
+  const {mutate: blockDebtorStudent} = useBlockDebtorStudent()
   const {
     data: groupData,
     refetch,
@@ -125,7 +125,7 @@ const Attendance: React.FC = () => {
   }, [defaultAttendanceData])
 
   useEffect(() => {
-    console.log({ attendanceData, defaultAttendanceData })
+    console.log({attendanceData, defaultAttendanceData})
   }, [attendanceData, defaultAttendanceData])
 
   useEffect(() => {
@@ -190,9 +190,9 @@ const Attendance: React.FC = () => {
           >
             {(isToday && isAttended) ||
             (!isToday && currentStudent?.attended) ? (
-              <TiTick className="text-lg" />
+              <TiTick className="text-lg"/>
             ) : (
-              <TiTimes className="text-lg" />
+              <TiTimes className="text-lg"/>
             )}
           </div>
         </div>
@@ -290,7 +290,7 @@ const Attendance: React.FC = () => {
                 type="text"
                 className="size-12 p-0 text-red-500 hover:!text-red-700"
               >
-                <MdBlock className="text-2xl " />
+                <MdBlock className="text-2xl "/>
               </Button>
             </Tooltip>
           </Popconfirm>
@@ -309,7 +309,7 @@ const Attendance: React.FC = () => {
     isGroupProfileLoading ||
     isGroupAttendanceLoading
   ) {
-    return <CustomLoader />
+    return <CustomLoader/>
   }
 
   return (
@@ -325,7 +325,7 @@ const Attendance: React.FC = () => {
                 to="/groups"
                 className={'text-xl font-bold hover:text-blue-500'}
               >
-                <BsArrowReturnLeft size={25} />
+                <BsArrowReturnLeft size={25}/>
               </Link>
               <Popconfirm
                 title={t('formMessages.confirmDelete')}
@@ -333,7 +333,7 @@ const Attendance: React.FC = () => {
                 cancelText={t('form.cancel')}
                 onConfirm={() => deleteGroup(groupId as string)}
               >
-                <RiDeleteBin6Line size={25} className="cursor-pointer" />
+                <RiDeleteBin6Line size={25} className="cursor-pointer"/>
               </Popconfirm>
             </div>
           </div>
@@ -395,7 +395,7 @@ const Attendance: React.FC = () => {
                         }
                         className="flex gap-2 text-purple-600"
                       >
-                        <RiDeleteBin6Line className="cursor-pointer" />
+                        <RiDeleteBin6Line className="cursor-pointer"/>
                       </button>
                     </div>
                   </div>
@@ -450,8 +450,9 @@ const Attendance: React.FC = () => {
         }}
       >
         <Form form={connectStudentForm}>
-          <Form.Item rules={[{ required: true }]}>
+          <Form.Item rules={[{required: true}]}>
             <Select
+              mode={"multiple"}
               className="w-full"
               onChange={(value) => setSelectedStudent(value)}
             >

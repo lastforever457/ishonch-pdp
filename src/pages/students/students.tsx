@@ -204,6 +204,7 @@ const Students = () => {
           segmentedValues={[
             { value: t("students.students"), key: "students", isPrimary: true },
             { value: t("students.archive"), key: "archive" },
+            {value: t("finance.debtors"), key: "debtors" },
           ]}
           queryName={"studentsTab"}
         />
