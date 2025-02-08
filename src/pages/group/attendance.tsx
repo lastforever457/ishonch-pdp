@@ -80,6 +80,7 @@ const convertMonth = (month: string): string => {
 const Attendance: React.FC = () => {
   const { groupId } = useParams<{ groupId: string }>()
   const { t } = useTranslation()
+  const [connectStudentForm] = Form.useForm()
   const [open, setOpen] = useState<boolean>(false)
   const [selectedStudent, setSelectedStudent] = useState<string | null>(null)
   const { mutate: connectStudentToGroup } = useConnectStudentToGroup()
@@ -278,7 +279,10 @@ const Attendance: React.FC = () => {
         fixed: 'right',
         render: (student: Record<string, any>) => (
           <Popconfirm
-            onConfirm={() => blockDebtorStudent(student.id)}
+            onConfirm={async () => {
+              await blockDebtorStudent(student.id)
+              setTimeout(() => refetch(), 500)
+            }}
             title={t('formMessages.confirmBlock')}
           >
             <Tooltip title={t('students.block')}>
@@ -296,6 +300,8 @@ const Attendance: React.FC = () => {
     [lessons]
   )
 
+  console.log(groupData)
+
   if (
     !groupData ||
     isStudentWithoutGroupLoading ||
@@ -310,9 +316,9 @@ const Attendance: React.FC = () => {
     <div className="min-h-screen bg-gray-100">
       <div className="flex flex-col gap-6 md:flex-row">
         <div className="w-full rounded-lg bg-white p-6 shadow-md md:w-1/3">
-          <div className="mb-1 flex items-center justify-between">
-            <h1 className="mb-4 text-xl font-semibold">
-              {groupData.courseName}
+          <div className="mb-3 flex items-center justify-between">
+            <h1 className="text-2xl m-0 font-semibold">
+              {groupData?.groupName} - {groupData?.courseName}
             </h1>
             <div className="flex items-center space-x-2 text-[#7338ac]">
               <Link
@@ -349,13 +355,7 @@ const Attendance: React.FC = () => {
             <p className="text-1xl font-semibold text-[#477082]">
               {t('groups.startTime')} :
             </p>
-            <h2 className="text-2xl font-bold">
-              {new Date(groupData?.startTime).toLocaleTimeString([], {
-                hour: '2-digit',
-                minute: '2-digit',
-                hour12: false,
-              })}
-            </h2>
+            <h2 className="text-2xl font-bold">{groupData?.startTime}</h2>
             <p className="text-1xl font-semibold text-[#477082]">
               {t('groups.startDate')}:
             </p>
@@ -440,14 +440,16 @@ const Attendance: React.FC = () => {
               studentId: selectedStudent ? parseInt(selectedStudent) : 0,
             })
             setOpen(false)
-            message.success('Student connected to group successfully')
+            message.success(t('formMessages.success'))
+            connectStudentForm.resetFields()
+            setTimeout(() => refetch(), 500)
           } catch (e) {
             console.error(e)
             message.error('Error connecting student to group')
           }
         }}
       >
-        <Form>
+        <Form form={connectStudentForm}>
           <Form.Item rules={[{ required: true }]}>
             <Select
               className="w-full"

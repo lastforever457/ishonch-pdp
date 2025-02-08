@@ -327,6 +327,9 @@ const Groups = () => {
         groupId: query.id as string,
         data: {
           ...values,
+          startTime: dayjs(values.startTime).format('HH:mm'),
+          startDate: dayjs(values.startDate).format('YYYY-MM-DD'),
+          endDate: dayjs(values.endDate).format('YYYY-MM-DD'),
           groupPrice: parseInt(values.groupPrice),
         },
       })
@@ -335,6 +338,9 @@ const Groups = () => {
         groupId: query.id as string,
         data: {
           ...values,
+          startTime: dayjs(values.startTime).format('HH:mm'),
+          startDate: dayjs(values.startDate).format('YYYY-MM-DD'),
+          endDate: dayjs(values.endDate).format('YYYY-MM-DD'),
           groupPrice: parseInt(values.groupPrice),
         },
       })

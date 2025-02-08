@@ -61,7 +61,7 @@ const Home = () => {
         img: '/images/user-6.svg',
         percent: data?.actively_left_students,
         title: t('home.left-group'),
-        link: '/groups',
+        link: '/students?studentsTab=archive',
       },
     ],
     [t, data]

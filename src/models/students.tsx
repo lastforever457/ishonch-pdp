@@ -151,7 +151,7 @@ export const useBlockDebtorStudent = () => {
   const queryClient = useQueryClient()
   const data = useMutation({
     mutationFn: async (id: string) => {
-      const res = await api.delete(`/student/stopped/${id}`)
+      const res = await api.post(`/student/stopped/${id}`)
       await queryClient.invalidateQueries({
         queryKey: ['students'],
       })

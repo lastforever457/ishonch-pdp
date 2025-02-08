@@ -168,7 +168,7 @@ const Profile = () => {
               title={t('groups.title')}
               value={
                 currentEmployee &&
-                `${currentEmployee?.[1]?.[0]?.groupName} ${currentEmployee?.[1]?.[0]?.courseName}`
+                `${currentEmployee?.groupName} ${currentEmployee?.courseName}`
               }
             />
             <StudentCard title={t('employees.amount')} value="300 000 UZS" />
