@@ -1,5 +1,5 @@
 import { Form } from "antd";
-import { useEffect, useMemo } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
 import { AutoForm, FormField } from "../../components/auto-form.tsx";
@@ -14,6 +14,7 @@ import { useGroups } from "../../models/groups.tsx";
 import {
   useArchiveStudent,
   useCreateStudent,
+  useDebtorStudents,
   useDeleteStudent,
   useStudent,
   useStudents,
@@ -29,6 +30,7 @@ const Students = () => {
   const { data: students, isLoading: isStudentsLoading } = useStudents();
   const { data: archStudents, isLoading: isArchStLoading } =
     useArchiveStudent();
+  const { data: debtorsStudents } = useDebtorStudents();
   const { mutate: mutateCreateStudent } = useCreateStudent();
   const { mutate: mutateUpdateStudent } = useUpdateStudent();
   const { mutate: mutateDeleteStudent } = useDeleteStudent();
@@ -38,6 +40,7 @@ const Students = () => {
     refetch: refetchStudent,
   } = useStudent(query.id as string);
   const { data: groups, isLoading: isGroupsLoading } = useGroups("ACTIVE");
+  const [dataToDisplay, setDataToDisplay] = useState<Record<string, any>[]>([]);
 
   useEffect(() => {
     const fetch = async () => {
@@ -54,6 +57,102 @@ const Students = () => {
 
     fetch();
   }, [query.edit, query.id, student, form]);
+
+  useEffect(() => {
+    if (query.studentsTab === "archive") {
+      setDataToDisplay(
+        archStudents && query.search
+          ? archStudents
+              .filter(
+                (item: any) =>
+                  item?.student?.firstname
+                    .toLowerCase()
+                    ?.includes(
+                      (query.search as string).toString().toLowerCase()
+                    ) ||
+                  item?.student?.lastname
+                    .toLowerCase()
+                    ?.includes(
+                      (query.search as string).toString().toLowerCase()
+                    )
+              )
+              .map((item: any) => ({
+                ...item?.student,
+                key: item?.student?.id,
+                gender: item?.gender.toLowerCase(),
+                group:
+                  item?.groupName && item?.courseName
+                    ? `${item?.groupName || ""} - ${item?.courseName || ""}`
+                    : t("form.not connected"),
+                fio: {
+                  id: item?.student?.id,
+                  name: `${item?.firstname || ""} ${item?.lastname || ""}`.trim(),
+                },
+              }))
+          : archStudents &&
+              archStudents.map((item: any) => ({
+                ...item,
+                key: item?.id,
+                group:
+                  item?.groupName && item?.courseName
+                    ? `${item?.groupName || ""} - ${item?.courseName || ""}`
+                    : t("form.not connected"),
+                gender: item?.gender.toLowerCase(),
+                fio: {
+                  id: item?.id,
+                  name: `${item?.firstname || ""} ${item?.lastname || ""}`.trim(),
+                },
+              }))
+      );
+    } else if (query.studentsTab === "debtors") {
+      setDataToDisplay(debtorsStudents);
+    } else {
+      setDataToDisplay(
+        query.search
+          ? students
+              .filter(
+                (item: any) =>
+                  `${item?.firstname} ${item?.lastname}`
+                    .toLowerCase()
+                    ?.includes(
+                      (query.search as string).toString().toLowerCase()
+                    ) ||
+                  item?.student?.phoneNumber
+                    .toString()
+                    .toLowerCase()
+                    ?.includes(
+                      (query.search as string).toString().toLowerCase()
+                    )
+              )
+              .map((item: any) => ({
+                ...item?.student,
+                key: item?.student?.id,
+                group:
+                  item?.groupName && item?.courseName
+                    ? `${item?.groupName || ""} - ${item?.courseName || ""}`
+                    : t("form.not connected"),
+                gender: item?.student?.gender.toLowerCase(),
+                fio: {
+                  id: item?.student?.id,
+                  name: `${item?.student?.firstname || ""} ${item?.student?.lastname || ""}`.trim(),
+                },
+              }))
+          : students.map((item: any) => ({
+              ...item?.student,
+              key: item?.student?.id,
+              group:
+                item?.groupName && item?.courseName
+                  ? `${item?.groupName || ""} - ${item?.courseName || ""}`
+                  : t("form.not connected"),
+              gender: item?.student?.gender.toLowerCase(),
+              fio: {
+                id: item?.student?.id,
+                name: `${item?.student?.firstname || ""} ${item?.student?.lastname || ""}`.trim(),
+              },
+            }))
+      );
+    }
+  }, [query.studentsTab]);
 
   const fields = useMemo(
     () => [
@@ -98,7 +197,7 @@ const Students = () => {
         rules: [
           {
             required: true,
-            message: t('formMessages.password'),
+            message: t("formMessages.password"),
           },
         ],
       },
@@ -134,7 +233,7 @@ const Students = () => {
         title: t("form.fio"),
         dataIndex: "fio",
         render: (value: { id: string | number; name: string }) => (
-          <Link to={`/students/${value.id}`}>{value.name}</Link>
+          <Link to={`/students/${value?.id}`}>{value?.name}</Link>
         ),
       },
       {
@@ -158,6 +257,10 @@ const Students = () => {
     ],
     [t]
   );
+
+  useEffect(() => {
+    console.log(dataToDisplay);
+  }, [dataToDisplay, query.studentsTab]);
 
   const onFinish = (values: Record<string, any>) => {
     if (query.edit && query.id) {
@@ -204,7 +307,7 @@ const Students = () => {
           segmentedValues={[
             { value: t("students.students"), key: "students", isPrimary: true },
             { value: t("students.archive"), key: "archive" },
-            {value: t("finance.debtors"), key: "debtors" },
+            { value: t("finance.debtors"), key: "debtors" },
           ]}
           queryName={"studentsTab"}
         />
@@ -214,92 +317,7 @@ const Students = () => {
         name="students"
         columns={columns}
         deleteFunc={mutateDeleteStudent}
-        data={
-          students && archStudents && query.studentsTab === "archive"
-            ? query.search
-              ? archStudents
-                  .filter(
-                    (item: any) =>
-                      item?.student?.firstname
-                        .toLowerCase()
-                        ?.includes(
-                          (query.search as string).toString().toLowerCase()
-                        ) ||
-                      item?.student?.lastname
-                        .toLowerCase()
-                        ?.includes(
-                          (query.search as string).toString().toLowerCase()
-                        )
-                  )
-                  .map((item: any) => ({
-                    ...item?.student,
-                    key: item?.student?.id,
-                    gender: item?.gender.toLowerCase(),
-                    group:
-                      item?.groupName && item?.courseName
-                        ? `${item?.groupName || ""} - ${item?.courseName || ""}`
-                        : t("form.not connected"),
-                    fio: {
-                      id: item?.student?.id,
-                      name: `${item?.firstname || ""} ${item?.lastname || ""}`.trim(),
-                    },
-                  }))
-              : archStudents.map((item: any) => ({
-                  ...item,
-                  key: item?.id,
-                  group:
-                    item?.groupName && item?.courseName
-                      ? `${item?.groupName || ""} - ${item?.courseName || ""}`
-                      : t("form.not connected"),
-                  gender: item?.gender.toLowerCase(),
-                  fio: {
-                    id: item?.id,
-                    name: `${item?.firstname || ""} ${item?.lastname || ""}`.trim(),
-                  },
-                }))
-            : query.search
-              ? students
-                  .filter(
-                    (item: any) =>
-                      `${item?.firstname} ${item?.lastname}`
-                        .toLowerCase()
-                        ?.includes(
-                          (query.search as string).toString().toLowerCase()
-                        ) ||
-                      item?.student?.phoneNumber
-                        .toString()
-                        .toLowerCase()
-                        ?.includes(
-                          (query.search as string).toString().toLowerCase()
-                        )
-                  )
-                  .map((item: any) => ({
-                    ...item?.student,
-                    key: item?.student?.id,
-                    group:
-                      item?.groupName && item?.courseName
-                        ? `${item?.groupName || ""} - ${item?.courseName || ""}`
-                        : t("form.not connected"),
-                    gender: item?.student?.gender.toLowerCase(),
-                    fio: {
-                      id: item?.student?.id,
-                      name: `${item?.student?.firstname || ""} ${item?.student?.lastname || ""}`.trim(),
-                    },
-                  }))
-              : students.map((item: any) => ({
-                  ...item?.student,
-                  key: item?.student?.id,
-                  group:
-                    item?.groupName && item?.courseName
-                      ? `${item?.groupName || ""} - ${item?.courseName || ""}`
-                      : t("form.not connected"),
-                  gender: item?.student?.gender.toLowerCase(),
-                  fio: {
-                    id: item?.student?.id,
-                    name: `${item?.student?.firstname || ""} ${item?.student?.lastname || ""}`.trim(),
-                  },
-                }))
-        }
+        data={dataToDisplay}
       />
       <MyDrawer
         form={form}
