@@ -167,19 +167,13 @@ const Profile = () => {
             <StudentCard
               title={t('groups.title')}
               value={
-                currentEmployee &&
-                `${currentEmployee?.groupName} ${currentEmployee?.courseName}`
+                currentEmployee?.groupName && currentEmployee?.courseName
+                  ? `${currentEmployee?.groupName} ${currentEmployee?.courseName}`
+                  : t('form.not connected')
               }
             />
             <StudentCard title={t('employees.amount')} value="300 000 UZS" />
             <StudentCard title={t('form.comment')} value="Lorem Ipsum" />
-            <StudentCard
-              title={t('employees.whoPaid')}
-              value={
-                currentEmployee &&
-                `${currentEmployee?.[0]?.firstname.slice(0, 1)}. ${currentEmployee?.[0]?.lastname}`
-              }
-            />
             <StudentCard
               title={t('employees.howManyStudents')}
               value={currentEmployee && currentEmployee?.[1]?.[0]?.stNumber}

@@ -1,6 +1,6 @@
 import { Button, Col, DatePicker, Form, Row } from 'antd'
 import dayjs from 'dayjs'
-import { useMemo } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { CustomLoader } from '../../components/loader'
 import MyTable from '../../components/my-table'
@@ -73,6 +73,32 @@ const FinanceTab = () => {
     ],
     [t]
   )
+  const [expenseForPeriod, setExpenseForPeriod] = useState<number | undefined>(
+    undefined
+  )
+
+  useEffect(() => {
+    if (query.startDate && query.endDate && data) {
+      const amount = financeData.reduce(
+        (sum: number, item: Record<string, any>) => {
+          return sum + item?.amount
+        },
+        0
+      )
+      setExpenseForPeriod(amount)
+    } else {
+      setExpenseForPeriod(data?.[1])
+    }
+
+    form.setFieldsValue({
+      startDate: query.startDate
+        ? dayjs(query.startDate as string, 'YYYY-MM-DD')
+        : null,
+      endDate: query.endDate
+        ? dayjs(query.endDate as string, 'YYYY-MM-DD')
+        : null,
+    })
+  }, [data, query.startDate, query.endDate])
 
   const onFilter = (values: Record<string, any>) => {
     push({
@@ -90,19 +116,7 @@ const FinanceTab = () => {
     <>
       <Row>
         <Col xs={24} sm={24} md={12} lg={12}>
-          <Form
-            layout="vertical"
-            onFinish={onFilter}
-            form={form}
-            initialValues={{
-              startDate: query.startDate
-                ? dayjs(query.startDate as string, 'YYYY-MM-DD')
-                : null,
-              endDate: query.endDate
-                ? dayjs(query.endDate as string, 'YYYY-MM-DD')
-                : null,
-            }}
-          >
+          <Form layout="vertical" onFinish={onFilter} form={form}>
             <Row gutter={16}>
               <Col xs={24} sm={12}>
                 <Form.Item
@@ -146,7 +160,10 @@ const FinanceTab = () => {
                     <Button
                       className="bg-primary-gray rounded-xl border-0 px-7 py-5 font-semibold tracking-wider text-white shadow hover:!text-black"
                       onClick={() => {
-                        form.resetFields()
+                        form.setFieldsValue({
+                          startDate: undefined,
+                          endDate: undefined,
+                        })
                         push({
                           query: {
                             ...query,
@@ -175,7 +192,7 @@ const FinanceTab = () => {
         </Col>
       </Row>
       <ExpenseForPeriod
-        expense={data?.[1] ? data[1] : 0}
+        expense={expenseForPeriod || data[1]}
         isLoading={isFinanceLoading}
       />
       <MyTable
