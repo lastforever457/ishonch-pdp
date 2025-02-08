@@ -252,6 +252,15 @@ const Employees = () => {
     }
     message.success(t('formMessages.success'))
     form.resetFields()
+    push({
+      query: {
+        ...query,
+        add: undefined,
+        edit: undefined,
+        view: undefined,
+        id: undefined,
+      },
+    })
   }
 
   if (isLoadingUsers) return <CustomLoader />
