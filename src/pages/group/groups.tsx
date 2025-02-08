@@ -284,7 +284,6 @@ const Groups = () => {
         title: t('groups.startTime'),
         dataIndex: 'startTime',
         key: 'startTime',
-        render: (startTime: string) => dayjs(startTime).format('HH : mm'),
       },
       {
         title: t('groups.startDate'),
@@ -367,12 +366,37 @@ const Groups = () => {
     >
       <MyTable
         columns={columns}
-        data={groups?.data.map((item: Record<string, any>) => {
-          return {
-            ...item,
-            groupName: { groupName: item.groupName, groupId: item.id },
-          }
-        })}
+        data={
+          query.search
+            ? groups?.data
+                .filter(
+                  (item: Record<string, any>) =>
+                    item.groupName
+                      .toString()
+                      .toLowerCase()
+                      .includes(
+                        (query.search as string).toString().toLowerCase()
+                      ) ||
+                    item.courseName
+                      .toString()
+                      .toLowerCase()
+                      .includes(
+                        (query.search as string).toString().toLowerCase()
+                      )
+                )
+                .map((item: Record<string, any>) => {
+                  return {
+                    ...item,
+                    groupName: { groupName: item.groupName, groupId: item.id },
+                  }
+                })
+            : groups?.data.map((item: Record<string, any>) => {
+                return {
+                  ...item,
+                  groupName: { groupName: item.groupName, groupId: item.id },
+                }
+              })
+        }
         name="group"
         deleteFunc={deleteGroup}
       />
