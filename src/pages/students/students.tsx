@@ -42,9 +42,12 @@ const Students = () => {
     isLoading: isBlockedStudentsLoading,
     refetch: refetchBlockedStudents,
   } = useBlockedStudents();
-  const { mutate: mutateCreateStudent } = useCreateStudent();
-  const { mutate: mutateUpdateStudent } = useUpdateStudent();
-  const { mutate: mutateDeleteStudent } = useDeleteStudent();
+  const { mutate: mutateCreateStudent, isPending: isCreatePending } =
+    useCreateStudent();
+  const { mutate: mutateUpdateStudent, isPending: isUpdatePending } =
+    useUpdateStudent();
+  const { mutate: mutateDeleteStudent, isPending: isDeletePending } =
+    useDeleteStudent();
   const {
     data: student,
     isLoading: isStudentLoading,
@@ -365,9 +368,13 @@ const Students = () => {
     isGroupsLoading ||
     isArchStLoading ||
     isBlockedStudentsLoading ||
-    isStudentLoading
-  )
+    isStudentLoading ||
+    isCreatePending ||
+    isUpdatePending ||
+    isDeletePending
+  ) {
     return <CustomLoader />;
+  }
 
   return (
     <PageLayout

@@ -30,6 +30,8 @@ const Finance = () => {
       });
     } catch (error) {
       console.log(error);
+    } finally {
+      form.resetFields();
     }
   };
 
