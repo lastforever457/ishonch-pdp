@@ -8,6 +8,7 @@ import {
   useDebtorStudents,
   useUnblockDebtorStudent,
 } from '../../models/students'
+import { formatStatus } from '../../utils'
 
 const Debtors = () => {
   const { t } = useTranslation()
@@ -34,13 +35,20 @@ const Debtors = () => {
         },
       },
       {
+        title: t('form.status'),
+        dataIndex: 'status',
+        key: 'status',
+      },
+      {
         title: t('actions.actions'),
         dataIndex: 'actions',
         key: 'actions',
         render: (student: Record<string, any>) => (
           <Button
             type="text"
-            onClick={() => unblockDebtorStudent(student.id.toString())}
+            onClick={async () =>
+              await unblockDebtorStudent(student.id.toString())
+            }
             className="p-0 text-2xl size-8 text-green-500 hover:!text-green-700"
           >
             <MdOutlineKeyboardReturn />
@@ -51,18 +59,23 @@ const Debtors = () => {
     [t]
   )
 
-  if (isLoadingStudents) return <CustomLoader />
-
   return (
-    <MyTable
-      name="finance"
-      hasActions={false}
-      columns={columns}
-      data={data?.data.map((student: Record<string, any>) => ({
-        ...student,
-        actions: student,
-      }))}
-    />
+    <div className="flex flex-col">
+      {isLoadingStudents ? (
+        <CustomLoader />
+      ) : (
+        <MyTable
+          name="finance"
+          hasActions={false}
+          columns={columns}
+          data={data?.data.map((student: Record<string, any>) => ({
+            ...student,
+            actions: student,
+            status: formatStatus(student.status),
+          }))}
+        />
+      )}
+    </div>
   )
 }
 

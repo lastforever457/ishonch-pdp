@@ -141,7 +141,8 @@
     "phone": "Telefon raqam",
     "group": "Guruh",
     "role": "Rol",
-    "block": "Bloklash"
+    "block": "Bloklash",
+    "blocked": "Bloklanganlar"
   },
   "finance": {
     "title": "Moliya",
@@ -186,5 +187,12 @@
     "oct": "Okt",
     "nov": "Noy",
     "dec": "Dek"
+  },
+  "status": {
+    "active": "Faol",
+    "stopped": "To'xtatilgan",
+    "archived": "Arxivlangan",
+    "blocked": "Bloklangan",
+    "debtor": "Qarzdor"
   }
 }

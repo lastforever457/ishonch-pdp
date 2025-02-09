@@ -177,3 +177,15 @@ export const useUnblockDebtorStudent = () => {
   })
   return data
 }
+
+export const useBlockedStudents = () => {
+  const data = useQuery({
+    queryKey: ['blockedStudents'],
+    queryFn: async () => {
+      const res = await api.get('/student/stopped-students')
+      return res.data
+    },
+    select: (data) => data?.data,
+  })
+  return data
+}
