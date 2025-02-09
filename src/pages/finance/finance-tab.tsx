@@ -1,116 +1,119 @@
-import { Button, Col, DatePicker, Form, Row } from 'antd'
-import dayjs from 'dayjs'
-import { useEffect, useMemo, useState } from 'react'
-import { useTranslation } from 'react-i18next'
-import { CustomLoader } from '../../components/loader'
-import MyTable from '../../components/my-table'
-import { useLocationParams } from '../../hooks/use-location-params'
-import { useRouterPush } from '../../hooks/use-router-push'
-import useFinance, { useDeleteFinance } from '../../models/finance'
-import ExpenseForPeriod from './expense-for-period'
+import { Button, Col, DatePicker, Form, Row } from "antd";
+import dayjs from "dayjs";
+import { useEffect, useMemo, useState } from "react";
+import { useTranslation } from "react-i18next";
+import { CustomLoader } from "../../components/loader";
+import MyTable from "../../components/my-table";
+import { useLocationParams } from "../../hooks/use-location-params";
+import { useRouterPush } from "../../hooks/use-router-push";
+import useFinance, { useDeleteFinance } from "../../models/finance";
+import ExpenseForPeriod from "./expense-for-period";
 
 const FinanceTab = () => {
-  const { t } = useTranslation()
-  const { query } = useLocationParams()
-  const { mutate: mutateDeleteFinance } = useDeleteFinance()
-  const { data, isLoading: isFinanceLoading } = useFinance()
-  const { push } = useRouterPush()
-  const [form] = Form.useForm()
+  const { t } = useTranslation();
+  const { query } = useLocationParams();
+  const { mutate: mutateDeleteFinance, isPending: isDeletePending } =
+    useDeleteFinance();
+  const { data, isLoading: isFinanceLoading } = useFinance();
+  const { push } = useRouterPush();
+  const [form] = Form.useForm();
 
   const financeData = useMemo(() => {
-    if (!data || !Array.isArray(data)) return []
-    let filteredData = data[0] || []
+    if (!data || !Array.isArray(data)) return [];
+    let filteredData = data[0] || [];
 
     if (query.startDate && query.endDate) {
-      const startDate = dayjs(query.startDate as string, 'YYYY-MM-DD').startOf(
-        'day'
-      )
-      const endDate = dayjs(query.endDate as string, 'YYYY-MM-DD').endOf('day')
+      const startDate = dayjs(query.startDate as string, "YYYY-MM-DD").startOf(
+        "day",
+      );
+      const endDate = dayjs(query.endDate as string, "YYYY-MM-DD").endOf("day");
 
       filteredData = filteredData.filter((item: Record<string, any>) => {
-        const itemDate = dayjs(item.date)
-        return itemDate.isAfter(startDate) && itemDate.isBefore(endDate)
-      })
+        const itemDate = dayjs(item.date);
+        return itemDate.isAfter(startDate) && itemDate.isBefore(endDate);
+      });
     }
 
     if (query.search) {
-      const searchQuery = query.search.toString().toLowerCase()
+      const searchQuery = query.search.toString().toLowerCase();
       filteredData = filteredData.filter((item: Record<string, any>) =>
-        item.name.toLowerCase().includes(searchQuery)
-      )
+        item.name.toLowerCase().includes(searchQuery),
+      );
     }
 
-    return filteredData
-  }, [data, query.startDate, query.endDate, query.search])
+    return filteredData;
+  }, [data, query.startDate, query.endDate, query.search]);
 
   const columns = useMemo(
     () => [
       {
-        key: 'name',
-        title: t('finance.name'),
-        dataIndex: 'name',
+        key: "name",
+        title: t("finance.name"),
+        dataIndex: "name",
       },
       {
-        key: 'date',
-        title: t('form.date'),
-        dataIndex: 'date',
+        key: "date",
+        title: t("form.date"),
+        dataIndex: "date",
       },
       {
-        key: 'category',
-        title: t('finance.category'),
-        dataIndex: 'category',
+        key: "category",
+        title: t("finance.category"),
+        dataIndex: "category",
       },
       {
-        key: 'amount',
-        title: t('employees.amount'),
-        dataIndex: 'amount',
+        key: "amount",
+        title: t("employees.amount"),
+        dataIndex: "amount",
         render: (text: number | string) =>
-          new Intl.NumberFormat('en-UZ', {
-            style: 'currency',
-            currency: 'UZS',
+          new Intl.NumberFormat("en-UZ", {
+            style: "currency",
+            currency: "UZS",
           }).format(Number(text)),
       },
     ],
-    [t]
-  )
+    [t],
+  );
   const [expenseForPeriod, setExpenseForPeriod] = useState<number | undefined>(
-    undefined
-  )
+    undefined,
+  );
 
   useEffect(() => {
     if (query.startDate && query.endDate && data) {
       const amount = financeData.reduce(
         (sum: number, item: Record<string, any>) => {
-          return sum + item?.amount
+          return sum + item?.amount;
         },
-        0
-      )
-      setExpenseForPeriod(amount)
+        0,
+      );
+      setExpenseForPeriod(amount);
     } else {
-      setExpenseForPeriod(data?.[1])
+      setExpenseForPeriod(data?.[1]);
     }
 
     form.setFieldsValue({
       startDate: query.startDate
-        ? dayjs(query.startDate as string, 'YYYY-MM-DD')
+        ? dayjs(query.startDate as string, "YYYY-MM-DD")
         : null,
       endDate: query.endDate
-        ? dayjs(query.endDate as string, 'YYYY-MM-DD')
+        ? dayjs(query.endDate as string, "YYYY-MM-DD")
         : null,
-    })
-  }, [data, query.startDate, query.endDate])
+    });
+  }, [data, query.startDate, query.endDate]);
 
   const onFilter = (values: Record<string, any>) => {
     push({
       query: {
         ...query,
-        startDate: dayjs(values.startDate).format('YYYY-MM-DD'),
-        endDate: dayjs(values.endDate).format('YYYY-MM-DD'),
+        startDate: dayjs(values.startDate).format("YYYY-MM-DD"),
+        endDate: dayjs(values.endDate).format("YYYY-MM-DD"),
       },
-    })
-  }
+    });
+  };
 
-  if (isFinanceLoading) return <CustomLoader />
+  if (isFinanceLoading || isDeletePending) {
+    return <CustomLoader />;
+  }
   //@ts-ignore
   return (
     <>
@@ -122,16 +125,16 @@ const FinanceTab = () => {
                 <Form.Item
                   label={
                     <span className="text-base font-semibold">
-                      {t('finance.fromDate')}
+                      {t("finance.fromDate")}
                     </span>
                   }
                   name="startDate"
-                  rules={[{ required: true, message: t('formMessages.date') }]}
+                  rules={[{ required: true, message: t("formMessages.date") }]}
                 >
                   <DatePicker
                     className="rounded-!2xl px-3 py-2 text-xl shadow"
                     format="YYYY-MM-DD"
-                    style={{ width: '100%' }}
+                    style={{ width: "100%" }}
                   />
                 </Form.Item>
               </Col>
@@ -140,16 +143,16 @@ const FinanceTab = () => {
                 <Form.Item
                   label={
                     <span className="text-base font-semibold">
-                      {t('finance.toDate')}
+                      {t("finance.toDate")}
                     </span>
                   }
                   name="endDate"
-                  rules={[{ required: true, message: t('formMessages.date') }]}
+                  rules={[{ required: true, message: t("formMessages.date") }]}
                 >
                   <DatePicker
                     className="rounded-!2xl px-3 py-2 text-xl shadow"
                     format="YYYY-MM-DD"
-                    style={{ width: '100%' }}
+                    style={{ width: "100%" }}
                   />
                 </Form.Item>
               </Col>
@@ -163,18 +166,18 @@ const FinanceTab = () => {
                         form.setFieldsValue({
                           startDate: undefined,
                           endDate: undefined,
-                        })
+                        });
                         push({
                           query: {
                             ...query,
                             startDate: undefined,
                             endDate: undefined,
                           },
-                        })
+                        });
                       }}
                       htmlType="reset"
                     >
-                      {t('form.clear filter')}
+                      {t("form.clear filter")}
                     </Button>
                   </Form.Item>
                   <Form.Item>
@@ -202,7 +205,7 @@ const FinanceTab = () => {
         data={financeData}
       />
     </>
-  )
-}
+  );
+};
 
-export default FinanceTab
+export default FinanceTab;
