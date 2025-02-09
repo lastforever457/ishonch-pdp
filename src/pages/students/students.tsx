@@ -69,57 +69,144 @@ const Students = () => {
     fetch();
   }, [query.edit, query.id, student, form]);
 
-  const getFilteredData = (
-    studentsList: Record<string, any>[],
-    query: Record<string, any>,
-  ) => {
-    if (!studentsList) return [];
-    return query.search
-      ? studentsList
-          .filter((item: any) => {
-            const firstname = item?.student?.firstname?.toLowerCase() || "";
-            const lastname = item?.student?.lastname?.toLowerCase() || "";
-            const phoneNumber =
-              item?.student?.phoneNumber?.toString()?.toLowerCase() || "";
-            const searchQuery = (query.search as string).toLowerCase();
-            return (
-              firstname.includes(searchQuery) ||
-              lastname.includes(searchQuery) ||
-              phoneNumber.includes(searchQuery)
-            );
-          })
-          .map(mapStudentData)
-      : studentsList.map(mapStudentData);
-  };
-
-  const mapStudentData = (item: any) => ({
-    ...item?.student,
-    key: item?.student?.id || item?.id,
-    gender: item?.student?.gender?.toLowerCase() || item?.gender?.toLowerCase(),
-    group:
-      item?.groupName && item?.courseName
-        ? `${item?.groupName || ""} - ${item?.courseName || ""}`
-        : t("form.not connected"),
-    fio: {
-      id: item?.student?.id || item?.id,
-      name: `${item?.student?.firstname || item?.firstname || ""} ${item?.student?.lastname || item?.lastname || ""}`.trim(),
-    },
-  });
-
   useEffect(() => {
-    let dataSource = [];
-    switch (query.studentsTab) {
-      case "archive":
-        dataSource = getFilteredData(archStudents, query);
-        break;
-      case "blocked":
-        dataSource = getFilteredData(blockedStudents, query);
-        break;
-      default:
-        dataSource = getFilteredData(students, query);
+    if (query.studentsTab === "archive") {
+      setDataToDisplay(
+        archStudents && query.search
+          ? archStudents
+              .filter(
+                (item: any) =>
+                  item?.student?.firstname
+                    .toLowerCase()
+                    ?.includes(
+                      (query.search as string).toString().toLowerCase(),
+                    ) ||
+                  item?.student?.lastname
+                    .toLowerCase()
+                    ?.includes(
+                      (query.search as string).toString().toLowerCase(),
+                    ),
+              )
+              .map((item: any) => ({
+                ...item?.student,
+                key: item?.student?.id,
+                gender: item?.gender.toLowerCase(),
+                group:
+                  item?.groupName && item?.courseName
+                    ? `${item?.groupName || ""} - ${item?.courseName || ""}`
+                    : t("form.not connected"),
+                fio: {
+                  id: item?.student?.id,
+                  name: `${item?.firstname || ""} ${item?.lastname || ""}`.trim(),
+                },
+              }))
+          : archStudents &&
+              archStudents.map((item: any) => ({
+                ...item,
+                key: item?.id,
+                group:
+                  item?.groupName && item?.courseName
+                    ? `${item?.groupName || ""} - ${item?.courseName || ""}`
+                    : t("form.not connected"),
+                gender: item?.gender.toLowerCase(),
+                fio: {
+                  id: item?.id,
+                  name: `${item?.firstname || ""} ${item?.lastname || ""}`.trim(),
+                },
+              })),
+      );
+    } else if (query.studentsTab === "blocked") {
+      setDataToDisplay(
+        blockedStudents && query.search
+          ? blockedStudents
+              .filter(
+                (item: any) =>
+                  item?.student?.firstname
+                    .toLowerCase()
+                    ?.includes(
+                      (query.search as string).toString().toLowerCase(),
+                    ) ||
+                  item?.student?.lastname
+                    .toLowerCase()
+                    ?.includes(
+                      (query.search as string).toString().toLowerCase(),
+                    ),
+              )
+              .map((item: any) => ({
+                ...item?.student,
+                key: item?.student?.id,
+                gender: item?.gender.toLowerCase(),
+                group:
+                  item?.groupName && item?.courseName
+                    ? `${item?.groupName || ""} - ${item?.courseName || ""}`
+                    : t("form.not connected"),
+                fio: {
+                  id: item?.student?.id,
+                  name: `${item?.firstname || ""} ${item?.lastname || ""}`.trim(),
+                },
+              }))
+          : blockedStudents &&
+              blockedStudents.map((item: any) => ({
+                ...item,
+                key: item?.id,
+                group:
+                  item?.groupName && item?.courseName
+                    ? `${item?.groupName || ""} - ${item?.courseName || ""}`
+                    : t("form.not connected"),
+                gender: item?.gender.toLowerCase(),
+                fio: {
+                  id: item?.id,
+                  name: `${item?.firstname || ""} ${item?.lastname || ""}`.trim(),
+                },
+              })),
+      );
+    } else {
+      setDataToDisplay(
+        query.search
+          ? students
+              .filter(
+                (item: any) =>
+                  `${item?.firstname} ${item?.lastname}`
+                    .toLowerCase()
+                    ?.includes(
+                      (query.search as string).toString().toLowerCase(),
+                    ) ||
+                  item?.student?.phoneNumber
+                    .toString()
+                    .toLowerCase()
+                    ?.includes(
+                      (query.search as string).toString().toLowerCase(),
+                    ),
+              )
+              .map((item: Record<string, any>) => ({
+                ...item?.student,
+                key: item?.student?.id,
+                group:
+                  item?.groupName && item?.courseName
+                    ? `${item?.groupName || ""} - ${item?.courseName || ""}`
+                    : t("form.not connected"),
+                gender: item?.student?.gender.toLowerCase(),
+                fio: {
+                  id: item?.student?.id,
+                  name: `${item?.student?.firstname || ""} ${item?.student?.lastname || ""}`.trim(),
+                },
+              }))
+          : students?.map((item: any) => ({
+              ...item?.student,
+              key: item?.student?.id,
+              group:
+                item?.groupName && item?.courseName
+                  ? `${item?.groupName || ""} - ${item?.courseName || ""}`
+                  : t("form.not connected"),
+              gender: item?.student?.gender.toLowerCase(),
+              fio: {
+                id: item?.student?.id,
+                name: `${item?.student?.firstname || ""} ${item?.student?.lastname || ""}`.trim(),
+              },
+            })),
+      );
     }
-    setDataToDisplay(dataSource);
-  }, [query.studentsTab, query.search]);
+  }, [query.studentsTab]);
 
   useEffect(() => {
     const fetch = async () => {
