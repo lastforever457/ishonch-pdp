@@ -1,156 +1,165 @@
-import {Button, Form, message, Modal, Popconfirm, Select, Tooltip} from 'antd'
-import dayjs from 'dayjs'
-import React, {useCallback, useEffect, useMemo, useState} from 'react'
-import {useTranslation} from 'react-i18next'
-import {BsArrowReturnLeft} from 'react-icons/bs'
-import {MdBlock} from 'react-icons/md'
-import {RiDeleteBin6Line} from 'react-icons/ri'
-import {TiTick, TiTimes} from 'react-icons/ti'
-import {Link, useParams} from 'react-router-dom'
-import 'tailwindcss/tailwind.css'
-import {CustomLoader} from '../../components/loader'
-import MyButton from '../../components/my-button'
-import MyTable from '../../components/my-table'
+import {
+  Button,
+  Form,
+  message,
+  Modal,
+  Popconfirm,
+  Select,
+  Tooltip,
+} from "antd";
+import dayjs from "dayjs";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
+import { useTranslation } from "react-i18next";
+import { BsArrowReturnLeft } from "react-icons/bs";
+import { MdBlock } from "react-icons/md";
+import { RiDeleteBin6Line } from "react-icons/ri";
+import { TiTick, TiTimes } from "react-icons/ti";
+import { Link, useParams } from "react-router-dom";
+import "tailwindcss/tailwind.css";
+import { CustomLoader } from "../../components/loader";
+import MyButton from "../../components/my-button";
+import MyTable from "../../components/my-table";
 import {
   useDeleteGroup,
   useGroupAttendance,
   useGroupProfile,
   useSetGroupAttendance,
-} from '../../models/groups'
+} from "../../models/groups";
 import {
-  useBlockDebtorStudent,
+  useBlockStudent,
   useConnectStudentToGroup,
   useDisconnectStudentFromGroup,
   useStudentsWithoutGroup,
-} from '../../models/students'
+} from "../../models/students";
 
 interface Student {
-  id: string
-  firstname: string
-  lastname: string
-  phoneNumber: string
+  id: string;
+  firstname: string;
+  lastname: string;
+  phoneNumber: string;
 }
 
 interface GroupData {
-  id: string
-  courseName: string
-  groupPrice: number
-  startDate: string
-  endDate: string
-  startTime: string
-  room?: { roomName: string }
-  students: Student[]
-  stNumber: number
-  days: string[]
+  id: string;
+  courseName: string;
+  groupPrice: number;
+  startDate: string;
+  endDate: string;
+  startTime: string;
+  room?: { roomName: string };
+  students: Student[];
+  stNumber: number;
+  days: string[];
 }
 
 const convertDaytoEnglish = (day: string): string => {
   const daysMap: Record<string, string> = {
-    Dushanba: 'Monday',
-    Seshanba: 'Tuesday',
-    Chorshanba: 'Wednesday',
-    Payshanba: 'Thursday',
-    Juma: 'Friday',
-    Shanba: 'Saturday',
-    Yakshanba: 'Sunday',
-    Juft_kun: 'Even_days',
-    Toq_kun: 'Odd_days',
-  }
-  return daysMap[day] || day
-}
+    Dushanba: "Monday",
+    Seshanba: "Tuesday",
+    Chorshanba: "Wednesday",
+    Payshanba: "Thursday",
+    Juma: "Friday",
+    Shanba: "Saturday",
+    Yakshanba: "Sunday",
+    Juft_kun: "Even_days",
+    Toq_kun: "Odd_days",
+  };
+  return daysMap[day] || day;
+};
 
 const convertMonth = (month: string): string => {
   const monthsMap: Record<string, string> = {
-    January: 'jan',
-    February: 'feb',
-    March: 'mar',
-    April: 'apr',
-    May: 'may',
-    June: 'jun',
-    July: 'jul',
-    August: 'aug',
-    September: 'sep',
-    October: 'oct',
-    November: 'nov',
-    December: 'dec',
-  }
-  return monthsMap[month] || month
-}
+    January: "jan",
+    February: "feb",
+    March: "mar",
+    April: "apr",
+    May: "may",
+    June: "jun",
+    July: "jul",
+    August: "aug",
+    September: "sep",
+    October: "oct",
+    November: "nov",
+    December: "dec",
+  };
+  return monthsMap[month] || month;
+};
 
 const Attendance: React.FC = () => {
-  const {groupId} = useParams<{ groupId: string }>()
-  const {t} = useTranslation()
-  const [connectStudentForm] = Form.useForm()
-  const [open, setOpen] = useState<boolean>(false)
-  const [selectedStudent, setSelectedStudent] = useState<string | null>(null)
-  const {mutate: connectStudentToGroup} = useConnectStudentToGroup()
-  const {mutate: disconnectStudentFromGroup} = useDisconnectStudentFromGroup()
-  const {mutate: saveAttendance} = useSetGroupAttendance()
-  const {mutate: deleteGroup} = useDeleteGroup()
-  const {mutate: blockDebtorStudent} = useBlockDebtorStudent()
+  const { groupId } = useParams<{ groupId: string }>();
+  const { t } = useTranslation();
+  const [connectStudentForm] = Form.useForm();
+  const [open, setOpen] = useState<boolean>(false);
+  const [selectedStudent, setSelectedStudent] = useState<string | null>(null);
+  const { mutate: connectStudentToGroup } = useConnectStudentToGroup();
+  const { mutate: disconnectStudentFromGroup } =
+    useDisconnectStudentFromGroup();
+  const { mutate: saveAttendance } = useSetGroupAttendance();
+  const { mutate: deleteGroup } = useDeleteGroup();
+  const { mutate: blockDebtorStudent } = useBlockStudent();
   const {
     data: groupData,
     refetch,
     isLoading: isGroupProfileLoading,
-  } = useGroupProfile(groupId)
+  } = useGroupProfile(groupId);
   const {
     data: studentsWithoutGroup,
     isLoading: isStudentWithoutGroupLoading,
-  } = useStudentsWithoutGroup()
+  } = useStudentsWithoutGroup();
   const {
     data: groupAttendance,
     isLoading: isGroupAttendanceLoading,
     refetch: refetchGroupAttendance,
-  } = useGroupAttendance(groupId)
-  const [attendanceData, setAttendanceData] = useState<number[]>([])
+  } = useGroupAttendance(groupId);
+  const [attendanceData, setAttendanceData] = useState<number[]>([]);
 
   const defaultAttendanceData = useMemo(() => {
-    const today = dayjs().format('YYYY-MM-DD')
+    const today = dayjs().format("YYYY-MM-DD");
     const attendance =
       groupAttendance?.data?.[0] &&
       Object.values(groupAttendance.data[0])
         .flat()
         .filter(
           (item: any) =>
-            dayjs(item?.attendanceDate).format('YYYY-MM-DD') === today
+            dayjs(item?.attendanceDate).format("YYYY-MM-DD") === today,
         )
         .map((item: any) => item?.attended && item?.student?.id)
-        .filter(Boolean)
+        .filter(Boolean);
 
-    return attendance
-  }, [groupAttendance])
-
-  useEffect(() => {
-    setAttendanceData(defaultAttendanceData)
-  }, [defaultAttendanceData])
+    return attendance;
+  }, [groupAttendance]);
 
   useEffect(() => {
-    console.log({attendanceData, defaultAttendanceData})
-  }, [attendanceData, defaultAttendanceData])
+    setAttendanceData(defaultAttendanceData);
+  }, [defaultAttendanceData]);
+
+  useEffect(() => {
+    console.log({ attendanceData, defaultAttendanceData });
+  }, [attendanceData, defaultAttendanceData]);
 
   useEffect(() => {
     if (groupId) {
-      refetch()
+      refetch();
     }
-  }, [groupId, refetch, defaultAttendanceData])
+  }, [groupId, refetch, defaultAttendanceData]);
 
   const changeStatus = (
     newStatus: boolean,
     studentId: number,
-    date: string
+    date: string,
   ) => {
-    const today = dayjs().format('YYYY-MM-DD')
+    const today = dayjs().format("YYYY-MM-DD");
 
     if (today === date) {
       setAttendanceData((prev: number[]) => {
         if (newStatus) {
-          return [...prev, studentId]
+          return [...prev, studentId];
         } else {
-          return prev.filter((id) => id !== studentId)
+          return prev.filter((id) => id !== studentId);
         }
-      })
+      });
     }
-  }
+  };
 
   const renderStatus = useCallback(
     (record: Student, date: string) => {
@@ -163,144 +172,144 @@ const Attendance: React.FC = () => {
             studentId: item?.student?.id as number,
             attendanceDate: dayjs(item?.attendanceDate) as any,
             attended: item?.attended as boolean,
-          }))
+          }));
 
       const currentStudent = attendance?.find(
         (item: any) =>
           item.studentId === parseInt(record.id) &&
-          dayjs(item.attendanceDate).isSame(date, 'day')
-      )
+          dayjs(item.attendanceDate).isSame(date, "day"),
+      );
 
-      const isToday = dayjs().isSame(dayjs(date, 'YYYY-MM-DD'), 'day')
-      const isAttended = attendanceData?.includes(Number(record.id))
+      const isToday = dayjs().isSame(dayjs(date, "YYYY-MM-DD"), "day");
+      const isAttended = attendanceData?.includes(Number(record.id));
 
       return (
         <div className="w-full h-full flex justify-center items-center">
           <div
             className={`flex h-8 w-8 items-center justify-center rounded-full ${
               (isToday && isAttended) || (!isToday && currentStudent?.attended)
-                ? 'bg-green-500 text-white'
-                : 'bg-red-500 text-white'
-            } ${isToday ? 'cursor-pointer' : 'opacity-50 cursor-not-allowed'}`}
+                ? "bg-green-500 text-white"
+                : "bg-red-500 text-white"
+            } ${isToday ? "cursor-pointer" : "opacity-50 cursor-not-allowed"}`}
             onClick={() => {
               if (isToday) {
-                changeStatus(!isAttended, parseInt(record.id), date)
+                changeStatus(!isAttended, parseInt(record.id), date);
               }
             }}
           >
             {(isToday && isAttended) ||
             (!isToday && currentStudent?.attended) ? (
-              <TiTick className="text-lg"/>
+              <TiTick className="text-lg" />
             ) : (
-              <TiTimes className="text-lg"/>
+              <TiTimes className="text-lg" />
             )}
           </div>
         </div>
-      )
+      );
     },
-    [attendanceData, groupAttendance, groupId]
-  )
+    [attendanceData, groupAttendance, groupId],
+  );
 
   const lessons = useMemo(() => {
-    const lessonsArray: Array<Record<string, any>> = []
+    const lessonsArray: Array<Record<string, any>> = [];
 
     if (
       groupData?.startDate &&
       groupData?.endDate &&
       Array.isArray(groupData.days)
     ) {
-      const startDate = dayjs(groupData.startDate)
-      const endDate = dayjs(groupData.endDate)
-      let current = startDate
+      const startDate = dayjs(groupData.startDate);
+      const endDate = dayjs(groupData.endDate);
+      let current = startDate;
 
-      const allowedDays = groupData.days.map(convertDaytoEnglish)
+      const allowedDays = groupData.days.map(convertDaytoEnglish);
 
-      while (current.isBefore(endDate) || current.isSame(endDate, 'day')) {
-        const currentDate = current.clone()
-        const weekDay = currentDate.format('dddd')
-        const isEven = currentDate.date() % 2 === 0
-        const isOdd = !isEven
+      while (current.isBefore(endDate) || current.isSame(endDate, "day")) {
+        const currentDate = current.clone();
+        const weekDay = currentDate.format("dddd");
+        const isEven = currentDate.date() % 2 === 0;
+        const isOdd = !isEven;
         if (
           allowedDays.includes(weekDay) ||
-          (allowedDays.includes('Even_days') && isEven) ||
-          (allowedDays.includes('Odd_days') && isOdd)
+          (allowedDays.includes("Even_days") && isEven) ||
+          (allowedDays.includes("Odd_days") && isOdd)
         ) {
-          const formattedDate = currentDate.format('YYYY-MM-DD')
+          const formattedDate = currentDate.format("YYYY-MM-DD");
           lessonsArray.push({
-            title: `${currentDate.format('DD')} - ${t(`month.${convertMonth(currentDate.format('MMMM'))}`)}`,
+            title: `${currentDate.format("DD")} - ${t(`month.${convertMonth(currentDate.format("MMMM"))}`)}`,
             dataIndex: formattedDate,
             key: formattedDate,
             render: (text: any, record: Student) =>
               renderStatus(record, formattedDate),
-          })
+          });
         }
 
-        current = current.add(1, 'day')
+        current = current.add(1, "day");
       }
     }
 
-    return lessonsArray
+    return lessonsArray;
   }, [
     groupData?.startDate,
     groupData?.endDate,
     groupData?.days,
     attendanceData,
     t,
-  ])
+  ]);
 
   const handleSubmitAttendance = async () => {
     try {
       await saveAttendance({
         groupId: groupId ? groupId : (groupId as string),
         data: attendanceData as any,
-      })
+      });
 
       setTimeout(async () => {
-        await refetchGroupAttendance()
-      }, 1000)
-      message.success(t('formMessages.success'))
+        await refetchGroupAttendance();
+      }, 1000);
+      message.success(t("formMessages.success"));
     } catch (error) {
-      message.error('Failed to submit attendance')
+      message.error("Failed to submit attendance");
     }
-  }
+  };
   const columns = useMemo(
     () => [
       {
-        title: 'Name',
-        dataIndex: 'name',
-        key: 'name',
-        fixed: 'left',
+        title: "Name",
+        dataIndex: "name",
+        key: "name",
+        fixed: "left",
       },
       ...lessons,
       {
-        title: t('actions.actions'),
-        dataIndex: 'actions',
-        key: 'actions',
-        fixed: 'right',
+        title: t("actions.actions"),
+        dataIndex: "actions",
+        key: "actions",
+        fixed: "right",
         render: (student: Record<string, any>) => (
           <Popconfirm
             onConfirm={async () => {
-              await blockDebtorStudent(student.id)
-              setTimeout(() => refetch(), 500)
+              await blockDebtorStudent(student.id);
+              setTimeout(() => refetch(), 500);
             }}
-            title={t('formMessages.confirmBlock')}
+            title={t("formMessages.confirmBlock")}
           >
-            <Tooltip title={t('students.block')}>
+            <Tooltip title={t("students.block")}>
               <Button
                 type="text"
                 className="size-12 p-0 text-red-500 hover:!text-red-700"
               >
-                <MdBlock className="text-2xl "/>
+                <MdBlock className="text-2xl " />
               </Button>
             </Tooltip>
           </Popconfirm>
         ),
       },
     ],
-    [lessons]
-  )
+    [lessons],
+  );
 
-  console.log(groupData)
+  console.log(groupData);
 
   if (
     !groupData ||
@@ -309,7 +318,7 @@ const Attendance: React.FC = () => {
     isGroupProfileLoading ||
     isGroupAttendanceLoading
   ) {
-    return <CustomLoader/>
+    return <CustomLoader />;
   }
 
   return (
@@ -323,55 +332,55 @@ const Attendance: React.FC = () => {
             <div className="flex items-center space-x-2 text-[#7338ac]">
               <Link
                 to="/groups"
-                className={'text-xl font-bold hover:text-blue-500'}
+                className={"text-xl font-bold hover:text-blue-500"}
               >
-                <BsArrowReturnLeft size={25}/>
+                <BsArrowReturnLeft size={25} />
               </Link>
               <Popconfirm
-                title={t('formMessages.confirmDelete')}
-                okText={t('crud.delete')}
-                cancelText={t('form.cancel')}
+                title={t("formMessages.confirmDelete")}
+                okText={t("crud.delete")}
+                cancelText={t("form.cancel")}
                 onConfirm={() => deleteGroup(groupId as string)}
               >
-                <RiDeleteBin6Line size={25} className="cursor-pointer"/>
+                <RiDeleteBin6Line size={25} className="cursor-pointer" />
               </Popconfirm>
             </div>
           </div>
           <div className="space-y-2 text-sm">
             <p className="text-1xl font-semibold text-[#477082]">
-              {t('groups.price')}:{' '}
+              {t("groups.price")}:{" "}
             </p>
             <h2 className="text-2xl font-bold">
               {groupData.groupPrice.toLocaleString()} UZS
             </h2>
             <p className="text-1xl font-semibold text-[#477082]">
-              {t('groups.days')}:{' '}
+              {t("groups.days")}:{" "}
             </p>
             <h2 className="text-2xl font-bold">Juft kunlari</h2>
             <p className="text-1xl font-semibold text-[#477082]">
-              {t('rooms.titleSingular')}:{' '}
+              {t("rooms.titleSingular")}:{" "}
             </p>
             <h2 className="text-2xl font-bold">{groupData?.room?.roomName}</h2>
             <p className="text-1xl font-semibold text-[#477082]">
-              {t('groups.startTime')} :
+              {t("groups.startTime")} :
             </p>
             <h2 className="text-2xl font-bold">{groupData?.startTime}</h2>
             <p className="text-1xl font-semibold text-[#477082]">
-              {t('groups.startDate')}:
+              {t("groups.startDate")}:
             </p>
             <h2 className="text-2xl font-bold">{groupData?.startDate}</h2>
             <p className="text-1xl font-semibold text-[#477082]">
-              {t('groups.endDate')}:
+              {t("groups.endDate")}:
             </p>
             <h2 className="text-2xl font-bold">{groupData?.endDate}</h2>
           </div>
           <div className="mt-4 flex flex-col gap-3">
             <div className="flex justify-between items-center">
-              <h2 className="font-semibold">{t('groups.list')}: </h2>
+              <h2 className="font-semibold">{t("groups.list")}: </h2>
               <p>{groupData?.students?.length}</p>
             </div>
             <div className="flex cursor-pointer text-blue-400 hover:text-blue-600">
-              <p onClick={() => setOpen(true)}>{t('crud.add')}</p>
+              <p onClick={() => setOpen(true)}>{t("crud.add")}</p>
             </div>
             <ul className="mt-2 space-y-2">
               {groupData?.students.map((item: Student, index: number) => (
@@ -382,7 +391,7 @@ const Attendance: React.FC = () => {
                     </span>
                     <div className="flex justify-center items-center gap-3">
                       <span className="text-gray-500">
-                        {item.phoneNumber.startsWith('+998')
+                        {item.phoneNumber.startsWith("+998")
                           ? item.phoneNumber
                           : `+998${item.phoneNumber}`}
                       </span>
@@ -390,12 +399,12 @@ const Attendance: React.FC = () => {
                         onClick={() =>
                           disconnectStudentFromGroup({
                             studentId: item.id,
-                            groupId: groupId ? groupId : '',
+                            groupId: groupId ? groupId : "",
                           })
                         }
                         className="flex gap-2 text-purple-600"
                       >
-                        <RiDeleteBin6Line className="cursor-pointer"/>
+                        <RiDeleteBin6Line className="cursor-pointer" />
                       </button>
                     </div>
                   </div>
@@ -423,13 +432,13 @@ const Attendance: React.FC = () => {
               disabled={groupData?.students?.length === 0}
               onClick={handleSubmitAttendance}
             >
-              {t('form.save')}
+              {t("form.save")}
             </MyButton>
           </div>
         </div>
       </div>
       <Modal
-        title={t('crud.add')}
+        title={t("crud.add")}
         open={open}
         onClose={() => setOpen(false)}
         onCancel={() => setOpen(false)}
@@ -438,19 +447,19 @@ const Attendance: React.FC = () => {
             await connectStudentToGroup({
               groupId: groupData.id,
               studentId: selectedStudent ? parseInt(selectedStudent) : 0,
-            })
-            setOpen(false)
-            message.success(t('formMessages.success'))
-            connectStudentForm.resetFields()
-            setTimeout(() => refetch(), 500)
+            });
+            setOpen(false);
+            message.success(t("formMessages.success"));
+            connectStudentForm.resetFields();
+            setTimeout(() => refetch(), 500);
           } catch (e) {
-            console.error(e)
-            message.error('Error connecting student to group')
+            console.error(e);
+            message.error("Error connecting student to group");
           }
         }}
       >
         <Form form={connectStudentForm}>
-          <Form.Item rules={[{required: true}]}>
+          <Form.Item rules={[{ required: true }]}>
             <Select
               mode={"multiple"}
               className="w-full"
@@ -466,7 +475,7 @@ const Attendance: React.FC = () => {
         </Form>
       </Modal>
     </div>
-  )
-}
+  );
+};
 
-export default Attendance
+export default Attendance;

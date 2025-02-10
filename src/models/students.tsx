@@ -129,36 +129,49 @@ export const useDisconnectStudentFromGroup = () => {
 };
 
 export const useDebtorStudents = () => {
-  const data = useQuery({
+  return useQuery({
     queryKey: ["debtorStudents"],
     queryFn: async () => {
       const res = await api.post("/student/debtors");
       return res.data;
     },
   });
-  return data;
 };
 
-export const useBlockDebtorStudent = () => {
+export const useBlockStudent = () => {
   const { t } = useTranslation();
   const queryClient = useQueryClient();
-  const data = useMutation({
+  return useMutation({
     mutationFn: async (id: string) => {
       const res = await api.post(`/student/stopped/${id}`);
       await queryClient.invalidateQueries({
-        queryKey: ["students"],
+        queryKey: ["students", "debtorStudents", "archiveStudent"],
       });
       message.success(t("formMessages.success"));
       return res.data;
     },
   });
-  return data;
+};
+
+export const useSetDebtorStudent = () => {
+  const { t } = useTranslation();
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: async (id: string) => {
+      const res = await api.post(`/student/debtor/${id}`);
+      await queryClient.invalidateQueries({
+        queryKey: ["students", "debtorStudents", "archiveStudent"],
+      });
+      message.success(t("formMessages.success"));
+      return res.data;
+    },
+  });
 };
 
 export const useUnblockDebtorStudent = () => {
   const { t } = useTranslation();
   const queryClient = useQueryClient();
-  const data = useMutation({
+  return useMutation({
     mutationFn: async (id: string) => {
       const res = await api.post(`/student/not-debtor/${id}`);
       await queryClient.invalidateQueries({
@@ -168,11 +181,10 @@ export const useUnblockDebtorStudent = () => {
       return res.data;
     },
   });
-  return data;
 };
 
 export const useBlockedStudents = () => {
-  const data = useQuery({
+  return useQuery({
     queryKey: ["blockedStudents"],
     queryFn: async () => {
       const res = await api.get("/student/stopped-students");
@@ -180,5 +192,4 @@ export const useBlockedStudents = () => {
     },
     select: (data) => data?.data,
   });
-  return data;
 };

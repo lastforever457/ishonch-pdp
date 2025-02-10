@@ -142,7 +142,8 @@
     "group": "Guruh",
     "role": "Rol",
     "block": "Bloklash",
-    "blocked": "Bloklanganlar"
+    "blocked": "Bloklanganlar",
+    "debtor": "Qarzdor"
   },
   "finance": {
     "title": "Moliya",

@@ -102,6 +102,7 @@ const Students = () => {
                   id: item?.student?.id,
                   name: `${item?.firstname || ""} ${item?.lastname || ""}`.trim(),
                 },
+                actions: { id: item?.student?.id },
               }))
           : archStudents &&
               archStudents.map((item: any) => ({
@@ -116,6 +117,7 @@ const Students = () => {
                   id: item?.id,
                   name: `${item?.firstname || ""} ${item?.lastname || ""}`.trim(),
                 },
+                actions: { id: item?.student?.id },
               })),
       );
     } else if (query.studentsTab === "blocked") {
@@ -147,6 +149,7 @@ const Students = () => {
                   id: item?.student?.id,
                   name: `${item?.firstname || ""} ${item?.lastname || ""}`.trim(),
                 },
+                actions: { id: item?.student?.id },
               }))
           : blockedStudents &&
               blockedStudents.map((item: any) => ({
@@ -161,6 +164,7 @@ const Students = () => {
                   id: item?.id,
                   name: `${item?.firstname || ""} ${item?.lastname || ""}`.trim(),
                 },
+                actions: { id: item?.student?.id },
               })),
       );
     } else {
@@ -193,6 +197,7 @@ const Students = () => {
                   id: item?.student?.id,
                   name: `${item?.student?.firstname || ""} ${item?.student?.lastname || ""}`.trim(),
                 },
+                actions: { id: item?.student?.id },
               }))
           : students?.map((item: any) => ({
               ...item?.student,
@@ -206,6 +211,7 @@ const Students = () => {
                 id: item?.student?.id,
                 name: `${item?.student?.firstname || ""} ${item?.student?.lastname || ""}`.trim(),
               },
+              actions: { id: item?.student?.id },
             })),
       );
     }
@@ -395,6 +401,7 @@ const Students = () => {
         columns={columns}
         deleteFunc={mutateDeleteStudent}
         data={dataToDisplay}
+        additionalActions={true}
         isLoading={
           isStudentsLoading ||
           isGroupsLoading ||

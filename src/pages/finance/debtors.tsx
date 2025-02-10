@@ -75,7 +75,7 @@ const Debtors = () => {
         data={data?.data.map((student: Record<string, any>) => ({
           ...student,
           actions: student,
-          status: formatStatus(student.status),
+          status: t(`status.${(student?.status as string).toLowerCase()}`),
         }))}
       />
     </div>
