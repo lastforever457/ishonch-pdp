@@ -1,73 +1,79 @@
-import { Col, Row } from 'antd'
-import { useMemo } from 'react'
-import { useTranslation } from 'react-i18next'
-import { Link } from 'react-router-dom'
-import { CustomLoader } from '../components/loader'
-import { useLocationParams } from '../hooks/use-location-params'
-import { useDashboard } from '../models/dashboard'
+import { Col, Row } from "antd";
+import { useMemo } from "react";
+import { useTranslation } from "react-i18next";
+import { Link } from "react-router-dom";
+import { CustomLoader } from "../components/loader";
+import { useLocationParams } from "../hooks/use-location-params";
+import { useDashboard } from "../models/dashboard";
+import { useArchiveStudent, useDebtorStudents } from "../models/students.tsx";
 
 export interface IDashboard {
-  id: number
-  img: string
-  percent: number
-  title: string
-  link: string
+  id: number;
+  img: string;
+  percent: number;
+  title: string;
+  link: string;
 }
 
 const Home = () => {
-  const { t } = useTranslation()
-  const { query } = useLocationParams()
-  const { data, isLoading } = useDashboard()
+  const { t } = useTranslation();
+  const { query } = useLocationParams();
+  const { data, isLoading } = useDashboard();
+  const { data: archivedStudents, isLoading: isArchivedStudentsLoading } =
+    useArchiveStudent();
+  const { data: debtorStudents, isLoading: isDebtorStudentsLoading } =
+    useDebtorStudents();
 
   const users: IDashboard[] = useMemo(
     () => [
       {
         id: 1,
-        img: '/images/user-1.svg',
+        img: "/images/user-1.svg",
         percent: data?.staffs,
-        title: t('home.employees'),
-        link: '/employees',
+        title: t("home.employees"),
+        link: "/employees",
       },
       {
         id: 2,
-        img: '/images/user-2.svg',
+        img: "/images/user-2.svg",
         percent: data?.active_students,
-        title: t('home.active-students'),
-        link: '/students',
+        title: t("home.active-students"),
+        link: "/students",
       },
       {
         id: 3,
-        img: '/images/user-3.svg',
+        img: "/images/user-3.svg",
         percent: data?.groups,
-        title: t('home.groups'),
-        link: '/groups',
+        title: t("home.groups"),
+        link: "/groups",
       },
       {
         id: 4,
-        img: '/images/user-4.svg',
-        percent: data?.debtors,
-        title: t('home.debtors'),
-        link: '/finance?financeTab=debtors',
+        img: "/images/user-4.svg",
+        percent: debtorStudents?.data?.length,
+        title: t("home.debtors"),
+        link: "/finance?financeTab=debtors",
       },
       {
         id: 5,
-        img: '/images/user-5.svg',
-        percent: '0',
-        title: t('home.pay-month'),
-        link: '/finance',
+        img: "/images/user-5.svg",
+        percent: "0",
+        title: t("home.pay-month"),
+        link: "/finance",
       },
       {
         id: 6,
-        img: '/images/user-6.svg',
-        percent: data?.actively_left_students,
-        title: t('home.left-group'),
-        link: '/students?studentsTab=archive',
+        img: "/images/user-6.svg",
+        percent: archivedStudents?.length,
+        title: t("home.left-group"),
+        link: "/students?studentsTab=archive",
       },
     ],
-    [t, data]
-  )
+    [t, data],
+  );
 
-  if (isLoading) return <CustomLoader />
+  if (isLoading || isArchivedStudentsLoading || isDebtorStudentsLoading)
+    return <CustomLoader />;
 
   return (
     <div>
@@ -77,7 +83,7 @@ const Home = () => {
               .filter((user) =>
                 user.title
                   .toLowerCase()
-                  .includes((query.search as string).toString().toLowerCase())
+                  .includes((query.search as string).toString().toLowerCase()),
               )
               .map((user: IDashboard) => {
                 return (
@@ -106,7 +112,7 @@ const Home = () => {
                       </div>
                     </Link>
                   </Col>
-                )
+                );
               })
           : users.map((user: IDashboard) => {
               return (
@@ -127,11 +133,11 @@ const Home = () => {
                     </div>
                   </Link>
                 </Col>
-              )
+              );
             })}
-      </Row>{' '}
+      </Row>{" "}
     </div>
-  )
-}
+  );
+};
 
-export default Home
+export default Home;

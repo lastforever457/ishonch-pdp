@@ -5,7 +5,13 @@ import { BsThreeDotsVertical } from "react-icons/bs";
 import { useRouterPush } from "../hooks/use-router-push";
 import { useUpdateGroup } from "../models/groups";
 import { ItemType } from "antd/lib/menu/interface";
-import { useBlockStudent, useSetDebtorStudent } from "../models/students.tsx";
+import {
+  useBlockedStudents,
+  useBlockStudent,
+  useDebtorStudents,
+  useSetDebtorStudent,
+  useStudents,
+} from "../models/students.tsx";
 import { CustomLoader } from "./loader.tsx";
 
 const MyTable = ({
@@ -39,6 +45,9 @@ const MyTable = ({
   const { mutate: mutateDebtorStudent, isPending: isDebtorStudentPending } =
     useSetDebtorStudent();
 
+  const { refetch: refetchStudents, isLoading: isStudentsLoading } =
+    useStudents();
+
   const extendedColumns = useMemo(
     () =>
       [
@@ -63,6 +72,7 @@ const MyTable = ({
                     label: t("students.block"),
                     onClick: () => {
                       mutateBlockStudent(record?.id as string);
+                      setTimeout(() => refetchStudents(), 500);
                     },
                   },
                   {
@@ -70,6 +80,7 @@ const MyTable = ({
                     label: t("students.debtor"),
                     onClick: () => {
                       mutateDebtorStudent(record?.id as string);
+                      setTimeout(() => refetchStudents(), 500);
                     },
                   },
                   {
@@ -112,7 +123,8 @@ const MyTable = ({
     return <div>{error.message}</div>;
   }
 
-  if (isDebtorStudentPending || isBlockStudentPending) return <CustomLoader />;
+  if (isDebtorStudentPending || isStudentsLoading || isBlockStudentPending)
+    return <CustomLoader />;
 
   return (
     <Table

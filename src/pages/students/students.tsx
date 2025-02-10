@@ -1,5 +1,5 @@
+import React, { useEffect, useMemo, useState } from "react";
 import { Form } from "antd";
-import { useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
 import { AutoForm, FormField } from "../../components/auto-form.tsx";
@@ -21,6 +21,7 @@ import {
   useUpdateStudent,
 } from "../../models/students.tsx";
 import { formatPhoneNumber } from "../../utils.ts";
+import useStudentsData from "../../hooks/use-students-data.tsx";
 
 const Students = () => {
   const { push } = useRouterPush();
@@ -54,7 +55,13 @@ const Students = () => {
     refetch: refetchStudent,
   } = useStudent(query.id as string);
   const { data: groups, isLoading: isGroupsLoading } = useGroups("ACTIVE");
-  const [dataToDisplay, setDataToDisplay] = useState<Record<string, any>[]>([]);
+
+  const dataToDisplay = useStudentsData(
+    query,
+    students,
+    archStudents,
+    blockedStudents,
+  );
 
   useEffect(() => {
     const fetch = async () => {
@@ -71,151 +78,6 @@ const Students = () => {
 
     fetch();
   }, [query.edit, query.id, student, form]);
-
-  useEffect(() => {
-    if (query.studentsTab === "archive") {
-      setDataToDisplay(
-        archStudents && query.search
-          ? archStudents
-              .filter(
-                (item: any) =>
-                  item?.student?.firstname
-                    .toLowerCase()
-                    ?.includes(
-                      (query.search as string).toString().toLowerCase(),
-                    ) ||
-                  item?.student?.lastname
-                    .toLowerCase()
-                    ?.includes(
-                      (query.search as string).toString().toLowerCase(),
-                    ),
-              )
-              .map((item: any) => ({
-                ...item?.student,
-                key: item?.student?.id,
-                gender: item?.gender.toLowerCase(),
-                group:
-                  item?.groupName && item?.courseName
-                    ? `${item?.groupName || ""} - ${item?.courseName || ""}`
-                    : t("form.not connected"),
-                fio: {
-                  id: item?.student?.id,
-                  name: `${item?.firstname || ""} ${item?.lastname || ""}`.trim(),
-                },
-                actions: { id: item?.student?.id },
-              }))
-          : archStudents &&
-              archStudents.map((item: any) => ({
-                ...item,
-                key: item?.id,
-                group:
-                  item?.groupName && item?.courseName
-                    ? `${item?.groupName || ""} - ${item?.courseName || ""}`
-                    : t("form.not connected"),
-                gender: item?.gender.toLowerCase(),
-                fio: {
-                  id: item?.id,
-                  name: `${item?.firstname || ""} ${item?.lastname || ""}`.trim(),
-                },
-                actions: { id: item?.student?.id },
-              })),
-      );
-    } else if (query.studentsTab === "blocked") {
-      setDataToDisplay(
-        blockedStudents && query.search
-          ? blockedStudents
-              .filter(
-                (item: any) =>
-                  item?.student?.firstname
-                    .toLowerCase()
-                    ?.includes(
-                      (query.search as string).toString().toLowerCase(),
-                    ) ||
-                  item?.student?.lastname
-                    .toLowerCase()
-                    ?.includes(
-                      (query.search as string).toString().toLowerCase(),
-                    ),
-              )
-              .map((item: any) => ({
-                ...item?.student,
-                key: item?.student?.id,
-                gender: item?.gender.toLowerCase(),
-                group:
-                  item?.groupName && item?.courseName
-                    ? `${item?.groupName || ""} - ${item?.courseName || ""}`
-                    : t("form.not connected"),
-                fio: {
-                  id: item?.student?.id,
-                  name: `${item?.firstname || ""} ${item?.lastname || ""}`.trim(),
-                },
-                actions: { id: item?.student?.id },
-              }))
-          : blockedStudents &&
-              blockedStudents.map((item: any) => ({
-                ...item,
-                key: item?.id,
-                group:
-                  item?.groupName && item?.courseName
-                    ? `${item?.groupName || ""} - ${item?.courseName || ""}`
-                    : t("form.not connected"),
-                gender: item?.gender.toLowerCase(),
-                fio: {
-                  id: item?.id,
-                  name: `${item?.firstname || ""} ${item?.lastname || ""}`.trim(),
-                },
-                actions: { id: item?.student?.id },
-              })),
-      );
-    } else {
-      setDataToDisplay(
-        query.search
-          ? students
-              .filter(
-                (item: any) =>
-                  `${item?.firstname} ${item?.lastname}`
-                    .toLowerCase()
-                    ?.includes(
-                      (query.search as string).toString().toLowerCase(),
-                    ) ||
-                  item?.student?.phoneNumber
-                    .toString()
-                    .toLowerCase()
-                    ?.includes(
-                      (query.search as string).toString().toLowerCase(),
-                    ),
-              )
-              .map((item: Record<string, any>) => ({
-                ...item?.student,
-                key: item?.student?.id,
-                group:
-                  item?.groupName && item?.courseName
-                    ? `${item?.groupName || ""} - ${item?.courseName || ""}`
-                    : t("form.not connected"),
-                gender: item?.student?.gender.toLowerCase(),
-                fio: {
-                  id: item?.student?.id,
-                  name: `${item?.student?.firstname || ""} ${item?.student?.lastname || ""}`.trim(),
-                },
-                actions: { id: item?.student?.id },
-              }))
-          : students?.map((item: any) => ({
-              ...item?.student,
-              key: item?.student?.id,
-              group:
-                item?.groupName && item?.courseName
-                  ? `${item?.groupName || ""} - ${item?.courseName || ""}`
-                  : t("form.not connected"),
-              gender: item?.student?.gender.toLowerCase(),
-              fio: {
-                id: item?.student?.id,
-                name: `${item?.student?.firstname || ""} ${item?.student?.lastname || ""}`.trim(),
-              },
-              actions: { id: item?.student?.id },
-            })),
-      );
-    }
-  }, [query.studentsTab]);
 
   useEffect(() => {
     const fetch = async () => {
