@@ -1,12 +1,12 @@
-import axios from 'axios'
+import axios from "axios";
 
-const baseURL = 'https://ishonch.koyeb.app'
+export const baseURL = "https://ishonch.koyeb.app";
 
 const api = axios.create({
   baseURL,
   headers: {
-    'Content-Type': 'application/json',
+    "Content-Type": "application/json",
   },
-})
+});
 
-export default api
+export default api;

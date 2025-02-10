@@ -1,7 +1,7 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { message } from "antd";
 import { useTranslation } from "react-i18next";
-import api from "./axios";
+import api, { baseURL } from "./axios";
 
 export const useStudents = () => {
   return useQuery({
@@ -92,21 +92,27 @@ export const useStudentsWithoutGroup = () => {
 
 export const useConnectStudentToGroup = () => {
   const queryClient = useQueryClient();
-  const data = useMutation({
-    mutationFn: async (data: {
-      studentId: string | number;
-      groupId: string;
-    }) => {
-      const res = await api.post(
-        `/group/addNewReader/${data.studentId}/${data.groupId}`,
+  return useMutation({
+    mutationFn: async (data: Record<string, any>) => {
+      const res = await fetch(
+        `${baseURL}/group/addNewReader/${data?.groupId}`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(data?.data),
+        },
       );
+
+      const result = await res.json();
+
       await queryClient.invalidateQueries({
         queryKey: ["group-profile", "studentsWithoutGroup"],
       });
-      return res.data;
+      return result;
     },
   });
-  return data;
 };
 
 export const useDisconnectStudentFromGroup = () => {

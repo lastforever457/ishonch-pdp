@@ -90,7 +90,7 @@ const Attendance: React.FC = () => {
   const { t } = useTranslation();
   const [connectStudentForm] = Form.useForm();
   const [open, setOpen] = useState<boolean>(false);
-  const [selectedStudent, setSelectedStudent] = useState<string | null>(null);
+  const [selectedStudent, setSelectedStudent] = useState<any>([]);
   const { mutate: connectStudentToGroup } = useConnectStudentToGroup();
   const { mutate: disconnectStudentFromGroup } =
     useDisconnectStudentFromGroup();
@@ -279,6 +279,12 @@ const Attendance: React.FC = () => {
         dataIndex: "name",
         key: "name",
         fixed: "left",
+        render: (item: Record<string, any>) => (
+          <span className={"flex flex-col justify-center gap-2 items-start"}>
+            <p>{item?.name}</p>
+            <p>{item?.phoneNumber}</p>
+          </span>
+        ),
       },
       ...lessons,
       {
@@ -382,35 +388,6 @@ const Attendance: React.FC = () => {
             <div className="flex cursor-pointer text-blue-400 hover:text-blue-600">
               <p onClick={() => setOpen(true)}>{t("crud.add")}</p>
             </div>
-            <ul className="mt-2 space-y-2">
-              {groupData?.students.map((item: Student, index: number) => (
-                <li key={index} className="flex  text-sm">
-                  <div className="flex justify-between items-center w-full">
-                    <span>
-                      {item.firstname} {item.lastname}
-                    </span>
-                    <div className="flex justify-center items-center gap-3">
-                      <span className="text-gray-500">
-                        {item.phoneNumber.startsWith("+998")
-                          ? item.phoneNumber
-                          : `+998${item.phoneNumber}`}
-                      </span>
-                      <button
-                        onClick={() =>
-                          disconnectStudentFromGroup({
-                            studentId: item.id,
-                            groupId: groupId ? groupId : "",
-                          })
-                        }
-                        className="flex gap-2 text-purple-600"
-                      >
-                        <RiDeleteBin6Line className="cursor-pointer" />
-                      </button>
-                    </div>
-                  </div>
-                </li>
-              ))}
-            </ul>
           </div>
         </div>
 
@@ -422,7 +399,18 @@ const Attendance: React.FC = () => {
             data={groupData?.students.map((student: Record<string, any>) => ({
               key: student.id,
               id: student.id,
-              name: `${student.firstname} ${student.lastname}`,
+              name: {
+                name: (
+                  <Link to={`/students/${student.id}`}>
+                    {student.firstname} {student.lastname}
+                  </Link>
+                ),
+                phoneNumber: (
+                  <Link to={`tel:${student?.phoneNumber}`}>
+                    {student.phoneNumber}
+                  </Link>
+                ),
+              },
               actions: student,
             }))}
             hasActions={false}
@@ -442,11 +430,11 @@ const Attendance: React.FC = () => {
         open={open}
         onClose={() => setOpen(false)}
         onCancel={() => setOpen(false)}
-        onOk={async () => {
+        onOk={() => {
           try {
-            await connectStudentToGroup({
+            connectStudentToGroup({
               groupId: groupData.id,
-              studentId: selectedStudent ? parseInt(selectedStudent) : 0,
+              data: selectedStudent,
             });
             setOpen(false);
             message.success(t("formMessages.success"));
